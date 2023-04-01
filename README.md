@@ -1,6 +1,7 @@
+
 # project
 
-A new Flutter project.
+2023년 1학기 소프트웨어 공학과 캡스톤디자인입니다.
 
 ## Getting Started
 
