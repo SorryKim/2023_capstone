@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/community_model.dart';
 
@@ -12,6 +13,8 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
+  final user = FirebaseAuth.instance.currentUser;
+
   TextEditingController controller = TextEditingController();
 
   @override
@@ -42,10 +45,31 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(messages[index].message),
+                          subtitle: Text(messages[index].userName),
                           dense: true,
                           leading: const Icon(Icons.people_alt_rounded),
                           // TODO: 클릭 시 기능 구현해야 함
-                          onTap: () {},
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: const Text('예시'),
+                                  icon: const Icon(Icons.assist_walker_rounded),
+                                  insetPadding: const EdgeInsets.all(2.0),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('닫기'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                         );
                       }),
                 ),
@@ -87,6 +111,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
       CommunityModel messageModel = CommunityModel(
         sendDate: Timestamp.now(),
         message: controller.text,
+        userName: user!.displayName!,
+        userId: user!.uid,
       );
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -116,7 +142,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 controller: controller,
                 decoration: InputDecoration(
                   labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "친구들에게 하고싶은 말을 남겨보세요!",
+                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요!",
                   fillColor: Colors.white,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
