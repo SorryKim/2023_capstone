@@ -14,7 +14,7 @@ class CommunityScreen extends StatefulWidget {
 
 class _CommunityScreenState extends State<CommunityScreen> {
   final user = FirebaseAuth.instance.currentUser;
-
+  List<int> arr = [1, 2, 3, 4, 5];
   TextEditingController controller = TextEditingController();
 
   @override
@@ -55,16 +55,28 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               barrierDismissible: true,
                               builder: (context) {
                                 return AlertDialog(
-                                  content: const Text('예시'),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  content: Text(messages[index].message),
                                   icon: const Icon(Icons.assist_walker_rounded),
                                   insetPadding: const EdgeInsets.all(2.0),
                                   actions: [
+                                    // TODO: 댓글 달기 구현해야함!
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: const Text('닫기'),
+                                      child: const Text('댓글 달기'),
                                     ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          '닫기',
+                                          style: TextStyle(color: Colors.black),
+                                        )),
                                   ],
                                 );
                               },
@@ -124,6 +136,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
       log('error');
     }
   }
+
+  void onDialog() {}
 
   Widget getInputWidget() {
     return Container(
