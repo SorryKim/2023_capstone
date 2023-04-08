@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/community_model.dart';
+import 'package:project/screens/comment_screen.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -14,7 +15,6 @@ class CommunityScreen extends StatefulWidget {
 
 class _CommunityScreenState extends State<CommunityScreen> {
   final user = FirebaseAuth.instance.currentUser;
-  List<int> arr = [1, 2, 3, 4, 5];
   TextEditingController controller = TextEditingController();
 
   @override
@@ -35,7 +35,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
             );
           } else {
             List<CommunityModel> messages = snapshot.data!;
-
             return Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -43,45 +42,33 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   child: ListView.builder(
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(messages[index].message),
-                          subtitle: Text(messages[index].userName),
-                          dense: true,
-                          leading: const Icon(Icons.people_alt_rounded),
-                          // TODO: 클릭 시 기능 구현해야 함
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  content: Text(messages[index].message),
-                                  icon: const Icon(Icons.assist_walker_rounded),
-                                  insetPadding: const EdgeInsets.all(2.0),
-                                  actions: [
-                                    // TODO: 댓글 달기 구현해야함!
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('댓글 달기'),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text(
-                                          '닫기',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
-                                  ],
-                                );
-                              },
-                            );
-                          },
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: const BorderSide(
+                                    color: Colors.green, width: 1)),
+                            title: Text(
+                              messages[index].message,
+                              style: const TextStyle(fontSize: 16.5),
+                            ),
+                            subtitle: Text(messages[index].userName),
+                            dense: true,
+                            leading: const Icon(Icons.people_alt_rounded),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CommentScreen(
+                                            description:
+                                                messages[index].message,
+                                            descriptionId: messages[index].id,
+                                          )));
+                              //MyDialog(context, messages, index);
+                            },
+                          ),
                         );
                       }),
                 ),
@@ -91,6 +78,41 @@ class _CommunityScreenState extends State<CommunityScreen> {
           }
         },
       ),
+    );
+  }
+
+  Future<dynamic> MyDialog(
+      BuildContext context, List<CommunityModel> messages, int index) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          content: Text(messages[index].message),
+          icon: const Icon(Icons.assist_walker_rounded),
+          insetPadding: const EdgeInsets.all(2.0),
+          actions: [
+            // TODO: 댓글 달기 구현해야함!
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('댓글 달기'),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  '닫기',
+                  style: TextStyle(color: Colors.black),
+                )),
+          ],
+        );
+      },
     );
   }
 
