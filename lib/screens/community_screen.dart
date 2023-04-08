@@ -72,7 +72,18 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         );
                       }),
                 ),
-                getInputWidget(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 10,
+                  ),
+                  child: SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: ElevatedButton(
+                        onPressed: () => MyDialog(context),
+                        child: const Text('글 쓰기!')),
+                  ),
+                ),
               ],
             );
           }
@@ -81,8 +92,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     );
   }
 
-  Future<dynamic> MyDialog(
-      BuildContext context, List<CommunityModel> messages, int index) {
+  Future<dynamic> MyDialog(BuildContext context) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -90,26 +100,59 @@ class _CommunityScreenState extends State<CommunityScreen> {
         return AlertDialog(
           scrollable: true,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          content: Text(messages[index].message),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           icon: const Icon(Icons.assist_walker_rounded),
           insetPadding: const EdgeInsets.all(2.0),
           actions: [
-            // TODO: 댓글 달기 구현해야함!
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('댓글 달기'),
+            SizedBox(
+              width: double.maxFinite,
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  labelStyle: const TextStyle(fontSize: 15),
+                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요!",
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: const BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: const BorderSide(
+                      color: Colors.black26,
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+              ),
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  '닫기',
-                  style: TextStyle(color: Colors.black),
-                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      _onPressedSendButton();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      '글 게시하기!',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                    child: const Text(
+                      '닫기',
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ],
+            ),
           ],
         );
       },
