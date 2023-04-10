@@ -80,7 +80,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     width: 200,
                     height: 50,
                     child: ElevatedButton(
-                        onPressed: () => MyDialog(context),
+                        onPressed: () => myDialog(context),
                         child: const Text('글 쓰기!')),
                   ),
                 ),
@@ -92,7 +92,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
     );
   }
 
-  Future<dynamic> MyDialog(BuildContext context) {
+  // 글쓰기 알람상자 기능
+  Future<dynamic> myDialog(BuildContext context) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -183,6 +184,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     }
   }
 
+  // 버튼이 눌릴시 파이어베이스에 데이터 전송
   void _onPressedSendButton() {
     try {
       CommunityModel messageModel = CommunityModel(
@@ -200,62 +202,5 @@ class _CommunityScreenState extends State<CommunityScreen> {
     } catch (ex) {
       log('error');
     }
-  }
-
-  void onDialog() {}
-
-  Widget getInputWidget() {
-    return Container(
-      height: 60,
-      width: double.infinity,
-      decoration: BoxDecoration(boxShadow: const [
-        BoxShadow(color: Colors.black12, offset: Offset(0, -2), blurRadius: 3)
-      ], color: Theme.of(context).bottomAppBarColor),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요!",
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: const BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: const BorderSide(
-                      color: Colors.black26,
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            RawMaterialButton(
-              onPressed: _onPressedSendButton, //전송버튼을 누를때 동작시킬 메소드
-              constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-              elevation: 2,
-              fillColor: Theme.of(context).colorScheme.primary,
-              shape: const CircleBorder(),
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.send),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
