@@ -39,7 +39,7 @@ class LoginWidget extends StatelessWidget {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.grey.withOpacity(0.5),
-                fixedSize: const Size(100, 40),
+                minimumSize: const Size(100, 40),
                 side: const BorderSide(width: 1.0),
               ),
               onPressed: signInWithGoogle,
