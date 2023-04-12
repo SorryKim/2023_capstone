@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/home_screen.dart';
+import 'package:project/screens/start_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -20,7 +19,7 @@ class App extends StatelessWidget {
 
         // 연결 성공한 경우
         if (snapshot.connectionState == ConnectionState.done) {
-          return const Home();
+          return const StartScreen();
         }
 
         return const CircularProgressIndicator();

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/screens/badge_screen.dart';
 import 'package:project/screens/community_screen.dart';
+import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
-import 'package:project/screens/pedometer_screen.dart';
-import 'package:project/screens/survey_screen.dart';
+import 'package:project/screens/walk_screen.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,103 +12,70 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const LoginScreen();
-            } else {
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${snapshot.data!.displayName}님 환영합니다!.',
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 20,
+        body: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const LoginScreen();
+              } else {
+                return MaterialApp(
+                  home: DefaultTabController(
+                    length: 4,
+                    child: Scaffold(
+                      body: const TabBarView(
+                        children: <Widget>[
+                          LobbyScreen(),
+                          WalkWidget(),
+                          BadgeScreen(),
+                          CommunityScreen()
+                        ],
+                      ),
+                      extendBodyBehindAppBar: true,
+                      bottomNavigationBar: Container(
+                        color: Colors.white,
+                        child: Container(
+                          height: 70,
+                          padding: const EdgeInsets.only(bottom: 5, top: 3),
+                          child: const TabBar(
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicatorColor: Colors.green,
+                            indicatorWeight: 2,
+                            labelColor: Colors.green,
+                            unselectedLabelColor: Colors.black87,
+                            labelStyle: TextStyle(
+                              fontSize: 13,
+                            ),
+                            tabs: [
+                              Tab(
+                                icon: Icon(
+                                  Icons.person,
+                                ),
+                                text: 'My듀',
+                              ),
+                              Tab(
+                                icon: Icon(Icons.directions_walk),
+                                text: '만보기',
+                              ),
+                              Tab(
+                                icon: Icon(
+                                  Icons.military_tech,
+                                ),
+                                text: '배지',
+                              ),
+                              Tab(
+                                icon: Icon(
+                                  Icons.connect_without_contact,
+                                ),
+                                text: '커뮤니티',
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 80,
-                  ),
-
-                  // 커뮤니티 페이지로 가는 버튼
-                  Center(
-                    child: Column(
-                      children: [
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor:
-                                  const Color.fromARGB(242, 255, 255, 255),
-                              backgroundColor: Colors.lightGreen,
-                              minimumSize: const Size(100, 40),
-                              side: const BorderSide(width: 1.0),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CommunityScreen()));
-                            },
-                            child: const Text('Community')),
-
-                        // 설문조사 버튼
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Colors.black,
-                              minimumSize: const Size(100, 40),
-                              side: const BorderSide(width: 1.0),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SurveyScreen()));
-                            },
-                            child: const Text('Survey')),
-                        // 만보기 버튼
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.5),
-                              foregroundColor: Colors.black,
-                              minimumSize: const Size(100, 40),
-                              side: const BorderSide(width: 1.0),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PedometerScreen()));
-                            },
-                            child: const Text('Pedometer')),
-                        // 로그아웃 버튼
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.grey.withOpacity(0.5),
-                              minimumSize: const Size(100, 40),
-                              side: const BorderSide(width: 1.0),
-                            ),
-                            onPressed: FirebaseAuth.instance.signOut,
-                            child: const Text('Google Logout')),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            }
-          }),
-    );
+                );
+              }
+            }));
   }
 }
