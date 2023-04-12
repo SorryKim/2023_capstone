@@ -6,6 +6,7 @@ class CommunityModel {
   final Timestamp sendDate;
   final String userName;
   final String userId;
+  late List<String> list;
 
   CommunityModel({
     this.id = '',

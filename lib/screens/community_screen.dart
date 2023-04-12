@@ -66,7 +66,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                 messages[index].message,
                                             descriptionId: messages[index].id,
                                           )));
-                              //MyDialog(context, messages, index);
                             },
                           ),
                         );

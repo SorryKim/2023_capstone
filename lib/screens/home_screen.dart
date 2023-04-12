@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/screens/community_screen.dart';
-import 'package:project/screens/login.dart';
+import 'package:project/screens/login_screen.dart';
 import 'package:project/screens/pedometer_screen.dart';
 import 'package:project/screens/survey_screen.dart';
 
@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const LoginWidget();
+              return const LoginScreen();
             } else {
               return Column(
                 children: [

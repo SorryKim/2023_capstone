@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '688799594718',
     projectId: 'mountaindew-5d9a9',
     storageBucket: 'mountaindew-5d9a9.appspot.com',
-    iosClientId: '688799594718-07g7r6lv1k1c141b6f6iot2lj0eelnbs.apps.googleusercontent.com',
+    iosClientId:
+        '688799594718-07g7r6lv1k1c141b6f6iot2lj0eelnbs.apps.googleusercontent.com',
     iosBundleId: 'com.example.project',
   );
 }
