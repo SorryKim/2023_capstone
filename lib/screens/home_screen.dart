@@ -6,8 +6,8 @@ import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
 import 'package:project/screens/walk_screen.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -94,12 +95,12 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                // surveyPage.dart로 넘어가는 버튼
+                // 구글 로그인하는 버튼
                 ElevatedButton(
                   onPressed: () {
                     signInWithGoogle();
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen()));
+                        MaterialPageRoute(builder: (_) => const HomeScreen()));
                   },
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.only(

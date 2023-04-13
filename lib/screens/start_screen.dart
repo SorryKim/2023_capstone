@@ -43,8 +43,8 @@ class _StartScreen extends State<StartScreen> {
               // login.dart로 넘어가는 버튼
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => const Home()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const HomeScreen()));
                 },
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.only(

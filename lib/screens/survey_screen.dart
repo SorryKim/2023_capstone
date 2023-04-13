@@ -93,8 +93,8 @@ class _SurveyWidgetState extends State<SurveyWidget> {
                 if (_formKey.currentState!.validate()) {
                   _onPressedSendButton(_questionResults);
                 }
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const HomeScreen()));
               },
             ),
           ),
