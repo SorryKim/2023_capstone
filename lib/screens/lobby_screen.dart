@@ -10,6 +10,8 @@ class LobbyScreen extends StatefulWidget {
 }
 
 class _LobbyScreenState extends State<LobbyScreen> {
+  final user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -56,22 +58,22 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                 const SizedBox(
                                   width: 50,
                                 ),
-                                const Center(
+                                Center(
                                   child: Column(
                                     children: [
                                       Text(
-                                        '등산천재 김재성',
-                                        style: TextStyle(
+                                        '등산천재! ${user!.displayName}',
+                                        style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
+                                      const Text(
                                         'Lv1. 초보 등산러 😊',
                                         style: TextStyle(
                                           color: Colors.black87,

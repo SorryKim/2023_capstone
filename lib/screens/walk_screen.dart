@@ -64,6 +64,11 @@ class _WalkWidgetState extends State<WalkWidget> {
   void initState() {
     super.initState();
 
+    // TODO: 처음에 타이머가 초기화 안돼서 앱오류발생함, 임시로 계속 돌리게함 수정 바람
+    timer = timer = Timer.periodic(
+      const Duration(seconds: 1),
+      Time,
+    );
     shakeDetector = ShakeDetector.autoStart(
       // 흔들기 감지 즉시 시작
       shakeSlopTimeMS: 1, // 감지 주기
