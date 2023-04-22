@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/screens/home_screen.dart';
+import 'package:project/screens/survey_screen.dart';
 
 import '../models/login_model.dart';
 
@@ -53,11 +54,16 @@ class Login extends StatelessWidget {
 
               List<LoginModel> users = snapshot.data!;
               final user = FirebaseAuth.instance.currentUser;
+              late int index;
 
               // 만약 이미 데이터베이스에 해당 유저가 존재하면 바로 넘김
               for (int i = 0; i < users.length; i++) {
                 if (users[i].userId == user!.uid) {
-                  return const HomeScreen();
+                  if (users[i].isSurvey) {
+                    return const HomeScreen();
+                  } else {
+                    return SurveyScreen(uid: users[i].id);
+                  }
                 }
               }
 
@@ -67,9 +73,13 @@ class Login extends StatelessWidget {
                 userId: user!.uid,
                 userName: user.displayName!,
               );
+
+              // 파이어베이스에 유저정보 저장
               FirebaseFirestore.instance
                   .collection('user')
                   .add(loginModel.toMap());
+
+              // 설문조사로 넘김
               return const HomeScreen();
             },
           );

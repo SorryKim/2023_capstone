@@ -5,10 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_survey/flutter_survey.dart';
 import 'package:project/screens/home_screen.dart';
 
+import '../models/login_model.dart';
 import '../models/survey_model.dart';
 
 class SurveyScreen extends StatelessWidget {
-  const SurveyScreen({super.key});
+  late String uid;
+
+  SurveyScreen({
+    super.key,
+    required this.uid,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class SurveyScreen extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: FutureBuilder(
         builder: (context, hassError) {
-          return const SurveyWidget(title: 'Flutter Survey');
+          return SurveyWidget(title: 'Flutter Survey', uid: uid);
         },
       ),
     );
@@ -31,9 +37,10 @@ class SurveyScreen extends StatelessWidget {
 }
 
 class SurveyWidget extends StatefulWidget {
-  const SurveyWidget({super.key, required this.title});
-
+  final String uid;
   final String title;
+
+  const SurveyWidget({super.key, required this.title, required this.uid});
 
   @override
   State<SurveyWidget> createState() => _SurveyWidgetState();
@@ -91,7 +98,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
               child: const Text("➡️"),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  _onPressedSendButton(_questionResults);
+                  _onPressedSendButton(_questionResults, widget.uid);
                 }
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => const HomeScreen()));
@@ -103,18 +110,40 @@ class _SurveyWidgetState extends State<SurveyWidget> {
     );
   }
 
-  void _onPressedSendButton(List<QuestionResult> questionresult) {
+  void _onPressedSendButton(List<QuestionResult> questionresult, String uid) {
     SurveyModel resultdata = SurveyModel(
         age: questionresult[1].answers[0],
         gender: questionresult[0].answers[0]);
 
     try {
+      // 파이어베이스에 설문결과를 유저 테이블에 저장
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-      firestore
-          .collection('user/NnwBkOmV81kBcue0YK7N/survey')
-          .add(resultdata.toMap());
+      firestore.collection('user/$uid/survey').add(resultdata.toMap());
+      firestore.doc('user/$uid').update({'isSurvey': true});
     } catch (ex) {
       log('error');
+    }
+  }
+
+  // 파이어베이스의 저장된 유저목록 스트림
+  Stream<List<LoginModel>> streamUser() {
+    try {
+      // 원하는 컬렉션의 스냅샷 가져오기
+      Stream<QuerySnapshot> snapshots =
+          FirebaseFirestore.instance.collection('user/').snapshots();
+
+      // 스냅샷내부의 자료들을 List로 반환
+      return snapshots.map((snapshot) {
+        List<LoginModel> users = [];
+        for (var temp in snapshot.docs) {
+          users.add(LoginModel.fromMap(
+              id: temp.id, map: temp.data() as Map<String, dynamic>));
+        }
+        return users;
+      });
+    } catch (ex) {
+      log('error!');
+      return Stream.error(ex.toString());
     }
   }
 }
