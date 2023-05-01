@@ -166,3 +166,19 @@ class Item {
     return data;
   }
 }
+
+class Mountain2 {
+  String? name;
+  String? image;
+  String? explanation;
+  String? location;
+  String? height;
+
+  Mountain2({
+    required this.name,
+    required this.image,
+    required this.explanation,
+    required this.location,
+    required this.height,
+  });
+}

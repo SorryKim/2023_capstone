@@ -66,6 +66,8 @@ flutter:
   assets:
    - images/google_logo.png
    - images/mount-removebg-preview.png
+   - images/mountain.png
+   - images/mountain_gray.png
 
 
   
