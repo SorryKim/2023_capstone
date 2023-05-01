@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:project/screens/login_screen.dart';
 
 class InformationScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _InformationScreenState extends State<InformationScreen> {
           if (!snapshot.hasData) {
             return const LoginScreen();
           } else {
+            getGender(widget.uid);
             return Scaffold(
               body: SingleChildScrollView(
                 child: Column(
@@ -102,6 +104,57 @@ class _InformationScreenState extends State<InformationScreen> {
                                     );
                                   }
                                 }),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  clipBehavior: Clip.hardEdge,
+                                  height: 120,
+                                  width: 120,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color:
+                                          const Color.fromARGB(255, 53, 53, 53),
+                                      style: BorderStyle.solid,
+                                      width: 5,
+                                    ),
+                                  ),
+                                  // TODO: 성별에 따라 ~~~~~
+                                  child: getFace("남자"),
+                                ),
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '등산천재! ${user!.displayName}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        'Lv1. 초보 등산러 😊',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 15,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 5,
                             ),
