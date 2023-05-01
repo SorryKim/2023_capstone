@@ -18,207 +18,151 @@ class Mountain {
 }
 
 class Response {
-  Service? service;
-  String? status;
-  Record? record;
-  Page? page;
-  Result? result;
+  Header? header;
+  Body? body;
 
-  Response({this.service, this.status, this.record, this.page, this.result});
+  Response({this.header, this.body});
 
   Response.fromJson(Map<String, dynamic> json) {
-    service =
-        json['service'] != null ? Service.fromJson(json['service']) : null;
-    status = json['status'];
-    record = json['record'] != null ? Record.fromJson(json['record']) : null;
-    page = json['page'] != null ? Page.fromJson(json['page']) : null;
-    result = json['result'] != null ? Result.fromJson(json['result']) : null;
+    header = json['header'] != null ? Header.fromJson(json['header']) : null;
+    body = json['body'] != null ? Body.fromJson(json['body']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (service != null) {
-      data['service'] = service!.toJson();
+    if (header != null) {
+      data['header'] = header!.toJson();
     }
-    data['status'] = status;
-    if (record != null) {
-      data['record'] = record!.toJson();
-    }
-    if (page != null) {
-      data['page'] = page!.toJson();
-    }
-    if (result != null) {
-      data['result'] = result!.toJson();
+    if (body != null) {
+      data['body'] = body!.toJson();
     }
     return data;
   }
 }
 
-class Service {
-  String? name;
-  String? version;
-  String? operation;
-  String? time;
+class Header {
+  String? resultCode;
+  String? resultMsg;
 
-  Service({this.name, this.version, this.operation, this.time});
+  Header({this.resultCode, this.resultMsg});
 
-  Service.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    version = json['version'];
-    operation = json['operation'];
-    time = json['time'];
+  Header.fromJson(Map<String, dynamic> json) {
+    resultCode = json['resultCode'];
+    resultMsg = json['resultMsg'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['version'] = version;
-    data['operation'] = operation;
-    data['time'] = time;
+    data['resultCode'] = resultCode;
+    data['resultMsg'] = resultMsg;
     return data;
   }
 }
 
-class Record {
-  String? total;
-  String? current;
+class Body {
+  Items? items;
+  int? numOfRows;
+  int? pageNo;
+  int? totalCount;
 
-  Record({this.total, this.current});
+  Body({this.items, this.numOfRows, this.pageNo, this.totalCount});
 
-  Record.fromJson(Map<String, dynamic> json) {
-    total = json['total'];
-    current = json['current'];
+  Body.fromJson(Map<String, dynamic> json) {
+    items = json['items'] != null ? Items.fromJson(json['items']) : null;
+    numOfRows = json['numOfRows'];
+    pageNo = json['pageNo'];
+    totalCount = json['totalCount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['total'] = total;
-    data['current'] = current;
-    return data;
-  }
-}
-
-class Page {
-  String? total;
-  String? current;
-  String? size;
-
-  Page({this.total, this.current, this.size});
-
-  Page.fromJson(Map<String, dynamic> json) {
-    total = json['total'];
-    current = json['current'];
-    size = json['size'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['total'] = total;
-    data['current'] = current;
-    data['size'] = size;
-    return data;
-  }
-}
-
-class Result {
-  FeatureCollection? featureCollection;
-
-  Result({this.featureCollection});
-
-  Result.fromJson(Map<String, dynamic> json) {
-    featureCollection = json['featureCollection'] != null
-        ? FeatureCollection.fromJson(json['featureCollection'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (featureCollection != null) {
-      data['featureCollection'] = featureCollection!.toJson();
+    if (items != null) {
+      data['items'] = items!.toJson();
     }
+    data['numOfRows'] = numOfRows;
+    data['pageNo'] = pageNo;
+    data['totalCount'] = totalCount;
     return data;
   }
 }
 
-class FeatureCollection {
-  String? type;
-  List<int>? bbox;
-  List<Features>? features;
+class Items {
+  List<Item>? item;
 
-  FeatureCollection({this.type, this.bbox, this.features});
+  Items({this.item});
 
-  FeatureCollection.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    bbox = json['bbox'].cast<int>();
-    if (json['features'] != null) {
-      features = <Features>[];
-      json['features'].forEach((v) {
-        features!.add(Features.fromJson(v));
+  Items.fromJson(Map<String, dynamic> json) {
+    if (json['item'] != null) {
+      item = <Item>[];
+      json['item'].forEach((v) {
+        item!.add(Item.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['type'] = type;
-    data['bbox'] = bbox;
-    if (features != null) {
-      data['features'] = features!.map((v) => v.toJson()).toList();
+    if (item != null) {
+      data['item'] = item!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Features {
-  String? type;
-  Properties? properties;
-  String? id;
+class Item {
+  String? frtrlId;
+  String? placeNm;
+  double? lot;
+  String? orgnPlaceTpeCd;
+  String? crtrDt;
+  double? aslAltide;
+  String? dscrtCn;
+  String? orgnPlaceTpeNm;
+  String? poiId;
+  String? frtrlNm;
+  double? lat;
 
-  Features({this.type, this.properties, this.id});
+  Item({
+    this.frtrlId,
+    this.placeNm,
+    this.lot,
+    this.orgnPlaceTpeCd,
+    this.crtrDt,
+    this.aslAltide,
+    this.dscrtCn,
+    this.orgnPlaceTpeNm,
+    this.poiId,
+    this.frtrlNm,
+    this.lat,
+  });
 
-  Features.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    properties = json['properties'] != null
-        ? Properties.fromJson(json['properties'])
-        : null;
-    id = json['id'];
+  Item.fromJson(Map<String, dynamic> json) {
+    frtrlId = json['frtrlId'];
+    placeNm = json['placeNm'];
+    lot = json['lot'];
+    orgnPlaceTpeCd = json['orgnPlaceTpeCd'];
+    crtrDt = json['crtrDt'];
+    aslAltide = json['aslAltide'];
+    dscrtCn = json['dscrtCn'];
+    orgnPlaceTpeNm = json['orgnPlaceTpeNm'];
+    poiId = json['poiId'];
+    frtrlNm = json['frtrlNm'];
+    lat = json['lat'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['type'] = type;
-    if (properties != null) {
-      data['properties'] = properties!.toJson();
-    }
-    data['id'] = id;
-    return data;
-  }
-}
-
-class Properties {
-  String? upMin;
-  String? downMin;
-  String? catNam;
-  String? secLen;
-  String? mntnNm;
-
-  Properties({this.upMin, this.downMin, this.catNam, this.secLen, this.mntnNm});
-
-  Properties.fromJson(Map<String, dynamic> json) {
-    upMin = json['up_min'];
-    downMin = json['down_min'];
-    catNam = json['cat_nam'];
-    secLen = json['sec_len'];
-    mntnNm = json['mntn_nm'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['up_min'] = upMin;
-    data['down_min'] = downMin;
-    data['cat_nam'] = catNam;
-    data['sec_len'] = secLen;
-    data['mntn_nm'] = mntnNm;
+    data['frtrlId'] = frtrlId;
+    data['placeNm'] = placeNm;
+    data['lot'] = lot;
+    data['orgnPlaceTpeCd'] = orgnPlaceTpeCd;
+    data['crtrDt'] = crtrDt;
+    data['aslAltide'] = aslAltide;
+    data['dscrtCn'] = dscrtCn;
+    data['orgnPlaceTpeNm'] = orgnPlaceTpeNm;
+    data['poiId'] = poiId;
+    data['frtrlNm'] = frtrlNm;
+    data['lat'] = lat;
     return data;
   }
 }

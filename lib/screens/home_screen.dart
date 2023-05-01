@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                         children: <Widget>[
                           const LobbyScreen(),
                           const WalkWidget(),
-                          const BadgeScreen(),
+                          BadgeScreen(),
                           const CommunityScreen(),
                           InformationScreen(uid: uid),
                         ],

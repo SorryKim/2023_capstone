@@ -1,33 +1,33 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:project/models/mountain_model.dart';
 
 class ApiService {
-  String difficulty = "하";
-  final String baseUrl =
-      "https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_L_FRSTCLIMB&key=FD8BE812-DB52-328F-828B-712A51614E8A&emdCd=11620103&crs=EPSG:3857&geomFilter=LINESTRING(13133057.313802%204496529.073264,14133023.872602%204496514.7413212)&geometry=false&attrFilter=cat_nam:like:하";
+  static const String baseUrl =
+      "https://apis.data.go.kr/B553662/sghtngPoiInfoService/getSghtngPoiInfoList?serviceKey=Sb7G4O4pB2rhu5whM8wWWzT28nQqHRuLodDkvYFeSP0vTZTRDqgvquO00DLyYmYq0Ql0n%2BGI7j7ZyP0LqGzjKw%3D%3D&type=json&numOfRows=10&srchFrtrlNm=";
+  static String mntnName = "관악산";
 
-  void getMountains() async {
-    try {
-      final url = Uri.parse(baseUrl);
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final responseBody = utf8.decode(response.bodyBytes);
-
-        final List<dynamic> mountains = jsonDecode(responseBody)['response']
-            ['result']['featureCollection']['features'];
-
-        for (var mountain in mountains) {
-          print(mountain['properties']);
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
+  void setMntn(String s) {
+    mntnName = s;
   }
 
-  void setDifficulty(String diff) {
-    difficulty = diff;
+  static Future<List<Item>> getItems() async {
+    List<Item> result = [];
+    final url = Uri.parse('$baseUrl$mntnName');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final items =
+          jsonDecode(response.body)['response']['body']['items']['item'];
+      for (var item in items) {
+        final instance = Item.fromJson(item);
+        result.add(instance);
+      }
+
+      return result;
+    }
+
+    throw Error();
   }
 }
