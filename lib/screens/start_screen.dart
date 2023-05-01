@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project/screens/login_screen.dart';
+
 import 'package:project/src/login.dart';
 
 class StartScreen extends StatefulWidget {

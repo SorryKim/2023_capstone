@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                             uid: uid,
                           ),
                           const WalkWidget(),
-                          const BadgeScreen(),
+                          BadgeScreen(),
                           const CommunityScreen(),
                         ],
                       ),
