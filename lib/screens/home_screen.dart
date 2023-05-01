@@ -4,10 +4,13 @@ import 'package:project/screens/badge_screen.dart';
 import 'package:project/screens/community_screen.dart';
 import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
+import 'package:project/screens/information_screen.dart';
 import 'package:project/screens/walk_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final String uid;
+
+  const HomeScreen({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +23,15 @@ class HomeScreen extends StatelessWidget {
               } else {
                 return MaterialApp(
                   home: DefaultTabController(
-                    length: 4,
+                    length: 5,
                     child: Scaffold(
-                      body: const TabBarView(
+                      body: TabBarView(
                         children: <Widget>[
-                          LobbyScreen(),
-                          WalkWidget(),
+                          const LobbyScreen(),
+                          const WalkWidget(),
                           BadgeScreen(),
-                          CommunityScreen()
+                          const CommunityScreen(),
+                          InformationScreen(uid: uid),
                         ],
                       ),
                       extendBodyBehindAppBar: true,
@@ -48,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                             tabs: [
                               Tab(
                                 icon: Icon(
-                                  Icons.person,
+                                  Icons.home,
                                 ),
-                                text: 'My듀',
+                                text: '홈',
                               ),
                               Tab(
                                 icon: Icon(Icons.directions_walk),
@@ -67,6 +71,12 @@ class HomeScreen extends StatelessWidget {
                                   Icons.connect_without_contact,
                                 ),
                                 text: '커뮤니티',
+                              ),
+                              Tab(
+                                icon: Icon(
+                                  Icons.person,
+                                ),
+                                text: 'My 듀',
                               )
                             ],
                           ),
