@@ -21,50 +21,25 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dew Community'),
-        centerTitle: true, // 중앙 정렬
+        title: const Center(
+          child: Text(
+            'DEW COMMUNITY',
+            style: TextStyle(
+              fontSize: 30,
+              color: Color.fromARGB(255, 10, 68, 12),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: const CircleAvatar(
-                // 현재 계정 이미지 set
-                backgroundImage: AssetImage('images/google_logo.png'),
-                backgroundColor: Colors.white,
-              ),
-              otherAccountsPictures: const <Widget>[
-                // 다른 계정 이미지[] set
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage('images/google_logo.png'),
-                ),
-                // CircleAvatar(
-                //   backgroundColor: Colors.white,
-                //   backgroundImage: AssetImage('assets/profile2.png'),
-                // )
-              ],
-              accountName: const Text('GANGPRO'),
-              accountEmail: const Text('gangpro@email.com'),
-              onDetailsPressed: () {
-                print('arrow is clicked');
-              },
-              decoration: BoxDecoration(
-                  color: Colors.red[200],
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(40.0),
-                      bottomRight: Radius.circular(40.0))),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              iconColor: Colors.purple,
-              focusColor: Colors.purple,
-              title: const Text('홈'),
-              onTap: () {},
-              trailing: const Icon(Icons.navigate_next),
-            ),
-          ],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+        onPressed: () => myDialog(context),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
         ),
       ),
       body: StreamBuilder<List<CommunityModel>>(
@@ -96,7 +71,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
-                                    color: Colors.green, width: 1)),
+                                    color: Color.fromARGB(255, 10, 68, 12),
+                                    width: 3)),
                             title: Text(
                               messages[index].message,
                               style: const TextStyle(fontSize: 16.5),
@@ -117,18 +93,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           ),
                         );
                       }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 10,
-                  ),
-                  child: SizedBox(
-                    width: 200,
-                    height: 50,
-                    child: ElevatedButton(
-                        onPressed: () => myDialog(context),
-                        child: const Text('글 쓰기!')),
-                  ),
                 ),
               ],
             );
@@ -162,7 +126,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 10, 68, 12),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -183,6 +147,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       _onPressedSendButton();
                       Navigator.of(context).pop();
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+                    ),
                     child: const Text(
                       '글 게시하기!',
                       style: TextStyle(color: Colors.white),

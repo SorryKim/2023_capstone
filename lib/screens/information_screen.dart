@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_survey/flutter_survey.dart';
 import 'package:project/models/survey_model.dart';
 import 'package:project/screens/login_screen.dart';
 
@@ -25,6 +24,18 @@ class _InformationScreenState extends State<InformationScreen> {
           } else {
             getGender(widget.uid);
             return Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  '내 정보',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+                elevation: 0.0,
+              ),
               body: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -34,7 +45,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         child: Column(
                           children: [
                             const SizedBox(
-                              height: 40,
+                              height: 10,
                             ),
                             Row(
                               children: <Widget>[
@@ -105,27 +116,16 @@ class _InformationScreenState extends State<InformationScreen> {
                                 ),
                                 Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          FirebaseAuth.instance.signOut();
-                                        },
-                                        style: TextButton.styleFrom(
-                                            padding: const EdgeInsets.only(
-                                              top: 14,
-                                              bottom: 14,
-                                              left: 40,
-                                              right: 40,
-                                            ),
-                                            backgroundColor:
-                                                Colors.green.withOpacity(0.3)),
-                                        child: const Icon(
-                                          Icons.logout,
-                                          size: 30,
-                                          color: Color.fromARGB(255, 2, 70, 4),
-                                        ),
+                                    ListTile(
+                                      leading: const Icon(Icons.logout),
+                                      iconColor: Colors.black,
+                                      focusColor: Colors.black,
+                                      title: const Text(
+                                        '로그아웃',
+                                        style: TextStyle(fontSize: 15),
                                       ),
+                                      onTap: () {},
+                                      trailing: const Icon(Icons.navigate_next),
                                     ),
                                   ],
                                 ),

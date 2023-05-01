@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/screens/information_screen.dart';
 import 'package:project/screens/login_screen.dart';
 
 class LobbyScreen extends StatefulWidget {
-  const LobbyScreen({super.key});
+  final String uid;
+  const LobbyScreen({super.key, required this.uid});
 
   @override
   State<LobbyScreen> createState() => _LobbyScreenState();
@@ -20,10 +22,45 @@ class _LobbyScreenState extends State<LobbyScreen> {
           if (!snapshot.hasData) {
             return const LoginScreen();
           } else {
-            return const Scaffold(
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'MOUNTAINDEW',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 10, 68, 12),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              InformationScreen(uid: widget.uid)));
+                    },
+                    color: const Color.fromARGB(255, 10, 68, 12),
+                    iconSize: 40,
+                  )
+                ],
+              ),
               body: SingleChildScrollView(
-                child: Column(
-                  children: [],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Image.asset('images/6249016.jpg'),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: const Text('추천'),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

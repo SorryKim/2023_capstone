@@ -28,7 +28,16 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('댓글 달기!'),
+          title: const Text(
+            '댓글 달기',
+            style: TextStyle(
+              fontSize: 20,
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+          elevation: 0.0,
         ),
         body: StreamBuilder<List<CommentModel>>(
           stream: streamComment(),
@@ -71,7 +80,8 @@ class _CommentScreenState extends State<CommentScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                               side: const BorderSide(
-                                  color: Colors.green, width: 1)),
+                                  color: Color.fromARGB(255, 10, 68, 12),
+                                  width: 1)),
                           title: Text(comments[index].message),
                           subtitle: Text(
                             comments[index].userName,
@@ -155,13 +165,13 @@ class _CommentScreenState extends State<CommentScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 10, 68, 12),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Colors.black26,
+                      color: Colors.black45,
                       width: 1.0,
                     ),
                   ),
@@ -175,11 +185,14 @@ class _CommentScreenState extends State<CommentScreen> {
               onPressed: _onPressedSendButton, //전송버튼을 누를때 동작시킬 메소드
               constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               elevation: 2,
-              fillColor: Theme.of(context).colorScheme.primary,
+              fillColor: const Color.fromARGB(255, 10, 68, 12),
               shape: const CircleBorder(),
               child: const Padding(
                 padding: EdgeInsets.all(10),
-                child: Icon(Icons.send),
+                child: Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ),
               ),
             )
           ],
