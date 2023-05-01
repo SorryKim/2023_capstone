@@ -20,6 +20,53 @@ class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Dew Community'),
+        centerTitle: true, // 중앙 정렬
+        elevation: 0.0,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: const CircleAvatar(
+                // 현재 계정 이미지 set
+                backgroundImage: AssetImage('images/google_logo.png'),
+                backgroundColor: Colors.white,
+              ),
+              otherAccountsPictures: const <Widget>[
+                // 다른 계정 이미지[] set
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage('images/google_logo.png'),
+                ),
+                // CircleAvatar(
+                //   backgroundColor: Colors.white,
+                //   backgroundImage: AssetImage('assets/profile2.png'),
+                // )
+              ],
+              accountName: const Text('GANGPRO'),
+              accountEmail: const Text('gangpro@email.com'),
+              onDetailsPressed: () {
+                print('arrow is clicked');
+              },
+              decoration: BoxDecoration(
+                  color: Colors.red[200],
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(40.0),
+                      bottomRight: Radius.circular(40.0))),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              iconColor: Colors.purple,
+              focusColor: Colors.purple,
+              title: const Text('홈'),
+              onTap: () {},
+              trailing: const Icon(Icons.navigate_next),
+            ),
+          ],
+        ),
+      ),
       body: StreamBuilder<List<CommunityModel>>(
         stream: streamCommunity(),
         builder: (context, snapshot) {
