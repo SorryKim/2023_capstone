@@ -58,9 +58,10 @@ class Login extends StatelessWidget {
 
               // 만약 이미 데이터베이스에 해당 유저가 존재하면 바로 넘김
               for (int i = 0; i < users.length; i++) {
+                index = i;
                 if (users[i].userId == user!.uid) {
                   if (users[i].isSurvey) {
-                    return const HomeScreen();
+                    return HomeScreen(uid: users[i].id);
                   } else {
                     return SurveyScreen(uid: users[i].id);
                   }
@@ -80,7 +81,7 @@ class Login extends StatelessWidget {
                   .add(loginModel.toMap());
 
               // 설문조사로 넘김
-              return const HomeScreen();
+              return HomeScreen(uid: users[index].id);
             },
           );
         }
