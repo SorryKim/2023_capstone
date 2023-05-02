@@ -11,7 +11,20 @@ class BadgeScreen extends StatelessWidget {
     //addList();
     startBadge();
     return Scaffold(
-      appBar: AppBar(title: const Text('뱃지')),
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'BADGE',
+            style: TextStyle(
+              fontSize: 30,
+              color: Color.fromARGB(255, 10, 68, 12),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: FutureBuilder(
           future: startBadge(),
           builder: (context, snapshot) {

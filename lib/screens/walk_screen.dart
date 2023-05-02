@@ -34,9 +34,23 @@ class _WalkWidgetState extends State<WalkWidget> {
     return duration.toString().split(".").first.substring(2, 7);
   }
 
+  @override
+  void initState() {
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        setState(() {
+          totaltime++;
+        });
+      },
+    );
+    timer.cancel();
+    super.initState();
+  }
+
   void startWalk() {
     // TODO: 처음에 타이머가 초기화 안돼서 앱오류발생함, 임시로 계속 돌리게함 수정 바람
-    timer = timer = Timer.periodic(
+    timer = Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
         setState(() {
@@ -60,14 +74,15 @@ class _WalkWidgetState extends State<WalkWidget> {
   void stopWalk() {
     setState(() {
       timer.cancel();
-      shakeDetector!.stopListening();
+      if (shakeDetector != null) {
+        shakeDetector!.stopListening();
+      }
     });
   }
 
   @override
   void dispose() {
-    timer.cancel();
-    shakeDetector!.stopListening();
+    stopWalk();
     super.dispose();
   }
 
@@ -84,7 +99,7 @@ class _WalkWidgetState extends State<WalkWidget> {
                 child: Column(
                   children: <Widget>[
                     const SizedBox(
-                      height: 85,
+                      height: 130,
                     ),
                     CircularStepProgressIndicator(
                       totalSteps: 100,
@@ -109,7 +124,7 @@ class _WalkWidgetState extends State<WalkWidget> {
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 100,
                     ),
                     Center(
                       child: Row(
@@ -155,7 +170,14 @@ class _WalkWidgetState extends State<WalkWidget> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 10, 68, 12),
+                        ),
                         onPressed: () {
                           if (isStart) {
                             startWalk();

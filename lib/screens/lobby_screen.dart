@@ -56,9 +56,51 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       const SizedBox(
                         height: 10,
                       ),
+                      const Text('사용자 맞춤 등산로 추천 1'),
                       Container(
-                        child: const Text('추천'),
-                      )
+                        height: 100,
+                        width: 520,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 10, 68, 12),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      const Text('사용자 맞춤 등산로 추천 2'),
+                      Container(
+                        height: 100,
+                        width: 520,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 10, 68, 12),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      const Text('사용자 맞춤 등산로 추천 3'),
+                      Container(
+                        height: 100,
+                        width: 520,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 10, 68, 12),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

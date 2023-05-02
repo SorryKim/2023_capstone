@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import '../models/comment_model.dart';
 
+import 'dart:math' as math;
+
 class CommentScreen extends StatefulWidget {
   final String description;
   final String descriptionId;
@@ -23,6 +25,7 @@ class CommentScreen extends StatefulWidget {
 class _CommentScreenState extends State<CommentScreen> {
   final user = FirebaseAuth.instance.currentUser;
   TextEditingController controller = TextEditingController();
+  double radians = 90 * math.pi / 180;
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +60,79 @@ class _CommentScreenState extends State<CommentScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
-                      margin: const EdgeInsets.all(8.0),
-                      padding: const EdgeInsets.all(8.0),
-                      height: 200,
-                      width: double.infinity,
-                      decoration: BoxDecoration(border: Border.all()),
-                      child: Text(
-                        widget.description,
-                        style: const TextStyle(fontSize: 20),
-                      )),
-                  const SizedBox(
-                    height: 30,
+                    margin: const EdgeInsets.only(
+                        bottom: 0, top: 8, left: 8, right: 8),
+                    padding: const EdgeInsets.all(8.0),
+                    height: 50,
+                    width: double.infinity,
+                    child: const Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 6, right: 3),
+                              child: Icon(
+                                Icons.face,
+                                size: 25,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text('김재성'),
+                                Text('           04/30 23:52'),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(
+                        bottom: 8, top: 0, left: 8, right: 8),
+                    padding: const EdgeInsets.all(8.0),
+                    height: 200,
+                    width: double.infinity,
+                    child: Text(
+                      widget.description,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    height: 100,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.recommend_rounded,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {},
+                          iconSize: 25,
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 17,
+                            ),
+                            Transform.rotate(
+                              angle: 3.14,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.recommend,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {},
+                                iconSize: 25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Expanded(
                       child: ListView.builder(
