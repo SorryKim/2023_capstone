@@ -44,6 +44,7 @@ dependencies:
   flutter_survey: ^0.1.4
   step_progress_indicator: ^1.0.2
   shake: ^2.2.0
+  geolocator: ^7.3.3
 
 dev_dependencies:
   flutter_test:
