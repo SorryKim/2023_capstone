@@ -27,64 +27,47 @@ class _WalkWidgetState extends State<WalkWidget> {
   ShakeDetector? shakeDetector;
   late Timer timer;
   int totaltime = 0;
+  bool isStart = true;
 
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
     return duration.toString().split(".").first.substring(2, 7);
   }
 
-  void Time(Timer timer) {
-    setState(() {
-      totaltime = totaltime + 1;
-    });
-  }
-
-  void onPhoneShake() {
-    setState(() {
-      walk = walk + 1;
-    });
-  }
-
   void startWalk() {
-    setState(() {
-      timer = Timer.periodic(
-        const Duration(seconds: 1),
-        Time,
-      );
-    });
+    // TODO: 처음에 타이머가 초기화 안돼서 앱오류발생함, 임시로 계속 돌리게함 수정 바람
+    timer = timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        setState(() {
+          totaltime++;
+        });
+      },
+    );
+
+    shakeDetector = ShakeDetector.autoStart(
+      // 흔들기 감지 즉시 시작
+      shakeSlopTimeMS: 1, // 감지 주기
+      shakeThresholdGravity: 2.7, // 감지 민감도
+      onPhoneShake: () {
+        setState(() {
+          walk++;
+        });
+      }, // 감지 후 실행할 함수
+    );
   }
 
   void stopWalk() {
     setState(() {
       timer.cancel();
+      shakeDetector!.stopListening();
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    // TODO: 처음에 타이머가 초기화 안돼서 앱오류발생함, 임시로 계속 돌리게함 수정 바람
-    timer = timer = Timer.periodic(
-      const Duration(seconds: 1),
-      Time,
-    );
-    shakeDetector = ShakeDetector.autoStart(
-      // 흔들기 감지 즉시 시작
-      shakeSlopTimeMS: 1, // 감지 주기
-      shakeThresholdGravity: 2.7, // 감지 민감도
-      onPhoneShake: onPhoneShake, // 감지 후 실행할 함수
-    );
-    shakeDetector = ShakeDetector.autoStart(
-      shakeThresholdGravity: 2.7, // 감지 민감도
-      onPhoneShake: startWalk, // 감지 후 실행할 함수
-    );
-  }
-
-  @override
   void dispose() {
-    shakeDetector!.stopListening(); // 흔들기 감지 중지
-    stopWalk();
+    timer.cancel();
+    shakeDetector!.stopListening();
     super.dispose();
   }
 
@@ -172,6 +155,17 @@ class _WalkWidgetState extends State<WalkWidget> {
                         ],
                       ),
                     ),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (isStart) {
+                            startWalk();
+                            isStart = !isStart;
+                          } else {
+                            stopWalk();
+                            isStart = !isStart;
+                          }
+                        },
+                        child: Text(isStart ? "시작" : "중지")),
                   ],
                 ),
               ),
