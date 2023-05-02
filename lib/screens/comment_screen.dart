@@ -91,7 +91,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     margin: const EdgeInsets.only(
                         bottom: 8, top: 0, left: 8, right: 8),
                     padding: const EdgeInsets.all(8.0),
-                    height: 200,
+                    height: 100,
                     width: double.infinity,
                     child: Text(
                       widget.description,

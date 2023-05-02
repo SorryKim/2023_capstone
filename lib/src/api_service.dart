@@ -18,7 +18,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final items =
-          jsonDecode(response.body)['response']['body']['items']['item'];
+          await jsonDecode(response.body)['response']['body']['items']['item'];
       late Item result;
 
       for (var item in items) {

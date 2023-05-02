@@ -138,7 +138,9 @@ class _InformationScreenState extends State<InformationScreen> {
                                         '로그아웃',
                                         style: TextStyle(fontSize: 15),
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        FirebaseAuth.instance.signOut();
+                                      },
                                       trailing: const Icon(Icons.navigate_next),
                                     ),
                                   ],

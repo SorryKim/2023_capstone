@@ -11,10 +11,6 @@ class BadgeScreen extends StatefulWidget {
 }
 
 class _BadgeScreenState extends State<BadgeScreen> {
-  late double longitude;
-
-  late double latitude;
-
   //List<Mountain2> mountainList = [];
   @override
   Widget build(BuildContext context) {
@@ -65,9 +61,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                         return GestureDetector(
                           child: Column(
                             children: [
-                              Image.asset(swapImage(
-                                  mountainList.elementAt(index).lot,
-                                  mountainList.elementAt(index).lat)),
+                              Image.asset("images/mountain_gray.png"),
                               Container(
                                 height: 25,
                                 alignment: Alignment.center,
@@ -122,23 +116,21 @@ class _BadgeScreenState extends State<BadgeScreen> {
     result.add(goal);
     goal = await ApiService.getItem("명지산", "포천으로 가는 강씨봉고개(오뚜기고개)");
     result.add(goal);
-    goal = await ApiService.getItem("백운산", "자재암");
+    goal = await ApiService.getItem("북한산", "백련사");
     result.add(goal);
-    goal = await ApiService.getItem("북한산", "자재암");
+    goal = await ApiService.getItem("소요산", "원효폭포");
     result.add(goal);
-    goal = await ApiService.getItem("소요산", "자재암");
+    goal = await ApiService.getItem("용문산", "숯가마터");
     result.add(goal);
-    goal = await ApiService.getItem("용문산", "자재암");
+    goal = await ApiService.getItem("운악산", "운악사");
     result.add(goal);
-    goal = await ApiService.getItem("운악산", "자재암");
+    goal = await ApiService.getItem("유명산", "용소");
     result.add(goal);
-    goal = await ApiService.getItem("유명산", "자재암");
+    goal = await ApiService.getItem("천마산", "발효연구소");
     result.add(goal);
-    goal = await ApiService.getItem("천마산", "자재암");
+    goal = await ApiService.getItem("축령산", "삼각점");
     result.add(goal);
-    goal = await ApiService.getItem("축령산", "자재암");
-    result.add(goal);
-    goal = await ApiService.getItem("화악산", "자재암");
+    goal = await ApiService.getItem("화악산", "강한 소나무");
     result.add(goal);
 
     return result;
@@ -147,16 +139,18 @@ class _BadgeScreenState extends State<BadgeScreen> {
   Future<void> getLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    longitude = position.longitude;
-    latitude = position.latitude;
+    //longitude = position.longitude;
+    //latitude = position.latitude;
   }
 
   String swapImage(lot, lat) {
-    getLocation();
-    if (lot == longitude && lat == latitude) {
-      return "image/mountain.png";
-    } else {
-      return "image/mountain_gray.png";
-    }
+    // getLocation();
+    // if (lot == longitude && lat == latitude) {
+    //   return "image/mountain.png";
+    // } else {
+    //   return "image/mountain_gray.png";
+    // }
+
+    return "image/mountain_gray.png";
   }
 }

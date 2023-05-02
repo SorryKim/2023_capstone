@@ -72,12 +72,7 @@ class _WalkWidgetState extends State<WalkWidget> {
   }
 
   void stopWalk() {
-    setState(() {
-      timer.cancel();
-      if (shakeDetector != null) {
-        shakeDetector!.stopListening();
-      }
-    });
+    timer.cancel();
   }
 
   @override
