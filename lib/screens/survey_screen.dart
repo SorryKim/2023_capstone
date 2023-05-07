@@ -27,11 +27,7 @@ class SurveyScreen extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.system,
-      home: FutureBuilder(
-        builder: (context, hassError) {
-          return SurveyWidget(title: 'Flutter Survey', uid: uid);
-        },
-      ),
+      home: SurveyWidget(title: 'Flutter Survey', uid: uid),
     );
   }
 }

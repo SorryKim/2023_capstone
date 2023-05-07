@@ -88,6 +88,11 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                             description:
                                                 messages[index].message,
                                             descriptionId: messages[index].id,
+                                            date: messages[index].sendDate,
+                                            writerName:
+                                                messages[index].userName,
+                                            like: messages[index].like,
+                                            dislike: messages[index].dislike,
                                           )));
                             },
                           ),
