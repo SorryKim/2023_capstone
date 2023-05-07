@@ -3,19 +3,25 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/comment_model.dart';
-
-import 'dart:math' as math;
 
 class CommentScreen extends StatefulWidget {
   final String description;
   final String descriptionId;
+  final Timestamp date;
+  final String writerName;
+  final int like, dislike;
 
   const CommentScreen({
     super.key,
+    required this.writerName,
+    required this.date,
     required this.description,
     required this.descriptionId,
+    required this.like,
+    required this.dislike,
   });
 
   @override
@@ -25,10 +31,11 @@ class CommentScreen extends StatefulWidget {
 class _CommentScreenState extends State<CommentScreen> {
   final user = FirebaseAuth.instance.currentUser;
   TextEditingController controller = TextEditingController();
-  double radians = 90 * math.pi / 180;
 
   @override
   Widget build(BuildContext context) {
+    int likeCnt = widget.like;
+    int dislikeCnt = widget.dislike;
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -65,12 +72,12 @@ class _CommentScreenState extends State<CommentScreen> {
                     padding: const EdgeInsets.all(8.0),
                     height: 50,
                     width: double.infinity,
-                    child: const Column(
+                    child: Column(
                       children: [
                         Row(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 6, right: 3),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 6, right: 10),
                               child: Icon(
                                 Icons.face,
                                 size: 25,
@@ -78,8 +85,8 @@ class _CommentScreenState extends State<CommentScreen> {
                             ),
                             Column(
                               children: [
-                                Text('김재성'),
-                                Text('           04/30 23:52'),
+                                Text(
+                                    '${widget.writerName}\n${readTimestamp(widget.date)}'),
                               ],
                             )
                           ],
@@ -110,27 +117,25 @@ class _CommentScreenState extends State<CommentScreen> {
                             Icons.recommend_rounded,
                             color: Colors.red,
                           ),
-                          onPressed: () {},
+                          onPressed: _onPressedLikeButton,
                           iconSize: 25,
                         ),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 17,
-                            ),
-                            Transform.rotate(
-                              angle: 3.14,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.recommend,
-                                  color: Colors.blue,
-                                ),
-                                onPressed: () {},
-                                iconSize: 25,
-                              ),
-                            ),
-                          ],
+                        Text(widget.like.toString()),
+                        const SizedBox(
+                          height: 17,
                         ),
+                        Transform.rotate(
+                          angle: 3.14,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.recommend,
+                              color: Colors.blue,
+                            ),
+                            onPressed: _onPressedDislikeButton,
+                            iconSize: 25,
+                          ),
+                        ),
+                        Text(widget.dislike.toString()),
                       ],
                     ),
                   ),
@@ -188,6 +193,7 @@ class _CommentScreenState extends State<CommentScreen> {
     }
   }
 
+  // 댓글 전송 메소드
   void _onPressedSendButton() {
     try {
       CommentModel messageModel = CommentModel(
@@ -206,6 +212,64 @@ class _CommentScreenState extends State<CommentScreen> {
     } catch (ex) {
       log('error');
     }
+  }
+
+  // 좋아요 전송 메소드
+  void _onPressedLikeButton() {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      firestore
+          .collection('community/dkKeHkBBOTap6hZE9tG2/messages/')
+          .doc(widget.descriptionId)
+          .update({"like": widget.like + 1});
+    } catch (ex) {
+      log('error');
+    }
+  }
+
+  void _onPressedDislikeButton() {
+    try {
+      setState(() {
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
+        firestore
+            .collection('community/dkKeHkBBOTap6hZE9tG2/messages/')
+            .doc(widget.descriptionId)
+            .update({"dislike": widget.dislike + 1});
+      });
+    } catch (ex) {
+      log('error');
+    }
+  }
+
+  // Timestamp를 이쁘게 출력하는 메소드
+  String readTimestamp(Timestamp timestamp) {
+    var now = DateTime.now();
+    var format = DateFormat('HH:mm a');
+    var date =
+        DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+    var diff = now.difference(date);
+    var time = '';
+
+    if (diff.inSeconds <= 0 ||
+        diff.inSeconds > 0 && diff.inMinutes == 0 ||
+        diff.inMinutes > 0 && diff.inHours == 0 ||
+        diff.inHours > 0 && diff.inDays == 0) {
+      time = format.format(date);
+    } else if (diff.inDays > 0 && diff.inDays < 7) {
+      if (diff.inDays == 1) {
+        time = '${diff.inDays} 일 전';
+      } else {
+        time = '${diff.inDays} 일 전';
+      }
+    } else {
+      if (diff.inDays == 7) {
+        time = '${(diff.inDays / 7).floor()} 주 전';
+      } else {
+        time = '${(diff.inDays / 7).floor()} 주 전';
+      }
+    }
+
+    return time;
   }
 
   Widget getInputWidget() {
