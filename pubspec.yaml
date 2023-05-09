@@ -50,6 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  http: ^0.13.6  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -71,6 +72,7 @@ flutter:
    - images/mountain.png
    - images/mountain_gray.png
    - images/6249016.jpg
+   - images/6229893.jpg
 
 
 

@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: const Color.fromARGB(255, 10, 68, 12),
       ),
       home: const App(),
     );

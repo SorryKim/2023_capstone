@@ -70,7 +70,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     margin: const EdgeInsets.only(
                         bottom: 0, top: 8, left: 8, right: 8),
                     padding: const EdgeInsets.all(8.0),
-                    height: 50,
+                    height: 70,
                     width: double.infinity,
                     child: Column(
                       children: [

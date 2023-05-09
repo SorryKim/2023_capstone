@@ -4,6 +4,7 @@ import 'package:project/screens/badge_screen.dart';
 import 'package:project/screens/community_screen.dart';
 import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
+import 'package:project/screens/search_screen.dart';
 import 'package:project/screens/walk_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,15 +23,16 @@ class HomeScreen extends StatelessWidget {
               } else {
                 return MaterialApp(
                   home: DefaultTabController(
-                    length: 4,
+                    length: 5,
                     child: Scaffold(
                       body: TabBarView(
                         children: <Widget>[
                           LobbyScreen(
                             uid: uid,
                           ),
+                          const SearchScreen(),
                           const WalkWidget(),
-                          BadgeScreen(),
+                          const BadgeScreen(),
                           const CommunityScreen(),
                         ],
                       ),
@@ -53,6 +55,10 @@ class HomeScreen extends StatelessWidget {
                               Tab(
                                 icon: Icon(Icons.home, size: 30),
                                 text: '홈',
+                              ),
+                              Tab(
+                                icon: Icon(Icons.search, size: 30),
+                                text: '검색',
                               ),
                               Tab(
                                 icon: Icon(Icons.directions_walk, size: 30),
