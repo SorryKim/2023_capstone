@@ -13,6 +13,7 @@ class LobbyScreen extends StatefulWidget {
 
 class _LobbyScreenState extends State<LobbyScreen> {
   final user = FirebaseAuth.instance.currentUser;
+  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,14 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Image.asset('images/6249016.jpg'),
+                      AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 500),
+                        firstChild: Image.asset('images/6249016.jpg'),
+                        secondChild: Image.asset('images/6229893.jpg'),
+                        crossFadeState: selected
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
