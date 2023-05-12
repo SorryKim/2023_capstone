@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/screens/badge_screen.dart';
 import 'package:project/screens/community_screen.dart';
+import 'package:project/screens/health_screen.dart';
 import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
 import 'package:project/screens/search_screen.dart';
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                             uid: uid,
                           ),
                           const SearchScreen(),
-                          const WalkWidget(),
+                          const HealthApp(),
                           const BadgeScreen(),
                           const CommunityScreen(),
                         ],

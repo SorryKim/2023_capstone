@@ -46,6 +46,8 @@ dependencies:
   shake: ^2.2.0
   geolocator: ^7.3.3
   intl: ^0.17.0
+  health: ^6.0.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
