@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:project/src/health_util.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-void main() => runApp(HealthApp());
+void main() => runApp(const HealthApp());
 
 class HealthApp extends StatefulWidget {
   const HealthApp({super.key});
@@ -319,7 +320,88 @@ class _HealthAppState extends State<HealthApp> {
   }
 
   Widget _stepsFetched() {
-    return Text('Total number of steps: $_nofSteps');
+    //return Text('오늘 걸음 수: $_nofSteps');
+    return Expanded(
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 20,
+            ),
+            CircularStepProgressIndicator(
+              totalSteps: 100,
+              currentStep: (0.01 * _nofSteps).floor(),
+              stepSize: 30,
+              selectedColor: Colors.green[200],
+              unselectedColor: Colors.grey[200],
+              padding: 0,
+              width: 250,
+              height: 250,
+              selectedStepSize: 30,
+              roundedCap: (_, __) => false,
+              child: Center(
+                child: Text(
+                  '$_nofSteps',
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
+            const Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.timeline,
+                        size: 60,
+                        color: Color.fromARGB(255, 48, 158, 248),
+                      ),
+                      Text('거리'),
+                      Text('0.0KM'),
+                    ],
+                  ),
+                  SizedBox(width: 50),
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.local_fire_department,
+                        size: 60,
+                        color: Color.fromARGB(255, 236, 83, 18),
+                      ),
+                      Text('칼로리'),
+                      Text('0KCAL'),
+                    ],
+                  ),
+                  SizedBox(width: 50),
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.timer,
+                        size: 60,
+                        color: Color.fromARGB(255, 255, 208, 66),
+                      ),
+                      Text('시간'),
+                      Text('00 : 00'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _dataNotAdded() {
@@ -373,42 +455,42 @@ class _HealthAppState extends State<HealthApp> {
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child:
-                          Text("Auth", style: TextStyle(color: Colors.white))),
+                      child: const Text("Auth",
+                          style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: fetchData,
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child: Text("Fetch Data",
+                      child: const Text("Fetch Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: addData,
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child: Text("Add Data",
+                      child: const Text("Add Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: deleteData,
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child: Text("Delete Data",
+                      child: const Text("Delete Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: fetchStepData,
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child: Text("Fetch Step Data",
+                      child: const Text("Fetch Step Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: revokeAccess,
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.blue)),
-                      child: Text("Revoke Access",
+                      child: const Text("Revoke Access",
                           style: TextStyle(color: Colors.white))),
                 ],
               ),
