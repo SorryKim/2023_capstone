@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/models/mountains_model.dart';
 import 'package:project/screens/information_screen.dart';
 import 'package:project/screens/login_screen.dart';
 
@@ -116,5 +118,25 @@ class _LobbyScreenState extends State<LobbyScreen> {
             );
           }
         });
+  }
+
+  Stream<List<MountainsModel>> streamMountains() {
+    try {
+      // 원하는 컬렉션의 스냅샷 가져오기
+      Stream<QuerySnapshot> snapshots =
+          FirebaseFirestore.instance.collection('mountains').snapshots();
+
+      // 스냅샷내부의 자료들을 List로 반환
+      return snapshots.map((snapshot) {
+        List<MountainsModel> mountains = [];
+        for (var temp in snapshot.docs) {
+          mountains.add(MountainsModel.fromMap(
+              id: temp.id, map: temp.data() as Map<String, dynamic>));
+        }
+        return mountains;
+      });
+    } catch (ex) {
+      return Stream.error(ex.toString());
+    }
   }
 }

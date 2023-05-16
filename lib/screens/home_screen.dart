@@ -6,7 +6,6 @@ import 'package:project/screens/health_screen.dart';
 import 'package:project/screens/lobby_screen.dart';
 import 'package:project/screens/login_screen.dart';
 import 'package:project/screens/search_screen.dart';
-import 'package:project/screens/walk_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final String uid;
@@ -63,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Tab(
                                 icon: Icon(Icons.directions_walk, size: 30),
-                                text: '만보기',
+                                text: '건강',
                               ),
                               Tab(
                                 icon: Icon(Icons.military_tech, size: 30),
