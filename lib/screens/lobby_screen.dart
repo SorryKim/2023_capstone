@@ -50,71 +50,84 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   )
                 ],
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 500),
-                        firstChild: Image.asset('images/6249016.jpg'),
-                        secondChild: Image.asset('images/6229893.jpg'),
-                        crossFadeState: selected
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text('사용자 맞춤 등산로 추천 1'),
-                      Container(
-                        height: 100,
-                        width: 520,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 10, 68, 12),
-                            style: BorderStyle.solid,
-                            width: 2,
+              body: StreamBuilder(
+                  stream: streamMountains(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text("오류발생~"),
+                      );
+                    } else {
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              AnimatedCrossFade(
+                                duration: const Duration(milliseconds: 500),
+                                firstChild: Image.asset('images/6249016.jpg'),
+                                secondChild: Image.asset('images/6229893.jpg'),
+                                crossFadeState: selected
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text('사용자 맞춤 등산로 추천 1'),
+                              Container(
+                                height: 100,
+                                width: 520,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(255, 10, 68, 12),
+                                    style: BorderStyle.solid,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              const Text('사용자 맞춤 등산로 추천 2'),
+                              Container(
+                                height: 100,
+                                width: 520,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(255, 10, 68, 12),
+                                    style: BorderStyle.solid,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              const Text('사용자 맞춤 등산로 추천 3'),
+                              Container(
+                                height: 100,
+                                width: 520,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(255, 10, 68, 12),
+                                    style: BorderStyle.solid,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const Text('사용자 맞춤 등산로 추천 2'),
-                      Container(
-                        height: 100,
-                        width: 520,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 10, 68, 12),
-                            style: BorderStyle.solid,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      const Text('사용자 맞춤 등산로 추천 3'),
-                      Container(
-                        height: 100,
-                        width: 520,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 10, 68, 12),
-                            style: BorderStyle.solid,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                      );
+                    }
+                  }),
             );
           }
         });

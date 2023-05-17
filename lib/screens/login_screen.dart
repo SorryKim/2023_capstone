@@ -98,8 +98,6 @@ class LoginScreen extends StatelessWidget {
                 // 구글 로그인하는 버튼
                 ElevatedButton(
                   onPressed: () {
-                    //signInWithGoogle();
-
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const Login()));
                   },

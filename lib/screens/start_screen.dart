@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:project/src/login.dart';
+import 'package:project/screens/login_screen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -44,7 +43,7 @@ class _StartScreen extends State<StartScreen> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const Login()));
+                      MaterialPageRoute(builder: (_) => const LoginScreen()));
                 },
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.only(
