@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,80 +58,98 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     )
                   ],
                 ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          height: 280,
+                body: StreamBuilder(
+                    stream: streamMountains(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        List<MountainsModel> mountainList = snapshot.data!;
+                        return SingleChildScrollView(
                           child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Swiper(
-                                autoplay: true,
-                                scale: 0.9,
-                                viewportFraction: 0.8,
-                                pagination: const SwiperPagination(
-                                    alignment: Alignment.bottomRight),
-                                itemCount: imgList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Image.asset(imgList[index]);
-                                },
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 1'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  color: Colors.white,
+                                  height: 280,
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Swiper(
+                                        autoplay: true,
+                                        scale: 0.9,
+                                        viewportFraction: 0.8,
+                                        pagination: const SwiperPagination(
+                                            alignment: Alignment.bottomRight),
+                                        itemCount: imgList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Image.asset(imgList[index]);
+                                        },
+                                      )),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Text('사용자 맞춤 등산로 추천 1'),
+                                Container(
+                                  height: 100,
+                                  width: 520,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color:
+                                          const Color.fromARGB(255, 10, 68, 12),
+                                      style: BorderStyle.solid,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Text(mountainList[0].mntnName),
+                                ),
+                                const Text('사용자 맞춤 등산로 추천 2'),
+                                Container(
+                                  height: 100,
+                                  width: 520,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color:
+                                          const Color.fromARGB(255, 10, 68, 12),
+                                      style: BorderStyle.solid,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Text(mountainList[1].mntnName),
+                                ),
+                                const Text('사용자 맞춤 등산로 추천 3'),
+                                Container(
+                                  height: 100,
+                                  width: 520,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color:
+                                          const Color.fromARGB(255, 10, 68, 12),
+                                      style: BorderStyle.solid,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Text(mountainList[2].mntnName),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 2'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 3'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ));
+                        );
+                      }
+                    }));
           }
         });
   }
@@ -137,8 +157,10 @@ class _LobbyScreenState extends State<LobbyScreen> {
   Stream<List<MountainsModel>> streamMountains() {
     try {
       // 원하는 컬렉션의 스냅샷 가져오기
-      Stream<QuerySnapshot> snapshots =
-          FirebaseFirestore.instance.collection('mountains').snapshots();
+      Stream<QuerySnapshot> snapshots = FirebaseFirestore.instance
+          .collection('mountains')
+          .orderBy('mntnName')
+          .snapshots();
 
       // 스냅샷내부의 자료들을 List로 반환
       return snapshots.map((snapshot) {
@@ -150,6 +172,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         return mountains;
       });
     } catch (ex) {
+      log('error!');
       return Stream.error(ex.toString());
     }
   }
