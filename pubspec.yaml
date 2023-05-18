@@ -48,11 +48,12 @@ dependencies:
   intl: ^0.17.0
   health: ^6.0.0
   permission_handler: ^10.2.0
+  flutter_swiper_plus: ^2.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  http: ^0.13.6  
+  http: ^0.13.6 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
