@@ -1,7 +1,10 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/models/mountain_model.dart';
-import 'package:project/src/api_service.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../models/mountains_model.dart';
 
 class BadgeScreen extends StatefulWidget {
   const BadgeScreen({super.key});
@@ -15,7 +18,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
   @override
   Widget build(BuildContext context) {
     //addList();
-    startBadge();
+    streamMountains();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -31,11 +34,15 @@ class _BadgeScreenState extends State<BadgeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: FutureBuilder(
-          future: startBadge(),
+      body: StreamBuilder<List<MountainsModel>>(
+          stream: streamMountains(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Item> mountainList = snapshot.data!;
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('ㅗㅗㅗㅗㅗㅗ'),
+              );
+            } else if (snapshot.hasData) {
+              List<MountainsModel> mountainList = snapshot.data!;
               return Column(
                 children: [
                   const Padding(
@@ -66,7 +73,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                                 height: 25,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  mountainList.elementAt(index).frtrlNm!,
+                                  mountainList.elementAt(index).mntnName,
                                   style: const TextStyle(
                                     fontSize: 17,
                                   ),
@@ -77,7 +84,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                           onTap: () {
                             AlertDialog dialog = AlertDialog(
                               content: Text(
-                                '설명: ${mountainList.elementAt(index).dscrtCn}\n위도: ${mountainList.elementAt(index).lat}\n경도: ${mountainList.elementAt(index).lot}\n해발고도: ${mountainList.elementAt(index).aslAltide}',
+                                '위도: ${mountainList.elementAt(index).latitude}\n경도: ${mountainList.elementAt(index).longitude}',
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
@@ -102,38 +109,27 @@ class _BadgeScreenState extends State<BadgeScreen> {
     );
   }
 
-  Future<List<Item>> startBadge() async {
-    List<Item> result = [];
-    Item goal = await ApiService.getItem("감악산", "보리암과 돌탑");
-    result.add(goal);
-    goal = await ApiService.getItem("관악산", "연주대");
-    result.add(goal);
-    goal = await ApiService.getItem("도봉산", "명수대(明水臺)");
-    result.add(goal);
-    goal = await ApiService.getItem("마니산", "참성단 중수비");
-    result.add(goal);
-    goal = await ApiService.getItem("명성산", "평화의쉼터");
-    result.add(goal);
-    goal = await ApiService.getItem("명지산", "포천으로 가는 강씨봉고개(오뚜기고개)");
-    result.add(goal);
-    goal = await ApiService.getItem("북한산", "백련사");
-    result.add(goal);
-    goal = await ApiService.getItem("소요산", "원효폭포");
-    result.add(goal);
-    goal = await ApiService.getItem("용문산", "숯가마터");
-    result.add(goal);
-    goal = await ApiService.getItem("운악산", "운악사");
-    result.add(goal);
-    goal = await ApiService.getItem("유명산", "용소");
-    result.add(goal);
-    goal = await ApiService.getItem("천마산", "발효연구소");
-    result.add(goal);
-    goal = await ApiService.getItem("축령산", "삼각점");
-    result.add(goal);
-    goal = await ApiService.getItem("화악산", "강한 소나무");
-    result.add(goal);
+  Stream<List<MountainsModel>> streamMountains() {
+    try {
+      // 원하는 컬렉션의 스냅샷 가져오기
+      Stream<QuerySnapshot> snapshots = FirebaseFirestore.instance
+          .collection('mountains')
+          .orderBy('mntnName')
+          .snapshots();
 
-    return result;
+      // 스냅샷내부의 자료들을 List로 반환
+      return snapshots.map((snapshot) {
+        List<MountainsModel> mountains = [];
+        for (var temp in snapshot.docs) {
+          mountains.add(MountainsModel.fromMap(
+              id: temp.id, map: temp.data() as Map<String, dynamic>));
+        }
+        return mountains;
+      });
+    } catch (ex) {
+      log('error!');
+      return Stream.error(ex.toString());
+    }
   }
 
   Future<void> getLocation() async {
