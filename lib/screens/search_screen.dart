@@ -143,17 +143,4 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _getItemList() async {
-    String tempName = _tecStrSearchQuery.value.text;
-    if (tempName.isEmpty) {
-      Item goal = await ApiService.getItem("감악산", "보리암과 돌탑");
-      itemList.add(goal);
-      goal = await ApiService.getItem("관악산", "연주대");
-      itemList.add(goal);
-    } else {
-      Item goal = await ApiService.getItem(tempName, "보리암과 돌탑");
-
-      itemList.add(goal);
-    }
-  }
 }
