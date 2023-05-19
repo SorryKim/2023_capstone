@@ -13,7 +13,8 @@ class _StartScreen extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(255, 36, 45, 36), // 상단바 색 : 진한 초록
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
     ));
 
     return Scaffold(

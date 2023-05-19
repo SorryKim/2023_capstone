@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:project/models/community_model.dart';
 import 'package:project/screens/comment_screen.dart';
 
@@ -21,26 +22,31 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'DEW COMMUNITY',
-            style: TextStyle(
-              fontSize: 30,
-              color: Color.fromARGB(255, 10, 68, 12),
-              fontWeight: FontWeight.bold,
-            ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        title: const Text(
+          "DEW COMMUNITY",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
-        onPressed: () => myDialog(context),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              myDialog(context);
+            },
+            color: Colors.black,
+            iconSize: 40,
+          )
+        ],
       ),
       body: StreamBuilder<List<CommunityModel>>(
         stream: streamCommunity(),

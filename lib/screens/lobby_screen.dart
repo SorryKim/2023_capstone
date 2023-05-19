@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 import 'package:project/models/mountains_model.dart';
 import 'package:project/screens/information_screen.dart';
 import 'package:project/screens/login_screen.dart';
+import 'package:project/screens/search_screen.dart';
 
 final List<String> imgList = [
   'images/6249016.jpg',
@@ -22,6 +24,7 @@ class LobbyScreen extends StatefulWidget {
 class _LobbyScreenState extends State<LobbyScreen> {
   final user = FirebaseAuth.instance.currentUser;
   bool selected = false;
+  final List<bool> _selections = List.generate(3, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -32,104 +35,162 @@ class _LobbyScreenState extends State<LobbyScreen> {
             return const LoginScreen();
           } else {
             return Scaffold(
-                appBar: AppBar(
-                  title: const Text(
-                    'MOUNTAINDEW',
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Color.fromARGB(255, 10, 68, 12),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0.0,
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                InformationScreen(uid: widget.uid)));
-                      },
-                      color: const Color.fromARGB(255, 10, 68, 12),
-                      iconSize: 40,
-                    )
-                  ],
+              appBar: AppBar(
+                systemOverlayStyle: const SystemUiOverlayStyle(
+                  // Status bar color
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.dark,
                 ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          height: 280,
-                          child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Swiper(
-                                autoplay: true,
-                                scale: 0.9,
-                                viewportFraction: 0.8,
-                                pagination: const SwiperPagination(
-                                    alignment: Alignment.bottomRight),
-                                itemCount: imgList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Image.asset(imgList[index]);
-                                },
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 1'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 2'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        const Text('사용자 맞춤 등산로 추천 3'),
-                        Container(
-                          height: 100,
-                          width: 520,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 10, 68, 12),
-                              style: BorderStyle.solid,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                title: const Text(
+                  'MOUNTAINDEW',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 10, 68, 12),
+                    fontWeight: FontWeight.bold,
                   ),
-                ));
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              InformationScreen(uid: widget.uid)));
+                    },
+                    color: const Color.fromARGB(255, 10, 68, 12),
+                    iconSize: 40,
+                  )
+                ],
+              ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.search,
+                              color: Colors.black, size: 30),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(400, 25),
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const SearchScreen()));
+                              },
+                              child: const Text(
+                                '등산로 검색 바로가기',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        color: Colors.white,
+                        height: 250,
+                        child: Padding(
+                          padding: const EdgeInsets.all(1),
+                          child: Swiper(
+                            autoplay: true,
+                            scale: 0.9,
+                            viewportFraction: 0.8,
+                            pagination: const SwiperPagination(
+                                alignment: Alignment.bottomRight),
+                            itemCount: imgList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.asset(
+                                imgList[index],
+                                fit: BoxFit.contain,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      // TODO: 이름 넣어줭
+                      const Text(
+                        ' 000 님을 위한 추천 등산로',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 100,
+                        width: 520,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 10, 68, 12),
+                            style: BorderStyle.solid,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Text(
+                        '난이도별 등산로',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          child: ToggleButtons(
+                            isSelected: _selections,
+                            onPressed: (int index) {
+                              setState(() {
+                                _selections[index] = !_selections[index];
+                              });
+                            },
+                            color: Colors.black54,
+                            selectedColor: Colors.black,
+                            fillColor: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            borderColor: const Color.fromARGB(255, 10, 68, 12),
+                            selectedBorderColor:
+                                const Color.fromARGB(255, 10, 68, 12),
+                            children: const [
+                              Text('상'),
+                              Text('중'),
+                              Text('하'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
         });
   }

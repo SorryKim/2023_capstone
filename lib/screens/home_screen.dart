@@ -3,7 +3,6 @@ import 'package:project/screens/badge_screen.dart';
 import 'package:project/screens/community_screen.dart';
 import 'package:project/screens/health_screen.dart';
 import 'package:project/screens/lobby_screen.dart';
-import 'package:project/screens/search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final String uid;
@@ -14,14 +13,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 5,
+        length: 4,
         child: Scaffold(
           body: TabBarView(
             children: <Widget>[
               LobbyScreen(
                 uid: uid,
               ),
-              const SearchScreen(),
               const HealthApp(),
               const BadgeScreen(),
               const CommunityScreen(),
@@ -48,19 +46,15 @@ class HomeScreen extends StatelessWidget {
                     text: '홈',
                   ),
                   Tab(
-                    icon: Icon(Icons.search, size: 30),
-                    text: '검색',
-                  ),
-                  Tab(
-                    icon: Icon(Icons.directions_walk, size: 30),
+                    icon: Icon(Icons.favorite, size: 30),
                     text: '건강',
                   ),
                   Tab(
-                    icon: Icon(Icons.military_tech, size: 30),
-                    text: '배지',
+                    icon: Icon(Icons.verified, size: 30),
+                    text: '미션',
                   ),
                   Tab(
-                    icon: Icon(Icons.connect_without_contact, size: 30),
+                    icon: Icon(Icons.image, size: 30),
                     text: '커뮤니티',
                   ),
                 ],

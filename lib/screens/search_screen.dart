@@ -39,25 +39,77 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
-        elevation: 0,
-        title: TextField(
-          controller: _tecStrSearchQuery,
-          keyboardType: TextInputType.text,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: "검색",
-            labelStyle: TextStyle(color: Colors.white),
-            hintText: "검색어를 입력하세요",
-            hintStyle: TextStyle(color: Colors.white),
-            prefixIcon: Icon(
-              Icons.input,
-              color: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black, //색변경
+        ),
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Icon(
+              Icons.search,
+              color: Colors.black,
             ),
-          ),
+            const SizedBox(
+              width: 8,
+            ),
+            const Flexible(
+              flex: 1,
+              child: TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  hintText: '입력해주세요',
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 2,
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                '검색',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+        elevation: 0.0,
+      ),
+      body: const Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70,
+            ),
+            Icon(
+              Icons.search,
+              size: 100,
+              color: Colors.black38,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '검색 키워드를 입력해주세요',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ],
         ),
       ),
-      body: Container(
+      /* Container(
         child: itemList.isEmpty
             ? const Text("")
             : ListView.separated(
@@ -87,14 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 controller: _scrollController,
               ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.file_download),
-        onPressed: () {
-          setState(() {
-            _getItemList();
-          });
-        },
-      ),
+      */
     );
   }
 
