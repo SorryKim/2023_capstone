@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/models/mountain_model.dart';
-
-import '../src/api_service.dart';
+import 'package:project/models/mountains_model.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final List<MountainsModel> mountains;
+  const SearchScreen({super.key, required this.mountains});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -13,27 +12,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String strResult = '';
 
-  List<Item> itemList = [];
-
   final TextEditingController _tecStrSearchQuery = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,5 +122,4 @@ class _SearchScreenState extends State<SearchScreen> {
       */
     );
   }
-
 }

@@ -8,107 +8,88 @@ import 'package:geolocator/geolocator.dart';
 import '../models/mountains_model.dart';
 
 class BadgeScreen extends StatefulWidget {
-  const BadgeScreen({super.key});
+  List<MountainsModel> mountains;
+  BadgeScreen({super.key, required this.mountains});
 
   @override
   State<BadgeScreen> createState() => _BadgeScreenState();
 }
 
 class _BadgeScreenState extends State<BadgeScreen> {
-  //List<Mountain2> mountainList = [];
   @override
   Widget build(BuildContext context) {
-    //addList();
-    streamMountains();
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          // Status bar color
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        title: const Text(
-          "100대 명산",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
           ),
+          title: const Text(
+            "100대 명산",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: StreamBuilder<List<MountainsModel>>(
-          stream: streamMountains(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text('ㅗㅗㅗㅗㅗㅗ'),
-              );
-            } else if (snapshot.hasData) {
-              List<MountainsModel> mountainList = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: mountainList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        childAspectRatio: 0.65,
-                        mainAxisSpacing: 1,
-                        crossAxisSpacing: 10,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          child: Column(
-                            children: [
-                              Image.asset("images/mountain_gray.png"),
-                              Container(
-                                height: 25,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  mountainList.elementAt(index).mntnName,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                  ),
-                                ),
-                              ),
-                            ],
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: GridView.builder(
+                itemCount: widget.mountains.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 0.65,
+                  mainAxisSpacing: 1,
+                  crossAxisSpacing: 10,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    child: Column(
+                      children: [
+                        Image.asset("images/mountain_gray.png"),
+                        Container(
+                          height: 25,
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.mountains.elementAt(index).mntnName,
+                            style: const TextStyle(
+                              fontSize: 17,
+                            ),
                           ),
-                          onTap: () {
-                            AlertDialog dialog = AlertDialog(
-                              content: Text(
-                                '위도: ${mountainList.elementAt(index).latitude}\n경도: ${mountainList.elementAt(index).longitude}',
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            );
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => dialog);
-                          },
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-    );
+                    onTap: () {
+                      AlertDialog dialog = AlertDialog(
+                        content: Text(
+                          '위도: ${widget.mountains.elementAt(index).latitude}\n경도: ${widget.mountains.elementAt(index).longitude}',
+                          style: const TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      );
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => dialog);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
   }
 
   Stream<List<MountainsModel>> streamMountains() {

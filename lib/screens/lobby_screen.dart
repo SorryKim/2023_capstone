@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +14,8 @@ final List<String> imgList = [
 
 class LobbyScreen extends StatefulWidget {
   final String uid;
-  const LobbyScreen({super.key, required this.uid});
+  final List<MountainsModel> mountains;
+  const LobbyScreen({super.key, required this.uid, required this.mountains});
 
   @override
   State<LobbyScreen> createState() => _LobbyScreenState();
@@ -91,7 +89,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => const SearchScreen()));
+                                      builder: (_) => SearchScreen(
+                                            mountains: widget.mountains,
+                                          )));
                             },
                             child: const Text(
                               '등산로 검색 바로가기',
@@ -128,10 +128,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     const SizedBox(
                       height: 30,
                     ),
-                    // TODO: 이름 넣어줭
-                    const Text(
-                      ' 000 님을 위한 추천 등산로',
-                      style: TextStyle(
+                    Text(
+                      '${user!.displayName} 님을 위한 추천 등산로',
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                       ),
@@ -142,7 +141,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     Container(
                       height: 100,
                       width: 520,
-                      alignment: Alignment.center,
+                      alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -151,6 +150,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
                           style: BorderStyle.solid,
                           width: 1,
                         ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.0),
+                        child: Text(
+                            '산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].latitude}\n경도: ${widget.mountains[0].longitude}\n'),
                       ),
                     ),
                     const SizedBox(
@@ -196,28 +200,5 @@ class _LobbyScreenState extends State<LobbyScreen> {
         }
       },
     );
-  }
-
-  Stream<List<MountainsModel>> streamMountains() {
-    try {
-      // 원하는 컬렉션의 스냅샷 가져오기
-      Stream<QuerySnapshot> snapshots = FirebaseFirestore.instance
-          .collection('mountains')
-          .orderBy('mntnName')
-          .snapshots();
-
-      // 스냅샷내부의 자료들을 List로 반환
-      return snapshots.map((snapshot) {
-        List<MountainsModel> mountains = [];
-        for (var temp in snapshot.docs) {
-          mountains.add(MountainsModel.fromMap(
-              id: temp.id, map: temp.data() as Map<String, dynamic>));
-        }
-        return mountains;
-      });
-    } catch (ex) {
-      log('error!');
-      return Stream.error(ex.toString());
-    }
   }
 }
