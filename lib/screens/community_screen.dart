@@ -43,7 +43,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             onPressed: () {
               myDialog(context);
             },
-            color: Colors.black,
+            color: Colors.redAccent,
             iconSize: 40,
           )
         ],
@@ -74,18 +74,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(8.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                side: const BorderSide(
-                                    color: Color.fromARGB(255, 10, 68, 12),
-                                    width: 3)),
                             title: Text(
                               messages[index].message,
                               style: const TextStyle(fontSize: 16.5),
                             ),
                             subtitle: Text(messages[index].userName),
                             dense: true,
-                            leading: const Icon(Icons.people_alt_rounded),
+                            leading: const Icon(
+                              Icons.filter_frames,
+                              color: Colors.black26,
+                            ),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -131,13 +129,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.edit_square),
                   labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요!",
+                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요",
                   fillColor: Colors.white,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 10, 68, 12),
+                      color: Colors.black,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -159,10 +158,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+                      backgroundColor: Colors.redAccent,
                     ),
                     child: const Text(
-                      '글 게시하기!',
+                      '글 게시하기',
                       style: TextStyle(color: Colors.white),
                     )),
                 ElevatedButton(
@@ -174,7 +173,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     child: const Text(
                       '닫기',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     )),
               ],
             ),

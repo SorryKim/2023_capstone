@@ -13,6 +13,7 @@ import 'package:project/screens/search_screen.dart';
 final List<String> imgList = [
   'images/6249016.jpg',
   'images/6229893.jpg',
+  'images/bukhansan.jpg'
 ];
 
 class LobbyScreen extends StatefulWidget {
@@ -46,16 +47,16 @@ class _LobbyScreenState extends State<LobbyScreen> {
               title: const Text(
                 'MOUNTAINDEW',
                 style: TextStyle(
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 10, 68, 12),
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
               elevation: 0.0,
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.person),
+                  icon: const Icon(Icons.account_circle),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
@@ -113,8 +114,6 @@ class _LobbyScreenState extends State<LobbyScreen> {
                           autoplay: true,
                           scale: 0.9,
                           viewportFraction: 0.8,
-                          pagination: const SwiperPagination(
-                              alignment: Alignment.bottomRight),
                           itemCount: imgList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Image.asset(

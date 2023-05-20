@@ -35,15 +35,14 @@ class _InformationScreenState extends State<InformationScreen> {
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark,
         ),
-        title: const Text(
-          '내 정보',
-          style: TextStyle(
-            fontSize: 20,
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontWeight: FontWeight.bold,
-          ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back_ios),
         ),
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+        backgroundColor: Colors.redAccent,
         elevation: 0.0,
       ),
       body: SingleChildScrollView(

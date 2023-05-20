@@ -27,8 +27,9 @@ class _BadgeScreenState extends State<BadgeScreen> {
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark,
         ),
+        // TODO :
         title: const Text(
-          "100대 명산",
+          "명산 100 도전\n배지 (70/100)",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -49,7 +50,20 @@ class _BadgeScreenState extends State<BadgeScreen> {
               List<MountainsModel> mountainList = snapshot.data!;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // TODO:
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: LinearProgressIndicator(
+                      value: 0.7,
+                      color: Colors.redAccent,
+                      backgroundColor: Colors.grey,
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.all(10),
                   ),
