@@ -26,7 +26,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
-          "100대 명산",
+          "명산 100 도전\n배지(70/100)",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -50,6 +50,17 @@ class _BadgeScreenState extends State<BadgeScreen> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.all(10),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: LinearProgressIndicator(
+                      value: 0.7,
+                      color: Colors.greenAccent, //<-- SEE HERE
+                      backgroundColor: Colors.grey, //<-- SEE HERE
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
