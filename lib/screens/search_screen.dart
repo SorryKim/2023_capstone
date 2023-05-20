@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/models/mountain_model.dart';
-
-import '../src/api_service.dart';
+import 'package:project/models/mountains_model.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final List<MountainsModel> mountains;
+  const SearchScreen({super.key, required this.mountains});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -13,27 +12,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String strResult = '';
 
-  List<Item> itemList = [];
-
   final TextEditingController _tecStrSearchQuery = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,30 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         elevation: 0.0,
       ),
-      body: const Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 70,
-            ),
-            Icon(
-              Icons.search,
-              size: 100,
-              color: Colors.black38,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '검색 키워드를 입력해주세요',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: searchWidget(),
       /* Container(
         child: itemList.isEmpty
             ? const Text("")
@@ -143,17 +100,30 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _getItemList() async {
-    String tempName = _tecStrSearchQuery.value.text;
-    if (tempName.isEmpty) {
-      Item goal = await ApiService.getItem("감악산", "보리암과 돌탑");
-      itemList.add(goal);
-      goal = await ApiService.getItem("관악산", "연주대");
-      itemList.add(goal);
-    } else {
-      Item goal = await ApiService.getItem(tempName, "보리암과 돌탑");
-
-      itemList.add(goal);
-    }
+  Center searchWidget() {
+    return const Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 70,
+          ),
+          Icon(
+            Icons.search,
+            size: 100,
+            color: Colors.black38,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            '검색 키워드를 입력해주세요',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black54,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

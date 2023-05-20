@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:health/health.dart';
 import 'package:project/src/health_util.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -442,7 +443,21 @@ class _HealthAppState extends State<HealthApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Health Example'),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+          title: const Text(
+            "나의 건강 정보 확인",
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 10, 68, 12),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
         body: Container(
           child: Column(
@@ -454,43 +469,29 @@ class _HealthAppState extends State<HealthApp> {
                       onPressed: authorize,
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
-                      child: const Text("Auth",
+                              MaterialStatePropertyAll(Colors.green)),
+                      child: const Text("GoogleFitness와 연동",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: fetchData,
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
+                              MaterialStatePropertyAll(Colors.green)),
                       child: const Text("Fetch Data",
-                          style: TextStyle(color: Colors.white))),
-                  TextButton(
-                      onPressed: addData,
-                      style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
-                      child: const Text("Add Data",
-                          style: TextStyle(color: Colors.white))),
-                  TextButton(
-                      onPressed: deleteData,
-                      style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
-                      child: const Text("Delete Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: fetchStepData,
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
+                              MaterialStatePropertyAll(Colors.green)),
                       child: const Text("Fetch Step Data",
                           style: TextStyle(color: Colors.white))),
                   TextButton(
                       onPressed: revokeAccess,
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Colors.blue)),
-                      child: const Text("Revoke Access",
+                              MaterialStatePropertyAll(Colors.red)),
+                      child: const Text("연동 종료",
                           style: TextStyle(color: Colors.white))),
                 ],
               ),
