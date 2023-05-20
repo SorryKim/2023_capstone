@@ -34,10 +34,26 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(
               width: 8,
             ),
-            const Flexible(
+            Flexible(
               flex: 1,
               child: TextField(
-                decoration: InputDecoration(
+                controller: _tecStrSearchQuery,
+                decoration: const InputDecoration(
+                  // 사용자가 선택했을 경우
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+
+                  // 사용가능한 경우
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: 16,
@@ -47,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Radius.circular(8),
                     ),
                   ),
-                  hintText: '입력해주세요',
+                  hintText: '산이름을 입력해주세요',
                 ),
               ),
             ),
@@ -55,7 +71,11 @@ class _SearchScreenState extends State<SearchScreen> {
               width: 2,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  strResult = _tecStrSearchQuery.text;
+                });
+              },
               child: const Text(
                 '검색',
                 style: TextStyle(color: Colors.black),
@@ -66,64 +86,69 @@ class _SearchScreenState extends State<SearchScreen> {
         elevation: 0.0,
       ),
       body: searchWidget(),
-      /* Container(
-        child: itemList.isEmpty
-            ? const Text("")
-            : ListView.separated(
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minHeight: 80,
-                        minWidth: 80,
-                      ),
-                    ),
-                    title: Text(itemList[index].frtrlNm.toString()),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(itemList[index].lot.toString()),
-                        Text(itemList[index].aslAltide.toString()),
-                        Text(itemList[index].lat.toString()),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: ((context, index) {
-                  return const Divider(height: 1, color: Colors.white);
-                }),
-                itemCount: itemList.length,
-                controller: _scrollController,
-              ),
-      ),
-      */
     );
   }
 
-  Center searchWidget() {
-    return const Center(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 70,
-          ),
-          Icon(
-            Icons.search,
-            size: 100,
-            color: Colors.black38,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            '검색 키워드를 입력해주세요',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black54,
+  Widget searchWidget() {
+    if (strResult.isEmpty) {
+      return const Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70,
             ),
-          ),
-        ],
-      ),
-    );
+            Icon(
+              Icons.search,
+              size: 100,
+              color: Colors.black38,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '검색 키워드를 입력해주세요',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      List<MountainsModel> searchResult = [];
+      var target = RegExp(strResult);
+      for (var temp in widget.mountains) {
+        if (target == temp.mntnName) {
+          searchResult.add(temp);
+        }
+      }
+
+      return ListView.separated(
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 80,
+                minWidth: 80,
+              ),
+            ),
+            title: Text(searchResult[index].mntnName.toString()),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(searchResult[index].latitude.toString()),
+                Text(searchResult[index].longitude.toString()),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: ((context, index) {
+          return const Divider(height: 1, color: Colors.white);
+        }),
+        itemCount: searchResult.length,
+        controller: _scrollController,
+      );
+    }
   }
 }
