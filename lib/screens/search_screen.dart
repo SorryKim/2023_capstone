@@ -65,30 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         elevation: 0.0,
       ),
-      body: const Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 70,
-            ),
-            Icon(
-              Icons.search,
-              size: 100,
-              color: Colors.black38,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              '검색 키워드를 입력해주세요',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: searchWidget(),
       /* Container(
         child: itemList.isEmpty
             ? const Text("")
@@ -120,6 +97,33 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
       ),
       */
+    );
+  }
+
+  Center searchWidget() {
+    return const Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 70,
+          ),
+          Icon(
+            Icons.search,
+            size: 100,
+            color: Colors.black38,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            '검색 키워드를 입력해주세요',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black54,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
