@@ -449,14 +449,14 @@ class _HealthAppState extends State<HealthApp> {
             statusBarIconBrightness: Brightness.dark,
           ),
           title: const Text(
-            "나의 건강 정보 확인",
+            'MOUNTAINDEW',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 10, 68, 12),
+              color: Colors.black,
             ),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0.0,
         ),
         body: Container(

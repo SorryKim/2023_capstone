@@ -66,6 +66,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               ],
             ),
             body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                 child: Column(
@@ -174,7 +175,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         isSelected: _selections,
                         onPressed: (int index) {
                           setState(() {
-                            _selections[index] = !_selections[index];
+                            for (int i = 0; i < 3; i++) {
+                              if (i == index) {
+                                _selections[i] = true;
+                              } else {
+                                _selections[i] = false;
+                              }
+                            }
                           });
                         },
                         color: Colors.black54,
@@ -191,6 +198,27 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         ],
                       ),
                     ),
+                    _selections[0]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text(
+                              '상',
+                              style: TextStyle(fontSize: 60),
+                            ),
+                          )
+                        : Container(),
+                    _selections[1]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text('중'),
+                          )
+                        : Container(),
+                    _selections[2]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text('하'),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

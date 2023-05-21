@@ -109,8 +109,9 @@ class _InformationScreenState extends State<InformationScreen> {
                                       const SizedBox(
                                         height: 5,
                                       ),
+                                      //TODO: 체에은은 보아라
                                       const Text(
-                                        'Lv1. 초보 등산러 😊',
+                                        '최덕봉이 엠비티아이 채워줌',
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 15,

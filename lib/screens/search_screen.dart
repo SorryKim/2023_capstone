@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
       List<MountainsModel> searchResult = [];
       var target = RegExp(strResult);
       for (var temp in widget.mountains) {
-        if (target == temp.mntnName) {
+        if (strResult == temp.mntnName) {
           searchResult.add(temp);
         }
       }
@@ -144,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
           );
         },
         separatorBuilder: ((context, index) {
-          return const Divider(height: 1, color: Colors.white);
+          return const Divider(height: 1, color: Colors.black);
         }),
         itemCount: searchResult.length,
         controller: _scrollController,

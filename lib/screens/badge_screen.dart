@@ -26,14 +26,14 @@ class _BadgeScreenState extends State<BadgeScreen> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
-          "명산 100 도전\n배지(70/100)",
+          'MOUNTAINDEW',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: StreamBuilder<List<MountainsModel>>(

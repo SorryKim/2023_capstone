@@ -28,7 +28,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
           statusBarIconBrightness: Brightness.dark,
         ),
         title: const Text(
-          "DEW COMMUNITY",
+          'MOUNTAINDEW',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -67,8 +67,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
                       itemCount: messages.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
