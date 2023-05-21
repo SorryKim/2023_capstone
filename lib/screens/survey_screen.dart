@@ -200,13 +200,19 @@ class _SurveyWidgetState extends State<SurveyWidget> {
               ),
               child: const Text("➡️"),
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+                print(_questionResults[3].answers[0]);
+                if (_questionResults[3].answers[0] == '아니오') {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => HomeScreen(uid: widget.uid)));
+                } else if (_formKey.currentState!.validate()) {
                   _onPressedSendButton(_questionResults, widget.uid);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => HomeScreen(uid: widget.uid)));
                 }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => HomeScreen(uid: widget.uid)));
               },
             ),
           ),

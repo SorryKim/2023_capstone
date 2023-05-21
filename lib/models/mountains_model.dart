@@ -6,7 +6,7 @@ class MountainsModel {
   final String reason;
   final int distance;
   final int height;
-  final double timeTaken;
+  final dynamic timeTaken; // double로 type 지정 시 파이어베이스에서 오류
   final double latitude;
   final double longitude;
 
