@@ -225,7 +225,18 @@ class _SurveyWidgetState extends State<SurveyWidget> {
 
     try {
       // 파이어베이스에 설문결과를 유저 테이블에 저장
+
       FirebaseFirestore firestore = FirebaseFirestore.instance;
+      var list = firestore.collection('user/$uid').snapshots();
+
+      list.map((snapshot) {
+        for (var temp in snapshot.docs) {
+          var now = LoginModel.fromMap(id: temp.id, map: temp.data());
+          if (now.isSurvey == true) {
+            return HomeScreen(uid: uid);
+          }
+        }
+      });
       firestore.collection('user/$uid/survey').add(resultdata.toMap());
       firestore.doc('user/$uid').update({'isSurvey': true});
     } catch (ex) {

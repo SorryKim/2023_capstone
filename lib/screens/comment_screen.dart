@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../models/comment_model.dart';
@@ -38,15 +39,19 @@ class _CommentScreenState extends State<CommentScreen> {
     int dislikeCnt = widget.dislike;
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            '댓글 달기',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontWeight: FontWeight.bold,
-            ),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
           ),
-          backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: Colors.white,
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          backgroundColor: Colors.redAccent,
           elevation: 0.0,
         ),
         body: StreamBuilder<List<CommentModel>>(

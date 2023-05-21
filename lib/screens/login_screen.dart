@@ -34,68 +34,28 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // 구글 로그 이미지 삽입
                 Image.asset(
-                  'images/google_logo.png',
-                  height: 100,
+                  'images/dew.png',
+                  width: 250,
                 ),
                 const Text(
-                  "로그인",
+                  'MOUNTAIN DEW',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black54,
                   ),
                 ),
                 const Text(
-                  'Google 계정 사용',
+                  '등산 도우미 앱',
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
+                    color: Colors.black26,
                   ),
                 ),
                 const SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
-                const Text(
-                  'ID',
-                ),
-                // ID
-                Container(
-                  height: 40,
-                  width: 500,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 61, 122, 243),
-                      style: BorderStyle.solid,
-                      width: 2,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  'PASSWORD',
-                ),
-                // PASSWORD
-                Container(
-                  height: 40,
-                  width: 500,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 61, 122, 243),
-                      style: BorderStyle.solid,
-                      width: 2,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                // 구글 로그인하는 버튼
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
@@ -105,11 +65,11 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       top: 10,
                       bottom: 10,
-                      left: 150,
-                      right: 150,
+                      left: 80,
+                      right: 80,
                     ),
                     foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromARGB(255, 61, 122, 243),
+                    backgroundColor: Colors.redAccent,
                   ),
                   child: const Text(
                     "➡️",

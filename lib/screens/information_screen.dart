@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/screens/login_screen.dart';
 
@@ -29,15 +30,19 @@ class _InformationScreenState extends State<InformationScreen> {
     getGender(widget.uid);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '내 정보',
-          style: TextStyle(
-            fontSize: 20,
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontWeight: FontWeight.bold,
-          ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
         ),
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        backgroundColor: Colors.redAccent,
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
@@ -104,8 +109,9 @@ class _InformationScreenState extends State<InformationScreen> {
                                       const SizedBox(
                                         height: 5,
                                       ),
+                                      //TODO: 체에은은 보아라
                                       const Text(
-                                        'Lv1. 초보 등산러 😊',
+                                        '최덕봉이 엠비티아이 채워줌',
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 15,

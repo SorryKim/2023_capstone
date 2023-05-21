@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:project/models/community_model.dart';
 import 'package:project/screens/comment_screen.dart';
 
@@ -21,26 +22,31 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'DEW COMMUNITY',
-            style: TextStyle(
-              fontSize: 30,
-              color: Color.fromARGB(255, 10, 68, 12),
-              fontWeight: FontWeight.bold,
-            ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        title: const Text(
+          'MOUNTAINDEW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
-        onPressed: () => myDialog(context),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              myDialog(context);
+            },
+            color: Colors.redAccent,
+            iconSize: 40,
+          )
+        ],
       ),
       body: StreamBuilder<List<CommunityModel>>(
         stream: streamCommunity(),
@@ -61,25 +67,25 @@ class _CommunityScreenState extends State<CommunityScreen> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
                       itemCount: messages.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(8.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                side: const BorderSide(
-                                    color: Color.fromARGB(255, 10, 68, 12),
-                                    width: 3)),
                             title: Text(
                               messages[index].message,
                               style: const TextStyle(fontSize: 16.5),
                             ),
                             subtitle: Text(messages[index].userName),
                             dense: true,
-                            leading: const Icon(Icons.people_alt_rounded),
+                            leading: const Icon(
+                              Icons.filter_frames,
+                              color: Colors.black26,
+                            ),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -125,13 +131,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.edit_square),
                   labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요!",
+                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요",
                   fillColor: Colors.white,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 10, 68, 12),
+                      color: Colors.black,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -153,10 +160,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 10, 68, 12),
+                      backgroundColor: Colors.redAccent,
                     ),
                     child: const Text(
-                      '글 게시하기!',
+                      '글 게시하기',
                       style: TextStyle(color: Colors.white),
                     )),
                 ElevatedButton(
@@ -168,7 +175,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     child: const Text(
                       '닫기',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     )),
               ],
             ),

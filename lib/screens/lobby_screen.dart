@@ -1,13 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 import 'package:project/models/mountains_model.dart';
 import 'package:project/screens/information_screen.dart';
 import 'package:project/screens/login_screen.dart';
+import 'package:project/screens/search_screen.dart';
+
+final List<String> imgList = [
+  'images/6249016.jpg',
+  'images/6229893.jpg',
+  'images/bukhansan.jpg'
+];
 
 class LobbyScreen extends StatefulWidget {
   final String uid;
-  const LobbyScreen({super.key, required this.uid});
+  final List<MountainsModel> mountains;
+  const LobbyScreen({super.key, required this.uid, required this.mountains});
 
   @override
   State<LobbyScreen> createState() => _LobbyScreenState();
@@ -16,140 +25,207 @@ class LobbyScreen extends StatefulWidget {
 class _LobbyScreenState extends State<LobbyScreen> {
   final user = FirebaseAuth.instance.currentUser;
   bool selected = false;
+  final List<bool> _selections = List.generate(3, (_) => false);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const LoginScreen();
-          } else {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'MOUNTAINDEW',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Color.fromARGB(255, 10, 68, 12),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              InformationScreen(uid: widget.uid)));
-                    },
-                    color: const Color.fromARGB(255, 10, 68, 12),
-                    iconSize: 40,
-                  )
-                ],
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const LoginScreen();
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                // Status bar color
+                statusBarColor: Colors.transparent,
+                statusBarIconBrightness: Brightness.dark,
               ),
-              body: StreamBuilder(
-                  stream: streamMountains(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text("오류발생~"),
-                      );
-                    } else {
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              AnimatedCrossFade(
-                                duration: const Duration(milliseconds: 500),
-                                firstChild: Image.asset('images/6249016.jpg'),
-                                secondChild: Image.asset('images/6229893.jpg'),
-                                crossFadeState: selected
-                                    ? CrossFadeState.showFirst
-                                    : CrossFadeState.showSecond,
+              title: const Text(
+                'MOUNTAINDEW',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.account_circle),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            InformationScreen(uid: widget.uid)));
+                  },
+                  color: const Color.fromARGB(255, 10, 68, 12),
+                  iconSize: 40,
+                )
+              ],
+            ),
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.search, color: Colors.black, size: 30),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(400, 25),
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => SearchScreen(
+                                            mountains: widget.mountains,
+                                          )));
+                            },
+                            child: const Text(
+                              '등산로 검색 바로가기',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text('사용자 맞춤 등산로 추천 1'),
-                              Container(
-                                height: 100,
-                                width: 520,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 10, 68, 12),
-                                    style: BorderStyle.solid,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              const Text('사용자 맞춤 등산로 추천 2'),
-                              Container(
-                                height: 100,
-                                width: 520,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 10, 68, 12),
-                                    style: BorderStyle.solid,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              const Text('사용자 맞춤 등산로 추천 3'),
-                              Container(
-                                height: 100,
-                                width: 520,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 10, 68, 12),
-                                    style: BorderStyle.solid,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      );
-                    }
-                  }),
-            );
-          }
-        });
-  }
-
-  Stream<List<MountainsModel>> streamMountains() {
-    try {
-      // 원하는 컬렉션의 스냅샷 가져오기
-      Stream<QuerySnapshot> snapshots =
-          FirebaseFirestore.instance.collection('mountains').snapshots();
-
-      // 스냅샷내부의 자료들을 List로 반환
-      return snapshots.map((snapshot) {
-        List<MountainsModel> mountains = [];
-        for (var temp in snapshot.docs) {
-          mountains.add(MountainsModel.fromMap(
-              id: temp.id, map: temp.data() as Map<String, dynamic>));
+                      ],
+                    ),
+                    Container(
+                      color: Colors.white,
+                      height: 250,
+                      child: Padding(
+                        padding: const EdgeInsets.all(1),
+                        child: Swiper(
+                          autoplay: true,
+                          scale: 0.9,
+                          viewportFraction: 0.8,
+                          itemCount: imgList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.asset(
+                              imgList[index],
+                              fit: BoxFit.contain,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      '${user!.displayName} 님을 위한 추천 등산로',
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 100,
+                      width: 520,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 10, 68, 12),
+                          style: BorderStyle.solid,
+                          width: 1,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.0),
+                        child: Text(
+                            '산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].latitude}\n경도: ${widget.mountains[0].longitude}\n'),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      '난이도별 등산로',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: ToggleButtons(
+                        isSelected: _selections,
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int i = 0; i < 3; i++) {
+                              if (i == index) {
+                                _selections[i] = true;
+                              } else {
+                                _selections[i] = false;
+                              }
+                            }
+                          });
+                        },
+                        color: Colors.black54,
+                        selectedColor: Colors.black,
+                        fillColor: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        borderColor: const Color.fromARGB(255, 10, 68, 12),
+                        selectedBorderColor:
+                            const Color.fromARGB(255, 10, 68, 12),
+                        children: const [
+                          Text('상'),
+                          Text('중'),
+                          Text('하'),
+                        ],
+                      ),
+                    ),
+                    _selections[0]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text(
+                              '상',
+                              style: TextStyle(fontSize: 60),
+                            ),
+                          )
+                        : Container(),
+                    _selections[1]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text('중'),
+                          )
+                        : Container(),
+                    _selections[2]
+                        ? const SizedBox(
+                            height: 50,
+                            child: Text('하'),
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
-        return mountains;
-      });
-    } catch (ex) {
-      return Stream.error(ex.toString());
-    }
+      },
+    );
   }
 }

@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../models/mountains_model.dart';
 
 class BadgeScreen extends StatefulWidget {
-  const BadgeScreen({super.key});
+  List<MountainsModel> mountains;
+  BadgeScreen({super.key, required this.mountains});
 
   @override
   State<BadgeScreen> createState() => _BadgeScreenState();
@@ -19,17 +21,20 @@ class _BadgeScreenState extends State<BadgeScreen> {
     streamMountains();
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'BADGE',
-            style: TextStyle(
-              fontSize: 30,
-              color: Color.fromARGB(255, 10, 68, 12),
-              fontWeight: FontWeight.bold,
-            ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        title: const Text(
+          'MOUNTAINDEW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: StreamBuilder<List<MountainsModel>>(
@@ -42,15 +47,24 @@ class _BadgeScreenState extends State<BadgeScreen> {
             } else if (snapshot.hasData) {
               List<MountainsModel> mountainList = snapshot.data!;
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.all(30),
-                    child: Text(
-                      "100대 명산",
-                      style: TextStyle(
-                        fontSize: 27,
-                      ),
+                    padding: EdgeInsets.all(10),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: LinearProgressIndicator(
+                      value: 0.7,
+                      color: Colors.greenAccent, //<-- SEE HERE
+                      backgroundColor: Colors.grey, //<-- SEE HERE
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   Expanded(
                     child: GridView.builder(

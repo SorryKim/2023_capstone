@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/models/mountain_model.dart';
-
-import '../src/api_service.dart';
+import 'package:project/models/mountains_model.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final List<MountainsModel> mountains;
+  const SearchScreen({super.key, required this.mountains});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -13,102 +12,143 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String strResult = '';
 
-  List<Item> itemList = [];
-
   final TextEditingController _tecStrSearchQuery = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-      if (_scrollController.offset <=
-              _scrollController.position.minScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        _getItemList();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 10, 68, 12),
-        elevation: 0,
-        title: TextField(
-          controller: _tecStrSearchQuery,
-          keyboardType: TextInputType.text,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: "검색",
-            labelStyle: TextStyle(color: Colors.white),
-            hintText: "검색어를 입력하세요",
-            hintStyle: TextStyle(color: Colors.white),
-            prefixIcon: Icon(
-              Icons.input,
-              color: Colors.white,
-            ),
-          ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, //색변경
         ),
-      ),
-      body: Container(
-        child: itemList.isEmpty
-            ? const Text("")
-            : ListView.separated(
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minHeight: 80,
-                        minWidth: 80,
-                      ),
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Flexible(
+              flex: 1,
+              child: TextField(
+                controller: _tecStrSearchQuery,
+                decoration: const InputDecoration(
+                  // 사용자가 선택했을 경우
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
-                    title: Text(itemList[index].frtrlNm.toString()),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(itemList[index].lot.toString()),
-                        Text(itemList[index].aslAltide.toString()),
-                        Text(itemList[index].lat.toString()),
-                      ],
+                  ),
+
+                  // 사용가능한 경우
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
-                  );
-                },
-                separatorBuilder: ((context, index) {
-                  return const Divider(height: 1, color: Colors.white);
-                }),
-                itemCount: itemList.length,
-                controller: _scrollController,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  hintText: '산이름을 입력해주세요',
+                ),
               ),
+            ),
+            const SizedBox(
+              width: 2,
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  strResult = _tecStrSearchQuery.text;
+                });
+              },
+              child: const Text(
+                '검색',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+        elevation: 0.0,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.file_download),
-        onPressed: () {
-          setState(() {
-            _getItemList();
-          });
-        },
-      ),
+      body: searchWidget(),
     );
   }
 
-  void _getItemList() async {
-    String tempName = _tecStrSearchQuery.value.text;
-    if (tempName.isEmpty) {
-      Item goal = await ApiService.getItem("감악산", "보리암과 돌탑");
-      itemList.add(goal);
-      goal = await ApiService.getItem("관악산", "연주대");
-      itemList.add(goal);
+  Widget searchWidget() {
+    if (strResult.isEmpty) {
+      return const Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70,
+            ),
+            Icon(
+              Icons.search,
+              size: 100,
+              color: Colors.black38,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '검색 키워드를 입력해주세요',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+      );
     } else {
-      Item goal = await ApiService.getItem(tempName, "보리암과 돌탑");
+      List<MountainsModel> searchResult = [];
+      var target = RegExp(strResult);
+      for (var temp in widget.mountains) {
+        if (strResult == temp.mntnName) {
+          searchResult.add(temp);
+        }
+      }
 
-      itemList.add(goal);
+      return ListView.separated(
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 80,
+                minWidth: 80,
+              ),
+            ),
+            title: Text(searchResult[index].mntnName.toString()),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(searchResult[index].latitude.toString()),
+                Text(searchResult[index].longitude.toString()),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: ((context, index) {
+          return const Divider(height: 1, color: Colors.black);
+        }),
+        itemCount: searchResult.length,
+        controller: _scrollController,
+      );
     }
   }
 }
