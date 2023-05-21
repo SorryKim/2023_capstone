@@ -14,10 +14,8 @@ class BadgeScreen extends StatefulWidget {
 }
 
 class _BadgeScreenState extends State<BadgeScreen> {
-  //List<Mountain2> mountainList = [];
   @override
   Widget build(BuildContext context) {
-    //addList();
     streamMountains();
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +37,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Center(
-                child: Text('ㅗㅗㅗㅗㅗㅗ'),
+                child: Text('에러발생~'),
               );
             } else if (snapshot.hasData) {
               List<MountainsModel> mountainList = snapshot.data!;
@@ -84,7 +82,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                           onTap: () {
                             AlertDialog dialog = AlertDialog(
                               content: Text(
-                                '위도: ${mountainList.elementAt(index).latitude}\n경도: ${mountainList.elementAt(index).longitude}',
+                                '${mountainList.elementAt(index).mntnName} - ${mountainList.elementAt(index).info}\n${mountainList.elementAt(index).reason}',
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
