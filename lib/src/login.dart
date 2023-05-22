@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/screens/survey_screen.dart';
 
 import '../models/login_model.dart';
+import '../screens/home_screen.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -54,38 +55,32 @@ class Login extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              return SurveyScreen(uid: FirebaseAuth.instance.currentUser!.uid);
+              //return SurveyScreen(uid: FirebaseAuth.instance.currentUser!.uid);
 
-              // List<LoginModel> users = snapshot.data!;
-              // final user = FirebaseAuth.instance.currentUser;
-              // late int index;
+              List<LoginModel> users = snapshot.data!;
+              final user = FirebaseAuth.instance.currentUser;
 
-              // // 만약 이미 데이터베이스에 해당 유저가 존재하면 바로 넘김
-              // for (int i = 0; i < users.length; i++) {
-              //   index = i;
-              //   if (users[i].userId == user!.uid) {
-              //     if (users[i].isSurvey) {
-              //       return HomeScreen(uid: users[i].id);
-              //     } else {
-              //       return SurveyScreen(uid: users[i].id);
-              //     }
-              //   }
-              // }
+              // 만약 이미 데이터베이스에 해당 유저가 존재하면 바로 넘김
+              for (int i = 0; i < users.length; i++) {
+                if (users[i].userId == user!.uid) {
+                  return HomeScreen(uid: users[i].id);
+                }
+              }
 
-              // // 데이터베이스에 존재하지 않는 신규유저이면 데이터베이스에 저장 후 넘김
-              // LoginModel loginModel = LoginModel(
-              //   isSurvey: false,
-              //   userId: user!.uid,
-              //   userName: user.displayName!,
-              // );
+              // 데이터베이스에 존재하지 않는 신규유저이면 데이터베이스에 저장 후 넘김
+              LoginModel loginModel = LoginModel(
+                isSurvey: false,
+                userId: user!.uid,
+                userName: user.displayName!,
+              );
 
-              // // 파이어베이스에 유저정보 저장
-              // FirebaseFirestore.instance
-              //     .collection('user')
-              //     .add(loginModel.toMap());
+              // 파이어베이스에 유저정보 저장
+              FirebaseFirestore.instance
+                  .collection('user')
+                  .add(loginModel.toMap());
 
-              // // 설문조사로 넘김
-              // return HomeScreen(uid: users[index].id);
+              // 설문조사로 넘김
+              return SurveyScreen(uid: user.uid);
             },
           );
         }

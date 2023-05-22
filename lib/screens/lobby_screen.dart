@@ -182,6 +182,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                 _selections[i] = false;
                               }
                             }
+                            selected = true;
                           });
                         },
                         color: Colors.black54,
@@ -198,27 +199,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         ],
                       ),
                     ),
-                    _selections[0]
-                        ? const SizedBox(
-                            height: 50,
-                            child: Text(
-                              '상',
-                              style: TextStyle(fontSize: 60),
-                            ),
-                          )
-                        : Container(),
-                    _selections[1]
-                        ? const SizedBox(
-                            height: 50,
-                            child: Text('중'),
-                          )
-                        : Container(),
-                    _selections[2]
-                        ? const SizedBox(
-                            height: 50,
-                            child: Text('하'),
-                          )
-                        : Container(),
+                    selected ? selectedList() : Container(),
                   ],
                 ),
               ),
@@ -227,5 +208,43 @@ class _LobbyScreenState extends State<LobbyScreen> {
         }
       },
     );
+  }
+
+  // 난이도별 등산로 List출력
+  Widget selectedList() {
+    String target;
+    List<MountainsModel> result = [];
+
+    _selections[0]
+        ? target = '상'
+        : (_selections[1] ? target = '중' : target = '하');
+
+    for (var temp in widget.mountains) {
+      if (temp.difficulty == target) {
+        result.add(temp);
+      }
+    }
+    return ListView.separated(
+        itemCount: result.length,
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(8.0),
+              title: Text(
+                result[index].mntnName,
+                style: const TextStyle(fontSize: 16.5),
+              ),
+              subtitle: Text(result[index].difficulty),
+              dense: true,
+              leading: const Icon(
+                Icons.filter_frames,
+                color: Colors.black26,
+              ),
+              onTap: () {},
+            ),
+          );
+        });
   }
 }

@@ -3,6 +3,9 @@ class SurveyModel {
   final String gender;
   final String age;
   final String walk;
+  final String height;
+  final String distance;
+  final String time;
   final String mbti;
 
   SurveyModel({
@@ -10,6 +13,9 @@ class SurveyModel {
     this.gender = ' ',
     this.age = ' ',
     this.walk = ' ',
+    this.height = ' ',
+    this.distance = ' ',
+    this.time = ' ',
     this.mbti = ' ',
   });
 
@@ -22,6 +28,9 @@ class SurveyModel {
       gender: map['gender'] ?? ' ',
       age: map['age'] ?? ' ',
       walk: map['walk'] ?? ' ',
+      height: map['height'] ?? ' ',
+      distance: map['distance'] ?? ' ',
+      time: map['time'] ?? ' ',
       mbti: map['mbti'] ?? ' ',
     );
   }
@@ -31,6 +40,9 @@ class SurveyModel {
     data["age"] = age;
     data["gender"] = gender;
     data["walk"] = walk;
+    data["height"] = height;
+    data["distance"] = distance;
+    data["time"] = time;
     data["mbti"] = mbti;
     return data;
   }

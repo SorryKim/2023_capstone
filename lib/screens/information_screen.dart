@@ -27,7 +27,6 @@ class _InformationScreenState extends State<InformationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getGender(widget.uid);
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -49,7 +48,7 @@ class _InformationScreenState extends State<InformationScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Container(
                 child: Column(
                   children: [
@@ -189,15 +188,16 @@ class _InformationScreenState extends State<InformationScreen> {
         await FirebaseFirestore.instance.collection('user/$uid/survey').get();
 
     List<dynamic> details = data.docs.toList();
-    late String temp;
-    for (var element in details) {
-      temp = element.id;
-    }
-    var result = await FirebaseFirestore.instance
-        .collection('user/$uid/survey/')
-        .doc(temp)
-        .get();
-    var gender = result.data();
-    return gender!['gender'];
+    print(details);
+    print(widget.uid);
+    //String temp = details[0].id;
+
+    // var result = await FirebaseFirestore.instance
+    //     .collection('user/$uid/survey/')
+    //     .doc(temp)
+    //     .get();
+    //var gender = result.data();
+    //return gender!['gender'];
+    return '남성';
   }
 }
