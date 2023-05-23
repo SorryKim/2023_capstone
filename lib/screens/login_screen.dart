@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                     backgroundColor: Colors.redAccent,
                   ),
                   child: const Text(
-                    "➡️",
+                    "시작하기",
                   ),
                 ),
               ],

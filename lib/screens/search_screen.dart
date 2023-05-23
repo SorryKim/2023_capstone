@@ -127,18 +127,13 @@ class _SearchScreenState extends State<SearchScreen> {
       return ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            leading: ConstrainedBox(
-              constraints: const BoxConstraints(
-                minHeight: 80,
-                minWidth: 80,
-              ),
-            ),
+            leading: Image.asset("images/seolarksan.png"),
             title: Text(searchResult[index].mntnName.toString()),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(searchResult[index].latitude.toString()),
-                Text(searchResult[index].longitude.toString()),
+              children: [
+                Text("등산 난이도 : ${searchResult[index].difficulty}"),
+                Text(searchResult[index].info.toString()),
               ],
             ),
           );

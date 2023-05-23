@@ -8,9 +8,16 @@ import 'package:project/screens/login_screen.dart';
 import 'package:project/screens/search_screen.dart';
 
 final List<String> imgList = [
-  'images/6249016.jpg',
-  'images/6229893.jpg',
-  'images/bukhansan.jpg'
+  "images/deogyusan.png",
+  "images/hallasan.png",
+  "images/jirisan.png",
+  "images/naejangsan.png",
+  "images/namsan.png",
+  "images/olleTrail.png",
+  "images/seolarksan.png",
+  "images/songnisan.png",
+  "images/taebaeksan.png",
+  "images/bukhansan.png"
 ];
 
 class LobbyScreen extends StatefulWidget {
@@ -70,6 +77,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -153,8 +161,24 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(7.0),
-                        child: Text(
-                            '산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].latitude}\n경도: ${widget.mountains[0].longitude}\n'),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                "images/bukhansan.png",
+                                width: 130,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              '\n산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].distance}m\n난이도: ${widget.mountains[0].difficulty}\n',
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -170,36 +194,39 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      child: ToggleButtons(
-                        isSelected: _selections,
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int i = 0; i < 3; i++) {
-                              if (i == index) {
-                                _selections[i] = true;
-                              } else {
-                                _selections[i] = false;
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ToggleButtons(
+                          isSelected: _selections,
+                          onPressed: (int index) {
+                            setState(() {
+                              for (int i = 0; i < 3; i++) {
+                                if (i == index) {
+                                  _selections[i] = true;
+                                } else {
+                                  _selections[i] = false;
+                                }
                               }
-                            }
-                            selected = true;
-                          });
-                        },
-                        color: Colors.black54,
-                        selectedColor: Colors.black,
-                        fillColor: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        borderColor: const Color.fromARGB(255, 10, 68, 12),
-                        selectedBorderColor:
-                            const Color.fromARGB(255, 10, 68, 12),
-                        children: const [
-                          Text('상'),
-                          Text('중'),
-                          Text('하'),
-                        ],
-                      ),
+                              selected = true;
+                            });
+                          },
+                          color: Colors.black54,
+                          selectedColor: Colors.white,
+                          fillColor: const Color.fromARGB(255, 10, 68, 12),
+                          borderRadius: BorderRadius.circular(30),
+                          borderColor: const Color.fromARGB(255, 10, 68, 12),
+                          selectedBorderColor:
+                              const Color.fromARGB(255, 10, 68, 12),
+                          children: const [
+                            Text('                  상              '),
+                            Text('              중               '),
+                            Text('              하                   '),
+                          ],
+                        ),
+                      ],
                     ),
-                    selected ? selectedList() : Container(),
+                    Flexible(child: selected ? selectedList() : Container()),
                   ],
                 ),
               ),
@@ -225,6 +252,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
       }
     }
     return ListView.separated(
+        controller: ScrollController(),
+        shrinkWrap: true,
         itemCount: result.length,
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (context, index) {

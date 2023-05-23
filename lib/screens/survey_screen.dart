@@ -229,10 +229,9 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             child: TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor:
-                    const Color.fromARGB(255, 18, 77, 20), // Background Color
+                backgroundColor: Colors.redAccent, // Background Color
               ),
-              child: const Text("➡️"),
+              child: const Text("마운틴듀 시작하기"),
               onPressed: () {
                 print(_questionResults);
                 if (_questionResults[6].answers[0] == '아니오') {

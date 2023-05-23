@@ -64,9 +64,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
           } else {
             List<CommunityModel> messages = snapshot.data!;
             return Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
+                Flexible(
                   child: ListView.separated(
                       itemCount: messages.length,
                       separatorBuilder: (BuildContext context, int index) =>
