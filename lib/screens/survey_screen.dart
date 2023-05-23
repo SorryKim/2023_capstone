@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_survey/flutter_survey.dart';
 import 'package:project/screens/home_screen.dart';
@@ -240,7 +241,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
                       MaterialPageRoute(
                           builder: (_) => HomeScreen(uid: widget.uid)));
                 } else {
-                  _onPressedSendButton(_questionResults, widget.uid);
+                  _onPressedSendButton(_questionResults);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -254,7 +255,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
     );
   }
 
-  void _onPressedSendButton(List<QuestionResult> questionresult, String uid) {
+  void _onPressedSendButton(List<QuestionResult> questionresult) {
     SurveyModel resultdata = SurveyModel(
       gender: questionresult[0].answers[0],
       age: questionresult[1].answers[0],
@@ -270,18 +271,20 @@ class _SurveyWidgetState extends State<SurveyWidget> {
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      var list = firestore.collection('user/$uid').snapshots();
+      var list = firestore.collection('user/${widget.uid}').snapshots();
+      final user = FirebaseAuth.instance.currentUser;
 
       list.map((snapshot) {
         for (var temp in snapshot.docs) {
           var now = LoginModel.fromMap(id: temp.id, map: temp.data());
-          if (now.isSurvey == true) {
-            return HomeScreen(uid: uid);
+          if (user!.uid == temp.id && now.isSurvey == true) {
+            return HomeScreen(uid: widget.uid);
           }
         }
       });
-      firestore.collection('user/$uid/survey').add(resultdata.toMap());
-      firestore.doc('user/$uid').update({'isSurvey': true});
+
+      firestore.collection('user/${widget.uid}/survey').add(resultdata.toMap());
+      firestore.doc('user/${widget.uid}').update({'isSurvey': true});
     } catch (ex) {
       log('error');
     }
