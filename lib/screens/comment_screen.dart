@@ -68,106 +68,115 @@ class _CommentScreenState extends State<CommentScreen> {
               );
             } else {
               List<CommentModel> comments = snapshot.data!;
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 0, top: 8, left: 8, right: 8),
-                    padding: const EdgeInsets.all(8.0),
-                    height: 70,
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 6, right: 10),
-                              child: Icon(
-                                Icons.face,
-                                size: 25,
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                          bottom: 0, top: 8, left: 8, right: 8),
+                      padding: const EdgeInsets.all(8.0),
+                      height: 70,
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 6, right: 10),
+                                child: Icon(
+                                  Icons.face,
+                                  size: 25,
+                                ),
                               ),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                    '${widget.writerName}\n${readTimestamp(widget.date)}'),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 8, top: 0, left: 8, right: 8),
-                    padding: const EdgeInsets.all(8.0),
-                    height: 100,
-                    width: double.infinity,
-                    child: Text(
-                      widget.description,
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: 100,
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.recommend_rounded,
-                            color: Colors.red,
+                              Column(
+                                children: [
+                                  Text(
+                                      '${widget.writerName}\n${readTimestamp(widget.date)}'),
+                                ],
+                              )
+                            ],
                           ),
-                          onPressed: _onPressedLikeButton,
-                          iconSize: 25,
-                        ),
-                        Text(widget.like.toString()),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        Transform.rotate(
-                          angle: 3.14,
-                          child: IconButton(
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          bottom: 8, top: 0, left: 8, right: 8),
+                      padding: const EdgeInsets.all(8.0),
+                      height: 100,
+                      width: double.infinity,
+                      child: Text(
+                        widget.description,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      height: 100,
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
                             icon: const Icon(
-                              Icons.recommend,
-                              color: Colors.blue,
+                              Icons.recommend_rounded,
+                              color: Colors.red,
                             ),
-                            onPressed: _onPressedDislikeButton,
+                            onPressed: _onPressedLikeButton,
                             iconSize: 25,
                           ),
-                        ),
-                        Text(widget.dislike.toString()),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: comments.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(8.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              side: const BorderSide(
-                                  color: Color.fromARGB(255, 10, 68, 12),
-                                  width: 1)),
-                          title: Text(comments[index].message),
-                          subtitle: Text(
-                            comments[index].userName,
-                            textAlign: TextAlign.end,
+                          Text(widget.like.toString()),
+                          const SizedBox(
+                            height: 17,
                           ),
-                        ),
-                      );
-                    },
-                  )),
-                  getInputWidget(),
-                ],
+                          Transform.rotate(
+                            angle: 3.14,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.recommend,
+                                color: Colors.blue,
+                              ),
+                              onPressed: _onPressedDislikeButton,
+                              iconSize: 25,
+                            ),
+                          ),
+                          Text(widget.dislike.toString()),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                        child: ListView.separated(
+                      itemCount: comments.length,
+                      shrinkWrap: true,
+                      controller: ScrollController(),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: const BorderSide(
+                                    color: Color.fromARGB(255, 10, 68, 12),
+                                    width: 1)),
+                            title: Text(comments[index].message),
+                            subtitle: Text(
+                              comments[index].userName,
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                        );
+                      },
+                    )),
+                    getInputWidget(),
+                  ],
+                ),
               );
             }
           },
@@ -201,19 +210,23 @@ class _CommentScreenState extends State<CommentScreen> {
   // 댓글 전송 메소드
   void _onPressedSendButton() {
     try {
-      CommentModel messageModel = CommentModel(
-        sendDate: Timestamp.now(),
-        message: controller.text,
-        userName: user!.displayName!,
-        userId: user!.uid,
-      );
+      if (controller.text.isEmpty) {
+        _showdialog(context);
+      } else {
+        CommentModel messageModel = CommentModel(
+          sendDate: Timestamp.now(),
+          message: controller.text,
+          userName: user!.displayName!,
+          userId: user!.uid,
+        );
 
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      firestore
-          .collection(
-              'community/dkKeHkBBOTap6hZE9tG2/messages/${widget.descriptionId}/comment/')
-          .add(messageModel.toMap());
-      controller.text = '';
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
+        firestore
+            .collection(
+                'community/dkKeHkBBOTap6hZE9tG2/messages/${widget.descriptionId}/comment/')
+            .add(messageModel.toMap());
+        controller.text = '';
+      }
     } catch (ex) {
       log('error');
     }
@@ -331,6 +344,21 @@ class _CommentScreenState extends State<CommentScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> _showdialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(''),
+        content: const Text('내용을 입력해주세요!'),
+        actions: [
+          ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('닫기')),
+        ],
       ),
     );
   }
