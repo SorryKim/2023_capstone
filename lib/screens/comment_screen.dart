@@ -210,7 +210,7 @@ class _CommentScreenState extends State<CommentScreen> {
   // 댓글 전송 메소드
   void _onPressedSendButton() {
     try {
-      if (controller.text.isEmpty) {
+      if (controller.text.replaceAll(' ', '') == '') {
         _showdialog(context);
       } else {
         CommentModel messageModel = CommentModel(
