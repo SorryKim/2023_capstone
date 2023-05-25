@@ -190,14 +190,13 @@ class _InformationScreenState extends State<InformationScreen> {
     List<dynamic> details = data.docs.toList();
     print(details);
     print(widget.uid);
-    //String temp = details[0].id;
+    String temp = details[0].id;
 
-    // var result = await FirebaseFirestore.instance
-    //     .collection('user/$uid/survey/')
-    //     .doc(temp)
-    //     .get();
-    //var gender = result.data();
-    //return gender!['gender'];
-    return '남성';
+    var result = await FirebaseFirestore.instance
+        .collection('user/$uid/survey/')
+        .doc(temp)
+        .get();
+    var gender = result.data();
+    return gender!['gender'];
   }
 }

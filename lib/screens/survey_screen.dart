@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_survey/flutter_survey.dart';
 import 'package:project/screens/home_screen.dart';
@@ -232,15 +231,19 @@ class _SurveyWidgetState extends State<SurveyWidget> {
                 backgroundColor: Colors.redAccent, // Background Color
               ),
               child: const Text("마운틴듀 시작하기"),
-              onPressed: () {
-                print(_questionResults);
-                if (_questionResults[6].answers[0] == '아니오') {
+              onPressed: () async {
+                var now = await FirebaseFirestore.instance
+                    .collection('user/')
+                    .doc(widget.uid)
+                    .get();
+                var temp = now.data();
+                if (temp!['isSurvey'] == false) {
+                  _onPressedSendButton(_questionResults);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (_) => HomeScreen(uid: widget.uid)));
                 } else {
-                  _onPressedSendButton(_questionResults);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -267,20 +270,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
 
     try {
       // 파이어베이스에 설문결과를 유저 테이블에 저장
-
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-      var list = firestore.collection('user/${widget.uid}').snapshots();
-      final user = FirebaseAuth.instance.currentUser;
-
-      list.map((snapshot) {
-        for (var temp in snapshot.docs) {
-          var now = LoginModel.fromMap(id: temp.id, map: temp.data());
-          if (user!.uid == temp.id && now.isSurvey == true) {
-            return HomeScreen(uid: widget.uid);
-          }
-        }
-      });
 
       firestore.collection('user/${widget.uid}/survey').add(resultdata.toMap());
       firestore.doc('user/${widget.uid}').update({'isSurvey': true});
@@ -315,6 +305,9 @@ class _SurveyWidgetState extends State<SurveyWidget> {
 String mbtiSurvey(List<QuestionResult> questionresult) {
   List<String> mbtiresult = [];
 
+  if (questionresult[6].children.isEmpty) {
+    return '';
+  }
   // E or I
   if (questionresult[6].children[0].answers[0] ==
       "\"같이 등산가실분 구해요~!\" 커뮤니티에 글을 올려 함께 등산을 즐긴다.") {

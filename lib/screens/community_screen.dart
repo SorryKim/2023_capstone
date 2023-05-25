@@ -209,7 +209,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     }
   }
 
-  // 버튼이 눌릴시 파이어베이스에 데이터 전송
+  // 파이어베이스에 데이터 전송
   void _onPressedSendButton() {
     try {
       CommunityModel messageModel = CommunityModel(
