@@ -18,7 +18,7 @@ class LoginModel {
       id: id,
       userName: map['userName'] ?? '',
       userId: map['userId'] ?? '',
-      isSurvey: map['isSurvey'],
+      isSurvey: map['isSurvey'] ?? false,
     );
   }
 

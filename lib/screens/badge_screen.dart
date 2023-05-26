@@ -9,7 +9,8 @@ import '../models/mountains_model.dart';
 
 class BadgeScreen extends StatefulWidget {
   List<MountainsModel> mountains;
-  BadgeScreen({super.key, required this.mountains});
+  String uid;
+  BadgeScreen({super.key, required this.mountains, required this.uid});
 
   @override
   State<BadgeScreen> createState() => _BadgeScreenState();
@@ -18,7 +19,6 @@ class BadgeScreen extends StatefulWidget {
 class _BadgeScreenState extends State<BadgeScreen> {
   @override
   Widget build(BuildContext context) {
-    streamMountains();
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -37,15 +37,12 @@ class _BadgeScreenState extends State<BadgeScreen> {
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
-      body: StreamBuilder<List<MountainsModel>>(
-          stream: streamMountains(),
+      body: FutureBuilder(
+          future: checkMountainList(),
           builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text('에러발생~'),
-              );
-            } else if (snapshot.hasData) {
-              List<MountainsModel> mountainList = snapshot.data!;
+            if (snapshot.hasData) {
+              List<dynamic> checkList = snapshot.data!;
+              print(checkList);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,7 +65,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                   ),
                   Expanded(
                     child: GridView.builder(
-                      itemCount: mountainList.length,
+                      itemCount: widget.mountains.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
@@ -85,7 +82,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                                 height: 25,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  mountainList.elementAt(index).mntnName,
+                                  widget.mountains.elementAt(index).mntnName,
                                   style: const TextStyle(
                                     fontSize: 17,
                                   ),
@@ -96,7 +93,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                           onTap: () {
                             AlertDialog dialog = AlertDialog(
                               content: Text(
-                                '${mountainList.elementAt(index).mntnName} - ${mountainList.elementAt(index).info}\n${mountainList.elementAt(index).reason}',
+                                '${widget.mountains.elementAt(index).mntnName} - ${widget.mountains.elementAt(index).info}\n${widget.mountains.elementAt(index).reason}',
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
@@ -113,9 +110,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                 ],
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );
@@ -144,6 +139,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
     }
   }
 
+  // 현재 유저의 위치를 가져오는 메소드
   Future<void> getLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -160,5 +156,33 @@ class _BadgeScreenState extends State<BadgeScreen> {
     // }
 
     return "image/mountain_gray.png";
+  }
+
+  // 현재 유저의 등산업적목록을 가져오는 메소드,
+  // 업적목록이 없는 경우 새로 생성
+  Future<List<dynamic>> checkMountainList() async {
+    var data = await FirebaseFirestore.instance
+        .collection('user/${widget.uid}/mountains')
+        .get();
+
+    List<dynamic> dataList = data.docs.toList();
+    // mountains가 없을 경우
+    if (dataList.isEmpty) {
+      for (var temp in widget.mountains) {
+        FirebaseFirestore.instance
+            .collection('user/${widget.uid}/mountains')
+            .add({
+          'mntnName': temp.mntnName,
+          'check': false,
+        });
+      }
+    }
+
+    // mountains가 있는 경우
+    List<dynamic> result = [];
+    for (var temp in dataList) {
+      result.add({'name': temp['name'], 'check': temp['check']});
+    }
+    return result;
   }
 }
