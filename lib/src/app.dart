@@ -22,7 +22,7 @@ class App extends StatelessWidget {
           return const LoginScreen();
         }
 
-        return const CircularProgressIndicator();
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

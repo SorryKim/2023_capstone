@@ -41,14 +41,11 @@ class _BadgeScreenState extends State<BadgeScreen> {
           future: checkMountainList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<dynamic> checkList = snapshot.data!;
+              List<Map<String, dynamic>> checkList = snapshot.data!;
               print(checkList);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -63,9 +60,23 @@ class _BadgeScreenState extends State<BadgeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.lightGreen),
+                        child: const Text('뱃지 갱신!'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   Expanded(
                     child: GridView.builder(
-                      itemCount: widget.mountains.length,
+                      itemCount: checkList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
@@ -77,12 +88,14 @@ class _BadgeScreenState extends State<BadgeScreen> {
                         return GestureDetector(
                           child: Column(
                             children: [
-                              Image.asset("images/mountain_gray.png"),
+                              checkList.elementAt(index)['check']
+                                  ? Image.asset("images/mountain.png")
+                                  : Image.asset("images/mountain_gray.png"),
                               Container(
                                 height: 25,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  widget.mountains.elementAt(index).mntnName,
+                                  checkList.elementAt(index)['mntnName'],
                                   style: const TextStyle(
                                     fontSize: 17,
                                   ),
@@ -93,7 +106,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                           onTap: () {
                             AlertDialog dialog = AlertDialog(
                               content: Text(
-                                '${widget.mountains.elementAt(index).mntnName} - ${widget.mountains.elementAt(index).info}\n${widget.mountains.elementAt(index).reason}',
+                                '${checkList.elementAt(index)['mntnName']} - ${checkList.elementAt(index)['info']}\n${checkList.elementAt(index)['reason']}',
                                 style: const TextStyle(
                                   fontSize: 10,
                                 ),
@@ -160,7 +173,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
 
   // 현재 유저의 등산업적목록을 가져오는 메소드,
   // 업적목록이 없는 경우 새로 생성
-  Future<List<dynamic>> checkMountainList() async {
+  Future<List<Map<String, dynamic>>> checkMountainList() async {
     var data = await FirebaseFirestore.instance
         .collection('user/${widget.uid}/mountains')
         .get();
@@ -169,20 +182,40 @@ class _BadgeScreenState extends State<BadgeScreen> {
     // mountains가 없을 경우
     if (dataList.isEmpty) {
       for (var temp in widget.mountains) {
-        FirebaseFirestore.instance
+        await FirebaseFirestore.instance
             .collection('user/${widget.uid}/mountains')
             .add({
+          'difficulty': temp.difficulty,
           'mntnName': temp.mntnName,
+          'info': temp.info,
+          'reason': temp.reason,
+          'timeTaken': temp.timeTaken,
+          'distance': temp.distance,
+          'height': temp.height,
+          'latitude': temp.latitude,
+          'longitude': temp.longitude,
           'check': false,
         });
       }
     }
 
     // mountains가 있는 경우
-    List<dynamic> result = [];
+    List<Map<String, dynamic>> result = [];
     for (var temp in dataList) {
-      result.add({'name': temp['name'], 'check': temp['check']});
+      result.add({
+        'difficulty': temp['difficulty'],
+        'mntnName': temp['mntnName'],
+        'info': temp['info'],
+        'reason': temp['reason'],
+        'timeTaken': temp['timeTaken'],
+        'distance': temp['distance'],
+        'height': temp['height'],
+        'latitude': temp['latitude'],
+        'longitude': temp['longitude'],
+        'check': temp['check'],
+      });
     }
+
     return result;
   }
 }
