@@ -51,7 +51,7 @@ class _CommentScreenState extends State<CommentScreen> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: Colors.amber,
+          backgroundColor: Colors.redAccent,
           elevation: 0.0,
         ),
         body: StreamBuilder<List<CommentModel>>(
