@@ -59,7 +59,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                     padding: EdgeInsets.all(10),
                     child: LinearProgressIndicator(
                       value: 0.7,
-                      color: Colors.greenAccent, //<-- SEE HERE
+                      color: Colors.redAccent, //<-- SEE HERE
                       backgroundColor: Colors.grey, //<-- SEE HERE
                     ),
                   ),

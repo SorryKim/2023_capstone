@@ -40,7 +40,7 @@ dependencies:
   firebase_core: ^2.9.0
   cloud_firestore: ^4.5.0
   firebase_auth: ^4.4.0
-  google_sign_in: ^6.0.2
+  google_sign_in: ^5.4.4
   flutter_survey: ^0.1.4
   step_progress_indicator: ^1.0.2
   shake: ^2.2.0
@@ -50,6 +50,7 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_swiper_plus: ^2.0.4
   flutter_native_splash: ^2.3.0
+# google_fonts: ^4.0.5 // 오류
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
@@ -194,7 +195,7 @@ flutter_native_splash:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  http: ^0.13.6 
+  http: ^0.13.6
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -209,6 +210,10 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
+#  fonts:
+ #   - family: PaytoneOne
+  #    fonts:
+   #     - asset: fonts/PaytoneOne-Regular.ttf
   assets:
    - images/google_logo.png
    - images/mount-removebg-preview.png

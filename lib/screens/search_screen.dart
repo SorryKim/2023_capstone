@@ -41,7 +41,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 decoration: const InputDecoration(
                   // 사용자가 선택했을 경우
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 10, 11, 70),
+                    ),
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
@@ -49,7 +51,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   // 사용가능한 경우
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 10, 11, 70),
+                    ),
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),

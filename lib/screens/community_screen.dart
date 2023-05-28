@@ -7,6 +7,21 @@ import 'package:flutter/services.dart';
 import 'package:project/models/community_model.dart';
 import 'package:project/screens/comment_screen.dart';
 
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        primaryColor: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+    );
+  }
+}
+
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
 
@@ -43,7 +58,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             onPressed: () {
               myDialog(context);
             },
-            color: Colors.redAccent,
+            color: const Color.fromARGB(255, 10, 11, 70),
             iconSize: 40,
           )
         ],
@@ -82,10 +97,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             ),
                             subtitle: Text(messages[index].userName),
                             dense: true,
-                            leading: const Icon(
-                              Icons.filter_frames,
-                              color: Colors.black26,
-                            ),
+                            leading: Image.asset('images/dew.png'),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -131,9 +143,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.edit_square),
                   labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "커뮤니티에 하고싶은 말을 남겨보세요",
+                  hintText: "커뮤니티에 하고싶은 말을 남겨보세요",
                   fillColor: Colors.white,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),

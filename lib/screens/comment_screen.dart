@@ -51,7 +51,7 @@ class _CommentScreenState extends State<CommentScreen> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.amber,
           elevation: 0.0,
         ),
         body: StreamBuilder<List<CommentModel>>(
@@ -149,12 +149,10 @@ class _CommentScreenState extends State<CommentScreen> {
                       ),
                     ),
                     Flexible(
-                        child: ListView.separated(
+                        child: ListView.builder(
                       itemCount: comments.length,
                       shrinkWrap: true,
                       controller: ScrollController(),
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -163,8 +161,7 @@ class _CommentScreenState extends State<CommentScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
-                                    color: Color.fromARGB(255, 10, 68, 12),
-                                    width: 1)),
+                                    color: Colors.black12, width: 1)),
                             title: Text(comments[index].message),
                             subtitle: Text(
                               comments[index].userName,
@@ -307,12 +304,12 @@ class _CommentScreenState extends State<CommentScreen> {
                 controller: controller,
                 decoration: InputDecoration(
                   labelStyle: const TextStyle(fontSize: 15),
-                  labelText: "댓글을 남겨보세요!",
                   fillColor: Colors.white,
+                  hintText: '댓글을 남겨보세요',
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 10, 68, 12),
+                      color: Color.fromARGB(255, 0, 132, 4),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -332,7 +329,7 @@ class _CommentScreenState extends State<CommentScreen> {
               onPressed: _onPressedSendButton, //전송버튼을 누를때 동작시킬 메소드
               constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               elevation: 2,
-              fillColor: const Color.fromARGB(255, 10, 68, 12),
+              fillColor: const Color.fromARGB(255, 0, 132, 4),
               shape: const CircleBorder(),
               child: const Padding(
                 padding: EdgeInsets.all(10),

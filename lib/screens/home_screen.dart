@@ -52,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 5, top: 3),
                       child: const TabBar(
                         indicatorSize: TabBarIndicatorSize.label,
-                        indicatorColor: Color.fromARGB(255, 10, 68, 12),
+                        indicatorColor: Color.fromARGB(255, 0, 0, 0),
                         indicatorWeight: 2,
-                        labelColor: Color.fromARGB(255, 10, 68, 12),
+                        labelColor: Color.fromARGB(255, 0, 0, 0),
                         unselectedLabelColor: Colors.black54,
                         labelStyle: TextStyle(
                           fontSize: 13,

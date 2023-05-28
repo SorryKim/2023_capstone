@@ -67,7 +67,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         builder: (context) =>
                             InformationScreen(uid: widget.uid)));
                   },
-                  color: const Color.fromARGB(255, 10, 68, 12),
+                  color: Colors.black45,
                   iconSize: 40,
                 )
               ],
@@ -89,11 +89,16 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         ),
                         Flexible(
                           flex: 1,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
                               fixedSize: const Size(400, 25),
                               foregroundColor: Colors.black,
                               backgroundColor: Colors.white,
+                              elevation: 0.0,
+                              side: const BorderSide(
+                                width: 2,
+                                color: Colors.black12,
+                              ),
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -116,7 +121,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     ),
                     Container(
                       color: Colors.white,
-                      height: 250,
+                      height: 200,
                       child: Padding(
                         padding: const EdgeInsets.all(1),
                         child: Swiper(
@@ -137,7 +142,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       height: 30,
                     ),
                     Text(
-                      '${user!.displayName} 님을 위한 추천 등산로',
+                      '${user!.displayName}님을 위한 추천 등산로',
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -152,9 +157,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: const Color.fromARGB(255, 10, 68, 12),
+                          color: Colors.black26,
                           style: BorderStyle.solid,
                           width: 1,
                         ),
@@ -166,12 +171,12 @@ class _LobbyScreenState extends State<LobbyScreen> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(
-                                "images/bukhansan.png",
+                                "images/dew.png",
                                 width: 130,
                               ),
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 40,
                             ),
                             Text(
                               '\n산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].distance}m\n난이도: ${widget.mountains[0].difficulty}\n',
@@ -213,15 +218,14 @@ class _LobbyScreenState extends State<LobbyScreen> {
                           },
                           color: Colors.black54,
                           selectedColor: Colors.white,
-                          fillColor: const Color.fromARGB(255, 10, 68, 12),
-                          borderRadius: BorderRadius.circular(30),
-                          borderColor: const Color.fromARGB(255, 10, 68, 12),
-                          selectedBorderColor:
-                              const Color.fromARGB(255, 10, 68, 12),
+                          fillColor: const Color.fromARGB(255, 10, 11, 70),
+                          borderRadius: BorderRadius.circular(10),
+                          borderColor: Colors.black26,
+                          selectedBorderColor: Colors.black87,
                           children: const [
-                            Text('                  상              '),
-                            Text('              중               '),
-                            Text('              하                   '),
+                            Text('                상                '),
+                            Text('                중                '),
+                            Text('                하                '),
                           ],
                         ),
                       ],
