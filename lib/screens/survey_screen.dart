@@ -22,6 +22,8 @@ class SurveyScreen extends StatelessWidget {
       title: 'Flutter Survey Demo',
       theme: ThemeData(
         brightness: Brightness.light,
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MountainDew',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: const Color.fromARGB(255, 10, 68, 12),
+        primaryColor: Colors.red,
       ),
       home: const App(),
     );
