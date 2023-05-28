@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MountainDew',
       theme: ThemeData(
+        fontFamily: 'SCDream4',
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: Colors.red,

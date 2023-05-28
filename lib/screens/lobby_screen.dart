@@ -52,10 +52,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
               title: const Text(
                 'MOUNTAINDEW',
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                    fontSize: 19,
+                    color: Colors.black,
+                    fontFamily: 'ClimateCrisisKR'),
               ),
               backgroundColor: Colors.white,
               elevation: 0.0,
@@ -111,9 +110,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                             child: const Text(
                               '등산로 검색 바로가기',
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: 'SCDream4'),
                             ),
                           ),
                         ),
@@ -144,9 +143,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     Text(
                       '${user!.displayName}님을 위한 추천 등산로',
                       style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'SCDream4'),
                     ),
                     const SizedBox(
                       height: 10,
@@ -192,9 +191,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     const Text(
                       '난이도별 등산로',
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'SCDream4'),
                     ),
                     const SizedBox(
                       height: 10,

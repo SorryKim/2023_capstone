@@ -232,7 +232,10 @@ class _SurveyWidgetState extends State<SurveyWidget> {
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.redAccent, // Background Color
               ),
-              child: const Text("마운틴듀 시작하기"),
+              child: const Text(
+                "마운틴듀 시작하기",
+                style: TextStyle(fontFamily: 'SCDream4'),
+              ),
               onPressed: () async {
                 var now = await FirebaseFirestore.instance
                     .collection('user/')

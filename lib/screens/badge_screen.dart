@@ -29,10 +29,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
         title: const Text(
           'MOUNTAINDEW',
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+              fontSize: 19, color: Colors.black, fontFamily: 'ClimateCrisisKR'),
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,

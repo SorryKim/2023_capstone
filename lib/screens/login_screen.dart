@@ -39,18 +39,20 @@ class LoginScreen extends StatelessWidget {
                   width: 250,
                 ),
                 const Text(
-                  'MOUNTAIN DEW',
+                  'MOUNTAINDEW',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                  ),
+                      fontSize: 19,
+                      color: Colors.black,
+                      fontFamily: 'ClimateCrisisKR'),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 const Text(
                   '등산 도우미 앱',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.black26,
+                    color: Colors.black38,
                   ),
                 ),
                 const SizedBox(
