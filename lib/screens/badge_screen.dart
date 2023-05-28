@@ -42,7 +42,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Map<String, dynamic>> checkList = snapshot.data!;
-              print(checkList);
+              //print(checkList);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,7 +64,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _onPressedSendButton,
                         style: TextButton.styleFrom(
                             backgroundColor: Colors.lightGreen),
                         child: const Text('뱃지 갱신!'),
@@ -129,6 +129,16 @@ class _BadgeScreenState extends State<BadgeScreen> {
     );
   }
 
+  void _onPressedSendButton() async {
+    await checkPosition();
+
+    int lat = await getLat();
+    int lot = await getLot();
+
+    print(lat);
+    print(lot);
+  }
+
   Stream<List<MountainsModel>> streamMountains() {
     try {
       // 원하는 컬렉션의 스냅샷 가져오기
@@ -153,22 +163,60 @@ class _BadgeScreenState extends State<BadgeScreen> {
   }
 
   // 현재 유저의 위치를 가져오는 메소드
-  Future<void> getLocation() async {
+  Future<Position> getLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+
+    return position;
     //longitude = position.longitude;
     //latitude = position.latitude;
   }
 
-  String swapImage(lot, lat) {
-    // getLocation();
-    // if (lot == longitude && lat == latitude) {
-    //   return "image/mountain.png";
-    // } else {
-    //   return "image/mountain_gray.png";
-    // }
+  // 현재 위도 반환
+  Future<int> getLat() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
-    return "image/mountain_gray.png";
+    return (position.latitude * 100).toInt();
+  }
+
+  // 현재 경도 반환
+  Future<int> getLot() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    return (position.longitude * 100).toInt();
+  }
+
+  // String swapImage(Function() getLat, Function() getLot) {
+  //   double myLat = getLat();
+  //   double myLot = getLot();
+
+  //   if (myLat == checkList.elementAt(index)['mntnName']) {
+  //     return "image/mountain_gray.png";
+  //   }
+  // }
+
+  Future<void> checkPosition() async {
+    var data = await FirebaseFirestore.instance
+        .collection('user/${widget.uid}/mountains')
+        .get();
+
+    List<dynamic> dataList = data.docs.toList();
+
+    for (var temp in dataList) {
+      double nowLat = temp['latitude'];
+      double nowLot = temp['longitude'];
+
+      if (getLat() == (nowLat * 100).toInt &&
+          getLot() == (nowLot * 100).toInt()) {
+        await FirebaseFirestore.instance
+            .doc('user/${widget.uid}/mountains/${temp['id']}')
+            .update({
+          'check': true,
+        });
+      }
+    }
   }
 
   // 현재 유저의 등산업적목록을 가져오는 메소드,
