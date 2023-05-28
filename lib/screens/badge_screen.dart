@@ -131,12 +131,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
 
   void _onPressedSendButton() async {
     await checkPosition();
-
-    int lat = await getLat();
-    int lot = await getLot();
-
-    print(lat);
-    print(lot);
+    setState(() {});
   }
 
   Stream<List<MountainsModel>> streamMountains() {
@@ -198,20 +193,24 @@ class _BadgeScreenState extends State<BadgeScreen> {
   // }
 
   Future<void> checkPosition() async {
+    int nowLat = await getLat();
+    int nowLot = await getLot();
+
     var data = await FirebaseFirestore.instance
         .collection('user/${widget.uid}/mountains')
         .get();
-
     List<dynamic> dataList = data.docs.toList();
 
-    for (var temp in dataList) {
-      double nowLat = temp['latitude'];
-      double nowLot = temp['longitude'];
+    // 현재위치와 DB의 저장된 위도경도를 비교하고 해당하는 경우
+    // check항목 true로 update
+    for (var i = 0; i < dataList.length; i++) {
+      double thisLat = dataList[i]['latitude'];
+      double thisLot = dataList[i]['longitude'];
 
-      if (getLat() == (nowLat * 100).toInt &&
-          getLot() == (nowLot * 100).toInt()) {
+      if (nowLat == (thisLat * 100).toInt() &&
+          nowLot == (thisLot * 100).toInt()) {
         await FirebaseFirestore.instance
-            .doc('user/${widget.uid}/mountains/${temp['id']}')
+            .doc('user/${widget.uid}/mountains/${data.docs[i].reference.id}')
             .update({
           'check': true,
         });
