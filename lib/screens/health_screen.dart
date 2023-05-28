@@ -43,6 +43,8 @@ class _HealthAppState extends State<HealthApp> {
   List<HealthDataPoint> minlist = [];
   List<HealthDataPoint> distancelist = [];
 
+  var start;
+
   static final types = [
     HealthDataType.STEPS,
     HealthDataType.ACTIVE_ENERGY_BURNED,
@@ -90,8 +92,7 @@ class _HealthAppState extends State<HealthApp> {
     List<HealthDataType> min = [HealthDataType.MOVE_MINUTES];
     List<HealthDataType> distance = [HealthDataType.DISTANCE_DELTA];
     int? steps;
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+    start = DateTime.now();
 
     bool requestedstep =
         await health.requestAuthorization([HealthDataType.STEPS]);
@@ -100,12 +101,12 @@ class _HealthAppState extends State<HealthApp> {
 
     if (requestedstep && requestedcal) {
       try {
-        steps = await health.getTotalStepsInInterval(midnight, now);
-        start_nofSteps = steps!;
-        callist = await health.getHealthDataFromTypes(midnight, now, cal);
-        minlist = await health.getHealthDataFromTypes(midnight, now, min);
-        distancelist =
-            await health.getHealthDataFromTypes(midnight, now, distance);
+        // steps = await health.getTotalStepsInInterval(start, now);
+        // start_nofSteps = steps!;
+        // callist = await health.getHealthDataFromTypes(start, now, cal);
+        // minlist = await health.getHealthDataFromTypes(start, now, min);
+        // distancelist =
+        //     await health.getHealthDataFromTypes(start, now, distance);
       } catch (error) {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
@@ -257,11 +258,10 @@ class _HealthAppState extends State<HealthApp> {
     List<HealthDataType> min = [HealthDataType.MOVE_MINUTES];
     List<HealthDataType> distance = [HealthDataType.DISTANCE_DELTA];
 
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    callist = await health.getHealthDataFromTypes(midnight, now, cal);
-    minlist = await health.getHealthDataFromTypes(midnight, now, min);
-    distancelist = await health.getHealthDataFromTypes(midnight, now, distance);
+    DateTime now = DateTime.now();
+    callist = await health.getHealthDataFromTypes(start, now, cal);
+    minlist = await health.getHealthDataFromTypes(start, now, min);
+    distancelist = await health.getHealthDataFromTypes(start, now, distance);
 
     _calories = startvalue(callist);
     _min = startvalue(minlist);
@@ -271,8 +271,7 @@ class _HealthAppState extends State<HealthApp> {
   Future step() async {
     int? steps;
     final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    steps = await health.getTotalStepsInInterval(midnight, now);
+    steps = await health.getTotalStepsInInterval(start, now);
     _nofSteps = (steps == null) ? 0 : steps;
   }
 
@@ -280,12 +279,12 @@ class _HealthAppState extends State<HealthApp> {
     await step();
     await cleanlist();
     await createlist();
-    setState(() {
-      _nofSteps -= start_nofSteps;
-      _calories -= start_calories;
-      _min -= start_min;
-      _dis -= start_dis;
-    });
+    // setState(() {
+    //   _nofSteps -= start_nofSteps;
+    //   _calories -= start_calories;
+    //   _min -= start_min;
+    //   _dis -= start_dis;
+    // });
   }
 
   Widget _content() {
@@ -318,8 +317,12 @@ class _HealthAppState extends State<HealthApp> {
                 child:
                     const Text("start", style: TextStyle(color: Colors.white))),
             TextButton(
-                onPressed: () {
-                  func();
+                onPressed: () async {
+                  timer =
+                      Timer.periodic(const Duration(seconds: 1), (timer) async {
+                    await func();
+                    setState(() {});
+                  });
                 },
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue)),
