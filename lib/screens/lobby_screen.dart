@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -174,64 +177,115 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                 width: 130,
                               ),
                             ),
+                            FutureBuilder(
+                                future: recommendMountain(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    List<MountainsModel> recommendList =
+                                        snapshot.data!;
+
+                                    var index =
+                                        Random().nextInt(recommendList.length);
+
+                                    // 추천리스트가 비어있을 경우 첫번쨰 등산로 추천
+                                    var recommendedMountain =
+                                        recommendList.isEmpty
+                                            ? widget.mountains[0]
+                                            : recommendList[index];
+
+                                    return Container(
+                                      height: 100,
+                                      width: 520,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Colors.black26,
+                                          style: BorderStyle.solid,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(7.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "images/dew.png",
+                                                width: 130,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 40,
+                                            ),
+                                            Text(
+                                              '\n산이름: ${recommendedMountain.mntnName}\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }),
                             const SizedBox(
-                              width: 40,
+                              height: 30,
                             ),
-                            Text(
-                              '\n산이름: ${widget.mountains[0].mntnName}\n거리: ${widget.mountains[0].distance}m\n난이도: ${widget.mountains[0].difficulty}\n',
-                              textAlign: TextAlign.start,
+                            const Text(
+                              '난이도별 등산로',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'SCDream4'),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ToggleButtons(
+                                  isSelected: _selections,
+                                  onPressed: (int index) {
+                                    setState(() {
+                                      for (int i = 0; i < 3; i++) {
+                                        if (i == index) {
+                                          _selections[i] = true;
+                                        } else {
+                                          _selections[i] = false;
+                                        }
+                                      }
+                                      selected = true;
+                                    });
+                                  },
+                                  color: Colors.black54,
+                                  selectedColor: Colors.white,
+                                  fillColor:
+                                      const Color.fromARGB(255, 10, 11, 70),
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderColor: Colors.black26,
+                                  selectedBorderColor: Colors.black87,
+                                  children: const [
+                                    Text('                상                '),
+                                    Text('                중                '),
+                                    Text('                하                '),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Flexible(child: selectedList()),
+                            const SizedBox(
+                              height: 30,
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Text(
-                      '난이도별 등산로',
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'SCDream4'),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ToggleButtons(
-                          isSelected: _selections,
-                          onPressed: (int index) {
-                            setState(() {
-                              for (int i = 0; i < 3; i++) {
-                                if (i == index) {
-                                  _selections[i] = true;
-                                } else {
-                                  _selections[i] = false;
-                                }
-                              }
-                              selected = true;
-                            });
-                          },
-                          color: Colors.black54,
-                          selectedColor: Colors.white,
-                          fillColor: const Color.fromARGB(255, 10, 11, 70),
-                          borderRadius: BorderRadius.circular(10),
-                          borderColor: Colors.black26,
-                          selectedBorderColor: Colors.black87,
-                          children: const [
-                            Text('                상                '),
-                            Text('                중                '),
-                            Text('                하                '),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Flexible(child: selectedList()),
-                    const SizedBox(
-                      height: 30,
                     ),
                   ],
                 ),
@@ -282,5 +336,51 @@ class _LobbyScreenState extends State<LobbyScreen> {
             ),
           );
         });
+  }
+
+  // 등산로 추천 기능
+  Future<List<MountainsModel>> recommendMountain() async {
+    // 추천할 등산로 리스트
+    List<MountainsModel> resultList = [];
+
+    // 사용자의 설문조사 결과를 파이어베이스에서 가져 옴
+    var data = await FirebaseFirestore.instance
+        .collection('user/${widget.uid}/survey/')
+        .get();
+    List<dynamic> surveyList = data.docs.toList();
+    String path = surveyList[0].id;
+    var result = await FirebaseFirestore.instance
+        .collection('user/${widget.uid}/survey/')
+        .doc(path)
+        .get();
+
+    print(result.data()!['distance']);
+
+    // 추천에 쓰일 변수들
+    List<String> distance = result.data()!['distance'].split('~');
+    List<String> height = result.data()!['height'].split('~');
+    List<String> time = result.data()!['time'].split('~');
+
+    int minDis = int.parse(distance[0][0]);
+    int maxDis = int.parse(distance[1][0]);
+    int minHeight = int.parse(height[0][0]);
+    int maxHeight = int.parse(height[1][0]);
+    double minTime = double.parse(time[0][0]);
+    double maxTime = double.parse(time[1][0]);
+
+    for (var temp in widget.mountains) {
+      int nowDis = temp.distance;
+      int nowHeight = temp.height;
+      var nowTime = temp.timeTaken;
+
+      // 조건에 맞을 경우 결과 리스트에 push
+      if (maxDis >= nowDis) resultList.add(temp);
+
+      if (maxHeight >= nowHeight) resultList.add(temp);
+
+      if (maxTime >= nowTime) resultList.add(temp);
+    }
+
+    return resultList;
   }
 }

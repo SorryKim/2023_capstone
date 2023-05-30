@@ -349,7 +349,8 @@ class _HealthAppState extends State<HealthApp> {
                     authorize();
                   },
                   style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.lightBlueAccent)),
                   child: const Text("START",
                       style: TextStyle(color: Colors.black)),
                 ),
