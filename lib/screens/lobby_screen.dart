@@ -153,139 +153,106 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 110,
-                      width: 520,
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black26,
-                          style: BorderStyle.solid,
-                          width: 1,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                "images/dew.png",
-                                width: 130,
+                    FutureBuilder(
+                        future: recommendMountain(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<MountainsModel> recommendList = snapshot.data!;
+
+                            var index = Random().nextInt(recommendList.length);
+
+                            // 추천리스트가 비어있을 경우 첫번쨰 등산로 추천
+                            var recommendedMountain = recommendList.isEmpty
+                                ? widget.mountains[0]
+                                : recommendList[index];
+
+                            return Container(
+                              height: 100,
+                              width: 520,
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  style: BorderStyle.solid,
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            FutureBuilder(
-                                future: recommendMountain(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    List<MountainsModel> recommendList =
-                                        snapshot.data!;
-
-                                    var index =
-                                        Random().nextInt(recommendList.length);
-
-                                    // 추천리스트가 비어있을 경우 첫번쨰 등산로 추천
-                                    var recommendedMountain =
-                                        recommendList.isEmpty
-                                            ? widget.mountains[0]
-                                            : recommendList[index];
-
-                                    return Container(
-                                      height: 100,
-                                      width: 520,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Colors.black26,
-                                          style: BorderStyle.solid,
-                                          width: 1,
-                                        ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                        "images/dew.png",
+                                        width: 130,
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(7.0),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Image.asset(
-                                                "images/dew.png",
-                                                width: 130,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 40,
-                                            ),
-                                            Text(
-                                              '\n산이름: ${recommendedMountain.mntnName}\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
-                                              textAlign: TextAlign.start,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Text(
-                              '난이도별 등산로',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'SCDream4'),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ToggleButtons(
-                                  isSelected: _selections,
-                                  onPressed: (int index) {
-                                    setState(() {
-                                      for (int i = 0; i < 3; i++) {
-                                        if (i == index) {
-                                          _selections[i] = true;
-                                        } else {
-                                          _selections[i] = false;
-                                        }
-                                      }
-                                      selected = true;
-                                    });
-                                  },
-                                  color: Colors.black54,
-                                  selectedColor: Colors.white,
-                                  fillColor:
-                                      const Color.fromARGB(255, 10, 11, 70),
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderColor: Colors.black26,
-                                  selectedBorderColor: Colors.black87,
-                                  children: const [
-                                    Text('                상                '),
-                                    Text('                중                '),
-                                    Text('                하                '),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      '\n산이름: ${recommendedMountain.mntnName}\n높이:${recommendedMountain.height}m\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
+                                      textAlign: TextAlign.start,
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
-                            Flexible(child: selectedList()),
-                            const SizedBox(
-                              height: 30,
-                            ),
+                              ),
+                            );
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      '난이도별 등산로',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'SCDream4'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ToggleButtons(
+                          isSelected: _selections,
+                          onPressed: (int index) {
+                            setState(() {
+                              for (int i = 0; i < 3; i++) {
+                                if (i == index) {
+                                  _selections[i] = true;
+                                } else {
+                                  _selections[i] = false;
+                                }
+                              }
+                              selected = true;
+                            });
+                          },
+                          color: Colors.black54,
+                          selectedColor: Colors.white,
+                          fillColor: const Color.fromARGB(255, 10, 11, 70),
+                          borderRadius: BorderRadius.circular(10),
+                          borderColor: Colors.black26,
+                          selectedBorderColor: Colors.black87,
+                          children: const [
+                            Text('                상                '),
+                            Text('                중                '),
+                            Text('                하                '),
                           ],
                         ),
-                      ),
+                      ],
+                    ),
+                    Flexible(child: selectedList()),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),

@@ -47,130 +47,121 @@ class _InformationScreenState extends State<InformationScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Container(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    FutureBuilder(
-                      future: getGender(widget.uid),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Error: ${snapshot.error}',
-                              style: const TextStyle(fontSize: 15),
-                            ),
-                          );
-                        } else {
-                          return Center(
-                            child: getFace(snapshot.data.toString()),
-                          );
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                      height: 1.0,
-                      width: 500.0,
-                      color: Colors.black26,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Card(
-                          child: ListTile(
-                            leading: const Text(
-                              '이름',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
-                            trailing: Text(
-                              '${user!.displayName}',
-                              style: const TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
+            FutureBuilder(
+                future: getUserSurveyData(widget.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    var data = snapshot.data;
+
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 40,
                           ),
-                        ),
-                        const Card(
-                          child: ListTile(
-                            leading: Text(
-                              '이메일',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
-                            trailing: Text(
-                              '김재성씨 이메일좀 넣어주세요',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
+                          Center(
+                            child: getFace(data['gender']),
                           ),
-                        ),
-                        const Card(
-                          child: ListTile(
-                            leading: Text(
-                              'MBTI',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
-                            trailing: Text(
-                              '최덕봉씨 엠비티아이 넣어줘용',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
+                          const SizedBox(
+                            height: 40,
                           ),
-                        ),
-                        const Card(
-                          child: ListTile(
-                            leading: Text(
-                              '배지',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
-                            trailing: Text(
-                              '7/10처럼 표시해쥬 누군가가',
-                              style: TextStyle(
-                                  fontSize: 15, fontFamily: 'SCDream4'),
-                            ),
+                          Container(
+                            height: 1.0,
+                            width: 500.0,
+                            color: Colors.black26,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        Card(
-                          child: ListTile(
-                            leading: const Text(
-                              '로그아웃',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'SCDream4',
-                                  color: Colors.red),
-                            ),
-                            onTap: () async {
-                              logout();
-                            },
-                            trailing: const Icon(Icons.navigate_next),
-                            iconColor: Colors.red,
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                          Column(
+                            children: <Widget>[
+                              Card(
+                                child: ListTile(
+                                  leading: const Text(
+                                    '이름',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  trailing: Text(
+                                    '${user!.displayName}',
+                                    style: const TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                child: ListTile(
+                                  leading: const Text(
+                                    '이메일',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  trailing: Text(
+                                    user!.email.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                child: ListTile(
+                                  leading: const Text(
+                                    '등산 성향(MBTI)',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  trailing: Text(
+                                    data['mbti'],
+                                    style: const TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                ),
+                              ),
+                              const Card(
+                                child: ListTile(
+                                  leading: Text(
+                                    '배지',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  trailing: Text(
+                                    'ex) 7/10  구현예정!',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              Card(
+                                child: ListTile(
+                                  leading: const Text(
+                                    '로그아웃',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: 'SCDream4',
+                                        color: Colors.red),
+                                  ),
+                                  onTap: () async {
+                                    logout();
+                                  },
+                                  trailing: const Icon(Icons.navigate_next),
+                                  iconColor: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
           ],
         ),
       ),
@@ -194,7 +185,7 @@ class _InformationScreenState extends State<InformationScreen> {
   }
 
   // DB에서 사용자의 성별 가져오기
-  Future<String> getGender(String uid) async {
+  Future<dynamic> getUserSurveyData(String uid) async {
     var data =
         await FirebaseFirestore.instance.collection('user/$uid/survey').get();
 
@@ -208,6 +199,6 @@ class _InformationScreenState extends State<InformationScreen> {
         .doc(temp)
         .get();
     var gender = result.data();
-    return gender!['gender'];
+    return result.data();
   }
 }

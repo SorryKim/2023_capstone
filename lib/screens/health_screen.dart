@@ -355,7 +355,7 @@ class _HealthAppState extends State<HealthApp> {
                       style: TextStyle(color: Colors.black)),
                 ),
                 const SizedBox(
-                  height: 200,
+                  height: 150,
                   width: 50,
                 ),
                 TextButton(
