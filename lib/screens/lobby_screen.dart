@@ -32,7 +32,7 @@ class LobbyScreen extends StatefulWidget {
 class _LobbyScreenState extends State<LobbyScreen> {
   final user = FirebaseAuth.instance.currentUser;
   bool selected = false;
-  final List<bool> _selections = List.generate(3, (_) => false);
+  final List<bool> _selections = [true, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       height: 10,
                     ),
                     Container(
-                      height: 100,
+                      height: 110,
                       width: 520,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
@@ -229,7 +229,10 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         ),
                       ],
                     ),
-                    Flexible(child: selected ? selectedList() : Container()),
+                    Flexible(child: selectedList()),
+                    const SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),
@@ -268,7 +271,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
                 result[index].mntnName,
                 style: const TextStyle(fontSize: 16.5),
               ),
-              subtitle: Text(result[index].difficulty),
+              subtitle: Text(
+                  "${result[index].timeTaken}시간 소요 / ${result[index].distance}m"),
               dense: true,
               leading: const Icon(
                 Icons.filter_frames,

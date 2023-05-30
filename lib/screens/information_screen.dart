@@ -53,106 +53,117 @@ class _InformationScreenState extends State<InformationScreen> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 10,
+                      height: 40,
                     ),
                     FutureBuilder(
-                        future: getGender(widget.uid),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Error: ${snapshot.error}',
-                                style: const TextStyle(fontSize: 15),
-                              ),
-                            );
-                          } else {
-                            return Row(
-                              children: <Widget>[
-                                Container(
-                                  clipBehavior: Clip.hardEdge,
-                                  height: 120,
-                                  width: 120,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color:
-                                          const Color.fromARGB(255, 53, 53, 53),
-                                      style: BorderStyle.solid,
-                                      width: 5,
-                                    ),
-                                  ),
-                                  child: getFace(snapshot.data.toString()),
-                                ),
-                                const SizedBox(
-                                  width: 50,
-                                ),
-                                Center(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '등산천재! ${user!.displayName}',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      //TODO: 체에은은 보아라
-                                      const Text(
-                                        '최덕봉이 엠비티아이 채워줌',
-                                        style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 15,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        }),
+                      future: getGender(widget.uid),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Error: ${snapshot.error}',
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: getFace(snapshot.data.toString()),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
                     Container(
-                      height: 3.0,
+                      height: 1.0,
                       width: 500.0,
-                      color: Colors.black,
+                      color: Colors.black26,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Column(
                       children: <Widget>[
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Column(
-                          children: [
-                            ListTile(
-                              leading: const Icon(Icons.logout),
-                              iconColor: Colors.black,
-                              focusColor: Colors.black,
-                              title: const Text(
-                                '로그아웃',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              onTap: () async {
-                                logout();
-                              },
-                              trailing: const Icon(Icons.navigate_next),
+                        Card(
+                          child: ListTile(
+                            leading: const Text(
+                              '이름',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
                             ),
-                          ],
+                            trailing: Text(
+                              '${user!.displayName}',
+                              style: const TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                          ),
+                        ),
+                        const Card(
+                          child: ListTile(
+                            leading: Text(
+                              '이메일',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                            trailing: Text(
+                              '김재성씨 이메일좀 넣어주세요',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                          ),
+                        ),
+                        const Card(
+                          child: ListTile(
+                            leading: Text(
+                              'MBTI',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                            trailing: Text(
+                              '최덕봉씨 엠비티아이 넣어줘용',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                          ),
+                        ),
+                        const Card(
+                          child: ListTile(
+                            leading: Text(
+                              '배지',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                            trailing: Text(
+                              '7/10처럼 표시해쥬 누군가가',
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: 'SCDream4'),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 100,
+                        ),
+                        Card(
+                          child: ListTile(
+                            leading: const Text(
+                              '로그아웃',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'SCDream4',
+                                  color: Colors.red),
+                            ),
+                            onTap: () async {
+                              logout();
+                            },
+                            trailing: const Icon(Icons.navigate_next),
+                            iconColor: Colors.red,
+                          ),
                         ),
                       ],
                     ),

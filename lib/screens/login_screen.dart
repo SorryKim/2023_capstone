@@ -73,9 +73,10 @@ class LoginScreen extends StatelessWidget {
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.redAccent,
                   ),
-                  child: const Text(
-                    "시작하기",
-                  ),
+                  child: const Text("시작하기",
+                      style: TextStyle(
+                        fontSize: 15,
+                      )),
                 ),
               ],
             ),

@@ -31,6 +31,18 @@ class _BadgeScreenState extends State<BadgeScreen> {
           style: TextStyle(
               fontSize: 19, color: Colors.black, fontFamily: 'ClimateCrisisKR'),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: _onPressedSendButton,
+              style: TextButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 10, 11, 70),
+              ),
+              child: const Text('갱신'),
+            ),
+          ),
+        ],
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
@@ -56,17 +68,6 @@ class _BadgeScreenState extends State<BadgeScreen> {
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: _onPressedSendButton,
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.lightGreen),
-                        child: const Text('뱃지 갱신!'),
-                      ),
-                    ],
                   ),
                   const SizedBox(
                     height: 40,
