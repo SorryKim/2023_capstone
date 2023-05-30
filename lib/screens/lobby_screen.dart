@@ -162,7 +162,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
 
                             var index = Random().nextInt(recommendList.length);
 
-                            var recommendedMountain = recommendList[index];
+                            // 추천리스트가 비어있을 경우 첫번쨰 등산로 추천
+                            var recommendedMountain = recommendList.isEmpty
+                                ? widget.mountains[0]
+                                : recommendList[index];
+
                             return Container(
                               height: 100,
                               width: 520,
