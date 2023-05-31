@@ -35,97 +35,104 @@ class _AddScreenState extends State<AddScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: const Text('등산로 데이터 추가!')),
+          appBar: AppBar(
+            backgroundColor: Colors.green,
+            title: const Text('등산로 데이터 추가!'),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text('mntnName  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller1),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('difficulty  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller2),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('distance  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller3),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('height  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller4),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('info  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller5),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('latitude  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller6),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('longitude  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller7),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('reason  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller8),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('timeTaken  '),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    myInput(controller: controller9),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(onPressed: sendButton, child: const Text('전송')),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Text('mntnName  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller1),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('difficulty  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller2),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('distance  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller3),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('height  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller4),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('info  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller5),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('latitude  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller6),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('longitude  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller7),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('reason  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller8),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('timeTaken  '),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      myInput(controller: controller9),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      onPressed: sendButton, child: const Text('전송')),
+                ],
+              ),
             ),
           )),
     );
