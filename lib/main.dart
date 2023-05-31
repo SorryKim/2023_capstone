@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'src/app.dart';
+import 'package:project/src/app.dart';
 
 void main() {
   runApp(const MyApp());

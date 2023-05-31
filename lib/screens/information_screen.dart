@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project/screens/add_screen.dart';
 import 'package:project/screens/login_screen.dart';
 
 class InformationScreen extends StatefulWidget {
@@ -130,6 +131,26 @@ class _InformationScreenState extends State<InformationScreen> {
                                     style: TextStyle(
                                         fontSize: 15, fontFamily: 'SCDream4'),
                                   ),
+                                ),
+                              ),
+                              Card(
+                                child: ListTile(
+                                  leading: const Text(
+                                    '개발전용',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  trailing: const Text(
+                                    '등산로 데이터 추가',
+                                    style: TextStyle(
+                                        fontSize: 15, fontFamily: 'SCDream4'),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const AddScreen()));
+                                  },
                                 ),
                               ),
                               const SizedBox(
