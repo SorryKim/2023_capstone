@@ -137,7 +137,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
       // 원하는 컬렉션의 스냅샷 가져오기
       Stream<QuerySnapshot> snapshots = FirebaseFirestore.instance
           .collection('mountains')
-          .orderBy('mntnName')
+          .orderBy('mntnName', descending: true)
           .snapshots();
 
       // 스냅샷내부의 자료들을 List로 반환
@@ -147,6 +147,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
           mountains.add(MountainsModel.fromMap(
               id: temp.id, map: temp.data() as Map<String, dynamic>));
         }
+        //mountains.sort((a, b) => a.mntnName.compareTo(b.mntnName));
         return mountains;
       });
     } catch (ex) {
@@ -221,6 +222,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
   Future<List<Map<String, dynamic>>> checkMountainList() async {
     var data = await FirebaseFirestore.instance
         .collection('user/${widget.uid}/mountains')
+        .orderBy('mntnName')
         .get();
 
     List<dynamic> dataList = data.docs.toList();
