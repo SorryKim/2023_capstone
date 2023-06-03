@@ -1,17 +1,23 @@
 // ignore_for_file: non_constant_identifier_names, unused_import
 
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:project/models/hiking_model.dart';
+import 'package:project/screens/hiking_screen.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:timer_builder/timer_builder.dart';
 
-void main() => runApp(const HealthApp());
-
 class HealthApp extends StatefulWidget {
-  const HealthApp({super.key});
+  String uid;
+  HealthApp({
+    super.key,
+    required this.uid,
+  });
 
   @override
   _HealthAppState createState() => _HealthAppState();
@@ -21,6 +27,7 @@ class _HealthAppState extends State<HealthApp> {
   Timer? timer;
   var start; //운동시작시점
   var now;
+  bool isStart = false;
 
   List<HealthDataPoint> caldatalist = [];
   List<HealthDataPoint> mindatalist = [];
@@ -168,11 +175,14 @@ class _HealthAppState extends State<HealthApp> {
                     ],
                   ),
                 ),
-                Center(
-                  child: Row(
-                    children: <Widget>[
-                      TextButton(
-                        onPressed: () async {
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        if (isStart) {
+                          alreadyStart(context);
+                        } else {
+                          isStart = true;
                           await authorize();
                           timer = Timer.periodic(const Duration(seconds: 1),
                               (timer) async {
@@ -181,53 +191,49 @@ class _HealthAppState extends State<HealthApp> {
                               min++;
                             });
                           });
-                        },
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.blue)),
-                        child: const Text("시작",
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          timer!.cancel();
-                          print("$steps");
-                          print("$dis");
-                          print("$cal");
-                          print("$min");
-
-                          // showDialog(
-                          //     context: context,
-                          //     barrierDismissible: true,
-                          //     builder: (BuildContext context) => AlertDialog(
-                          //           content: Column(
-                          //             children: [
-                          //               const Text("오늘의 등산",
-                          //                   textAlign: TextAlign.center),
-                          //               Text("걸음 수 : $steps"),
-                          //               Text("소모 칼로리 : $cal"),
-                          //               Text("이동거리 : $dis"),
-                          //               Text("이동시간: $min"),
-                          //               // FloatingActionButton(
-                          //               //     child: const Text("저장"),
-                          //               //     onPressed: () {})
-                          //             ],
-                          //           ),
-                          //           actions: [
-                          //             FloatingActionButton(
-                          //                 child: const Text("저장"),
-                          //                 onPressed: () {})
-                          //           ],
-                          //         ));
-                        },
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.blue)),
-                        child: const Text("종료",
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                    ],
-                  ),
+                        }
+                      },
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.blue)),
+                      child: const Text("시작",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        isStart = false;
+                        pressedStop(context);
+                      },
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.blue)),
+                      child: const Text("종료",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => HikingScreen(uid: widget.uid)));
+                      },
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.blue)),
+                      child: const Text("등산기록 확인!",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 )
               ],
             ),
@@ -235,5 +241,98 @@ class _HealthAppState extends State<HealthApp> {
         )
       ]))),
     );
+  }
+
+  Future<dynamic> pressedStop(BuildContext context) {
+    timer!.cancel();
+    print("$steps");
+    print("$dis");
+    print("$cal");
+    print("$min");
+
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+            content: Column(
+              children: [
+                const Text("오늘의 등산", textAlign: TextAlign.center),
+                Text("걸음 수 : $steps"),
+                Text("소모 칼로리 : ${cal.round()}"),
+                Text("이동거리 : $dis"),
+                Text("이동시간: $min"),
+              ],
+            ),
+            actions: [
+              FloatingActionButton(
+                  onPressed: () {
+                    pressedSaveButton();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("저장")),
+              FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("닫기")),
+            ],
+          );
+        });
+  }
+
+  // 이미 시작되어 있을 경우 알람상자
+  Future<dynamic> alreadyStart(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)),
+            content: const Column(
+              children: [
+                Text("이미 시작중입니다!", textAlign: TextAlign.center),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text(
+                    '닫기',
+                    style: TextStyle(color: Colors.white),
+                  )),
+            ],
+          );
+        });
+  }
+
+  // 파이어베이스에 등산기록 데이터 전송
+  void pressedSaveButton() {
+    try {
+      // 파이어베이스에 저장할 객체
+      HikingModel hikingModel = HikingModel(
+        steps: steps,
+        distance: dis,
+        calories: cal,
+        time: min,
+        sendDate: Timestamp.now(),
+      );
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      firestore
+          .collection('user/${widget.uid}/health')
+          .add(hikingModel.toMap());
+    } catch (ex) {
+      log(ex.toString());
+    }
   }
 }

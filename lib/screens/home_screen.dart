@@ -37,7 +37,9 @@ class HomeScreen extends StatelessWidget {
                         uid: uid,
                         mountains: mountains,
                       ),
-                      const HealthApp(),
+                      HealthApp(
+                        uid: uid,
+                      ),
                       BadgeScreen(
                         uid: uid,
                         mountains: mountains,
