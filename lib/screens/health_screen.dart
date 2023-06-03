@@ -1,13 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_import
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:timer_builder/timer_builder.dart';
+
+void main() => runApp(const HealthApp());
 
 class HealthApp extends StatefulWidget {
   const HealthApp({super.key});
@@ -16,31 +17,19 @@ class HealthApp extends StatefulWidget {
   _HealthAppState createState() => _HealthAppState();
 }
 
-enum AppState {
-  DATA_NOT_FETCHED,
-  NO_DATA,
-  AUTHORIZED,
-  AUTH_NOT_GRANTED,
-  STEPS_READY,
-}
-
 class _HealthAppState extends State<HealthApp> {
-  AppState _state = AppState.DATA_NOT_FETCHED;
-  int start_nofSteps = 0;
-  double start_calories = 0;
-  double start_min = 0;
-  double start_dis = 0;
-  bool s = false;
   Timer? timer;
+  var start; //운동시작시점
+  var now;
 
-  int _nofSteps = 0;
-  double _calories = 0;
-  double _min = 0;
-  double _dis = 0;
+  List<HealthDataPoint> caldatalist = [];
+  List<HealthDataPoint> mindatalist = [];
+  List<HealthDataPoint> disdatalist = [];
 
-  List<HealthDataPoint> callist = [];
-  List<HealthDataPoint> minlist = [];
-  List<HealthDataPoint> distancelist = [];
+  int steps = 0; //걸음
+  double cal = 0; //칼로리
+  double min = 0; //운동시간
+  double dis = 0; //운동거리
 
   static final types = [
     HealthDataType.STEPS,
@@ -53,29 +42,43 @@ class _HealthAppState extends State<HealthApp> {
   HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
 
   Future authorize() async {
-    Permission.activityRecognition.request();
+    start = DateTime.now();
+
+    await Permission.activityRecognition.request();
     await Permission.location.request();
-    bool? hasPermissions =
-        await health.hasPermissions(types, permissions: permissions);
-    hasPermissions = false;
+    await health.hasPermissions(types, permissions: permissions);
+    await health.requestAuthorization(types, permissions: permissions);
 
-    bool authorized = false;
-    if (!hasPermissions) {
-      try {
-        authorized =
-            await health.requestAuthorization(types, permissions: permissions);
-      } catch (error) {
-        print("Exception in authorize: $error");
-      }
-    }
-
-    setState(() {
-      _state = (authorized) ? AppState.STEPS_READY : AppState.AUTH_NOT_GRANTED;
-      fetchStepData();
-    });
+    setState(() {});
   }
 
-  double startvalue(List<HealthDataPoint> list) {
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    return duration.toString().split(".").first.substring(2, 7);
+  }
+
+  Future fetchdata() async {
+    now = DateTime.now();
+    int? walk;
+
+    List<HealthDataType> callist = [HealthDataType.ACTIVE_ENERGY_BURNED];
+    List<HealthDataType> minlist = [HealthDataType.MOVE_MINUTES];
+    List<HealthDataType> dislist = [HealthDataType.DISTANCE_DELTA];
+
+    caldatalist = await health.getHealthDataFromTypes(start, now, callist);
+    mindatalist = await health.getHealthDataFromTypes(start, now, minlist);
+    disdatalist = await health.getHealthDataFromTypes(start, now, dislist);
+
+    walk = await health.getTotalStepsInInterval(start, now);
+
+    steps = walk ?? 0;
+
+    cal = totalvalue(caldatalist);
+    //min = totalvalue(mindatalist);
+    dis = totalvalue(disdatalist);
+  }
+
+  double totalvalue(List<HealthDataPoint> list) {
     double value = 0;
     for (var i = 0; i < list.length; i++) {
       String a = list[i].value.toString();
@@ -84,310 +87,153 @@ class _HealthAppState extends State<HealthApp> {
     return value;
   }
 
-  Future fetchStepData() async {
-    List<HealthDataType> cal = [HealthDataType.ACTIVE_ENERGY_BURNED];
-    List<HealthDataType> min = [HealthDataType.MOVE_MINUTES];
-    List<HealthDataType> distance = [HealthDataType.DISTANCE_DELTA];
-    int? steps;
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-
-    bool requestedstep =
-        await health.requestAuthorization([HealthDataType.STEPS]);
-    bool requestedcal = await health
-        .requestAuthorization([HealthDataType.ACTIVE_ENERGY_BURNED]);
-
-    if (requestedstep && requestedcal) {
-      try {
-        steps = await health.getTotalStepsInInterval(midnight, now);
-        start_nofSteps = steps!;
-        callist = await health.getHealthDataFromTypes(midnight, now, cal);
-        minlist = await health.getHealthDataFromTypes(midnight, now, min);
-        distancelist =
-            await health.getHealthDataFromTypes(midnight, now, distance);
-      } catch (error) {
-        print("Caught exception in getTotalStepsInInterval: $error");
-      }
-
-      setState(() {
-        start_nofSteps = (steps == null) ? 0 : steps;
-        // _healthDataListcal = callist;
-        // _healthDataListmin = minlist;
-        // _healthDataListdis = distancelist;
-        start_calories = startvalue(callist);
-        start_min = startvalue(minlist);
-        start_dis = startvalue(distancelist);
-        _state = (steps == null) ? AppState.NO_DATA : AppState.STEPS_READY;
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
-      setState(() => _state = AppState.DATA_NOT_FETCHED);
-    }
-  }
-
-  Widget _contentNoData() {
-    return const Text('No Data to show');
-  }
-
-  Widget _contentNotFetched() {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Press the download button to fetch data.'),
-        Text('Press the plus button to insert some random data.'),
-        Text('Press the walking button to get total step count.'),
-      ],
-    );
-  }
-
-  Widget _authorized() {
-    return const Text('Authorization granted!');
-  }
-
-  Widget _authorizationNotGranted() {
-    return const Text('Authorization not given. '
-        'For Android please check your OAUTH2 client ID is correct in Google Developer Console. '
-        'For iOS check your permissions in Apple Health.');
-  }
-
-  Widget _stepsFetched() {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TimerBuilder.periodic(
-              const Duration(seconds: 1),
-              builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        CircularStepProgressIndicator(
-                          totalSteps: 100,
-                          currentStep: (0.01 * _nofSteps).floor(),
-                          stepSize: 30,
-                          selectedColor: Colors.green[200],
-                          unselectedColor: Colors.grey[200],
-                          padding: 0,
-                          width: 250,
-                          height: 250,
-                          selectedStepSize: 30,
-                          roundedCap: (_, __) => false,
-                          child: Center(
-                            child: Text(
-                              '$_nofSteps',
-                              style: const TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  const Icon(
-                                    Icons.timeline,
-                                    size: 60,
-                                    color: Color.fromARGB(255, 10, 84, 13),
-                                  ),
-                                  const Text(
-                                    '거리',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'SCDream4'),
-                                  ),
-                                  Text((_dis).floor().toString()),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                children: [
-                                  const Icon(
-                                    Icons.local_fire_department,
-                                    size: 60,
-                                    color: Colors.red,
-                                  ),
-                                  const Text(
-                                    '칼로리',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'SCDream4'),
-                                  ),
-                                  Text((_calories).floor().toString()),
-                                ],
-                              ),
-                              const SizedBox(width: 50),
-                              Column(
-                                children: [
-                                  const Icon(
-                                    Icons.timer,
-                                    size: 60,
-                                    color: Color.fromARGB(255, 255, 208, 66),
-                                  ),
-                                  const Text(
-                                    '시간',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'SCDream4'),
-                                  ),
-                                  Text((_min).floor().toString()),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future cleanlist() async {
-    callist.clear();
-    minlist.clear();
-    distancelist.clear();
-  }
-
-  Future createlist() async {
-    List<HealthDataType> cal = [HealthDataType.ACTIVE_ENERGY_BURNED];
-    List<HealthDataType> min = [HealthDataType.MOVE_MINUTES];
-    List<HealthDataType> distance = [HealthDataType.DISTANCE_DELTA];
-
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    callist = await health.getHealthDataFromTypes(midnight, now, cal);
-    minlist = await health.getHealthDataFromTypes(midnight, now, min);
-    distancelist = await health.getHealthDataFromTypes(midnight, now, distance);
-
-    _calories = startvalue(callist);
-    _min = startvalue(minlist);
-    _dis = startvalue(distancelist);
-  }
-
-  Future step() async {
-    int? steps;
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    steps = await health.getTotalStepsInInterval(midnight, now);
-    _nofSteps = (steps == null) ? 0 : steps;
-  }
-
-  Future<void> func() async {
-    await step();
-    await cleanlist();
-    await createlist();
-    setState(() {
-      _nofSteps -= start_nofSteps;
-      _calories -= start_calories;
-      _min -= start_min;
-      _dis -= start_dis;
-    });
-  }
-
-  Widget _content() {
-    if (_state == AppState.NO_DATA) {
-      return _contentNoData();
-    } else if (_state == AppState.AUTHORIZED)
-      return _authorized();
-    else if (_state == AppState.AUTH_NOT_GRANTED)
-      return _authorizationNotGranted();
-    else if (_state == AppState.STEPS_READY)
-      return _stepsFetched();
-    else
-      return _contentNotFetched();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            // Status bar color
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.dark,
-          ),
-          title: const Text(
-            'MOUNTAINDEW',
-            style: TextStyle(
-                fontSize: 19,
-                color: Colors.black,
-                fontFamily: 'ClimateCrisisKR'),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-        ),
-        body: Column(
-          children: [
-            Expanded(child: Center(child: _stepsFetched())),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    authorize();
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Colors.lightBlueAccent)),
-                  child: const Text("START",
-                      style: TextStyle(color: Colors.black)),
+          body: SingleChildScrollView(
+              child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 50,
+                ),
+                CircularStepProgressIndicator(
+                  totalSteps: 100,
+                  currentStep: (0.01 * steps).floor(),
+                  stepSize: 30,
+                  selectedColor: Colors.green[200],
+                  unselectedColor: Colors.grey[200],
+                  padding: 0,
+                  width: 250,
+                  height: 250,
+                  selectedStepSize: 30,
+                  roundedCap: (_, __) => false,
+                  child: Center(
+                    child: Text(
+                      '$steps',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(
-                  height: 150,
-                  width: 50,
+                  height: 50,
                 ),
-                TextButton(
-                    onPressed: () {
-                      func();
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.black)),
-                    child: const Text("STOP",
-                        style: TextStyle(color: Colors.white))),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          const Icon(
+                            Icons.timeline,
+                            size: 60,
+                            color: Color.fromARGB(255, 48, 158, 248),
+                          ),
+                          const Text('거리'),
+                          Text((dis).floor().toString()),
+                        ],
+                      ),
+                      const SizedBox(width: 50),
+                      Column(
+                        children: [
+                          const Icon(
+                            Icons.local_fire_department,
+                            size: 60,
+                            color: Color.fromARGB(255, 236, 83, 18),
+                          ),
+                          const Text('칼로리'),
+                          Text((cal).floor().toString()),
+                        ],
+                      ),
+                      const SizedBox(width: 50),
+                      Column(
+                        children: [
+                          const Icon(
+                            Icons.timer,
+                            size: 60,
+                            color: Color.fromARGB(255, 255, 208, 66),
+                          ),
+                          const Text('시간'),
+                          Text(format((min).floor())),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Row(
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          await authorize();
+                          timer = Timer.periodic(const Duration(seconds: 1),
+                              (timer) async {
+                            await fetchdata();
+                            setState(() {
+                              min++;
+                            });
+                          });
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.blue)),
+                        child: const Text("시작",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          timer!.cancel();
+                          print("$steps");
+                          print("$dis");
+                          print("$cal");
+                          print("$min");
+
+                          // showDialog(
+                          //     context: context,
+                          //     barrierDismissible: true,
+                          //     builder: (BuildContext context) => AlertDialog(
+                          //           content: Column(
+                          //             children: [
+                          //               const Text("오늘의 등산",
+                          //                   textAlign: TextAlign.center),
+                          //               Text("걸음 수 : $steps"),
+                          //               Text("소모 칼로리 : $cal"),
+                          //               Text("이동거리 : $dis"),
+                          //               Text("이동시간: $min"),
+                          //               // FloatingActionButton(
+                          //               //     child: const Text("저장"),
+                          //               //     onPressed: () {})
+                          //             ],
+                          //           ),
+                          //           actions: [
+                          //             FloatingActionButton(
+                          //                 child: const Text("저장"),
+                          //                 onPressed: () {})
+                          //           ],
+                          //         ));
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.blue)),
+                        child: const Text("종료",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-/*
-            TextButton(
-                onPressed: () {
-                  print('check');
-                  print('step: $start_nofSteps');
-                  print('cal : $start_calories');
-                  print('min : $start_min');
-                  print('dis : $start_dis');
-                  print('check');
-                  print('step: $_nofSteps');
-                  print('cal : $_calories');
-                  print('min : $_min');
-                  print('dis : $_dis');
-                },
-                child: const Text("값확인")),
-*/
-          ],
-        ),
-      ),
+          ),
+        )
+      ]))),
     );
   }
 }
