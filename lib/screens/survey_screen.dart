@@ -86,7 +86,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
         "400m~700m": null,
         "700m~800m": null,
         "800m~1000m": null,
-        "1000m 이상": null,
+        "1000m~": null,
       },
     ),
     Question(
@@ -98,7 +98,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
         "7km~8km": null,
         "8km~9km": null,
         "9km~10km": null,
-        "10km 이상": null,
+        "10km~": null,
       },
     ),
     Question(
@@ -109,7 +109,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
         "4시간~5시간": null,
         "5시간~6시간": null,
         "6시간~7시간": null,
-        "7시간~8시간": null,
+        "7시간~": null,
       },
     ),
     Question(

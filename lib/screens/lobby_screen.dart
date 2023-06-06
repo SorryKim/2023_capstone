@@ -327,13 +327,19 @@ class _LobbyScreenState extends State<LobbyScreen> {
     List<String> distance = result.data()!['distance'].split('~');
     List<String> height = result.data()!['height'].split('~');
     List<String> time = result.data()!['time'].split('~');
+    int minDis = 0;
+    int maxDis = 0;
+    int minHeight = 0;
+    int maxHeight = 0;
+    double minTime = 0;
+    double maxTime = 0;
 
-    int minDis = int.parse(distance[0][0]);
-    int maxDis = int.parse(distance[1][0]);
-    int minHeight = int.parse(height[0][0]);
-    int maxHeight = int.parse(height[1][0]);
-    double minTime = double.parse(time[0][0]);
-    double maxTime = double.parse(time[1][0]);
+    minDis = int.parse(distance[0][0]);
+    if (distance.length > 1) maxDis = int.parse(distance[1][0]);
+    minHeight = int.parse(height[0][0]);
+    if (height.length > 1) maxHeight = int.parse(height[1][0]);
+    minTime = double.parse(time[0][0]);
+    if (time.length > 1) maxTime = double.parse(time[1][0]);
 
     for (var temp in widget.mountains) {
       int nowDis = temp.distance;
@@ -343,9 +349,15 @@ class _LobbyScreenState extends State<LobbyScreen> {
       // 조건에 맞을 경우 결과 리스트에 push
       if (maxDis >= nowDis) resultList.add(temp);
 
+      if (minDis <= nowDis) resultList.add(temp);
+
       if (maxHeight >= nowHeight) resultList.add(temp);
 
+      if (minHeight <= nowHeight) resultList.add(temp);
+
       if (maxTime >= nowTime) resultList.add(temp);
+
+      if (minTime <= nowTime) resultList.add(temp);
     }
 
     return resultList;
