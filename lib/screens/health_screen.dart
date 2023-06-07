@@ -234,9 +234,6 @@ class _HealthAppState extends State<HealthApp> {
                                   )),
                             ),
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
                         ],
                       ),
                     ),
