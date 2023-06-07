@@ -113,11 +113,13 @@ class _SurveyWidgetState extends State<SurveyWidget> {
       },
     ),
     Question(
+      isMandatory: true,
       singleChoice: true,
       question: "설문이 종료되었습니다. 나의 등산유형검사를 받아보시겠습니까?",
       answerChoices: {
         "네": [
           Question(
+            isMandatory: true,
             question: "등산을 가려한다! 이때 나는",
             answerChoices: const {
               "\"같이 등산가실분 구해요~!\" 커뮤니티에 글을 올려 함께 등산을 즐긴다.": null,
@@ -125,6 +127,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "정상에 올라왔다.",
             answerChoices: const {
               "인증샷은 필수지! 다같이 모여모여~ 저희 사진 한장만 찍어주시겠어요?": null,
@@ -132,6 +135,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "산에서 내려온 후",
             answerChoices: const {
               "운동을 하니 허기가 지네! 얼른 집에 가서 씻고 밥먹어야지!": null,
@@ -139,6 +143,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산을 가기 전 나의 생각은?",
             answerChoices: const {
               "산에 올라가면 다람쥐도 있고 곰도 있으려나? 근데 힘들면 어떡하지... 산불 대피요령도 찾아봐야겠다!": null,
@@ -146,6 +151,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "정상에서 내려오던 중 미끄러워 보이는 비탈길을 발견했다.",
             answerChoices: const {
               "미끄러워 보이네, 넘어지지 않게 조심하자.": null,
@@ -153,6 +159,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산 후 커뮤니티에서 봤던 맛집을 발견했다.",
             answerChoices: const {
               "오 그때 봤던 맛집이네. 한번 가볼까?": null,
@@ -161,6 +168,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산 중 넘어진듯한 사람이 보인다.",
             answerChoices: const {
               "\"어떡해!! 괜찮으세요? 많이 놀라셨겠다... 아픈데는 없으세요?ㅠㅠ\" 넘어진 사람을 걱정해주며 진정시킨다.":
@@ -170,6 +178,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "친구와 등산 중 갈림길을 만났다. 이때 친구가 틀린길이 맞다고 우긴다면?",
             answerChoices: const {
               "(등산로 안내에서 이쪽이라는데...) 그래 거기로 가보자..!": null,
@@ -177,6 +186,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산 중 단풍이 절경인 풍경을 봤다.",
             answerChoices: const {
               "벌써 엽록소가 파괴되는 시즌이구나. 얼른 정상에 올라가서 한눈에 봐야지": null,
@@ -184,6 +194,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "친구가 같이 등산을 가자고 한다.",
             answerChoices: const {
               "좋아! 당장 고고~": null,
@@ -191,6 +202,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산에 가기 전 나는",
             answerChoices: const {
               "내가 가고싶은 산의 높이, 난이도, 위치 등을 검색하고 등산 전 유의사항 숙지, 준비물을 미리 챙긴다.": null,
@@ -198,6 +210,7 @@ class _SurveyWidgetState extends State<SurveyWidget> {
             },
           ),
           Question(
+            isMandatory: true,
             question: "등산 후 추천 맛집을 갔는데 쉬는날이다.",
             answerChoices: const {
               "옆가게도 맛있어 보이는데 그냥 저기 갈까?": null,
@@ -237,22 +250,38 @@ class _SurveyWidgetState extends State<SurveyWidget> {
                 style: TextStyle(fontFamily: 'SCDream4'),
               ),
               onPressed: () async {
-                var now = await FirebaseFirestore.instance
-                    .collection('user/')
-                    .doc(widget.uid)
-                    .get();
-                var temp = now.data();
-                if (temp!['isSurvey'] == false) {
-                  _onPressedSendButton(_questionResults);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => HomeScreen(uid: widget.uid)));
+                if (_formKey.currentState!.validate()) {
+                  var now = await FirebaseFirestore.instance
+                      .collection('user/')
+                      .doc(widget.uid)
+                      .get();
+                  var temp = now.data();
+                  if (temp!['isSurvey'] == false) {
+                    _onPressedSendButton(_questionResults);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => HomeScreen(uid: widget.uid)));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => HomeScreen(uid: widget.uid)));
+                  }
                 } else {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => HomeScreen(uid: widget.uid)));
+                  AlertDialog dialog = const AlertDialog(
+                    content: Text(
+                      '모든 항목을 체크해주세요!',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'SCDream4',
+                      ),
+                    ),
+                  );
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog);
                 }
               },
             ),

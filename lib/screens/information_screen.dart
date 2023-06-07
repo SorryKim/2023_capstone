@@ -119,18 +119,26 @@ class _InformationScreenState extends State<InformationScreen> {
                                   ),
                                 ),
                               ),
-                              const Card(
+                              Card(
                                 child: ListTile(
-                                  leading: Text(
+                                  leading: const Text(
                                     '배지',
                                     style: TextStyle(
                                         fontSize: 15, fontFamily: 'SCDream4'),
                                   ),
-                                  trailing: Text(
-                                    'ex) 7/10  구현예정!',
-                                    style: TextStyle(
-                                        fontSize: 15, fontFamily: 'SCDream4'),
-                                  ),
+                                  trailing: FutureBuilder(
+                                      future: getbadgeScore(widget.uid),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data);
+                                        }
+                                        return const Text(
+                                          '',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SCDream4'),
+                                        );
+                                      }),
                                 ),
                               ),
                               Card(
@@ -211,8 +219,6 @@ class _InformationScreenState extends State<InformationScreen> {
         await FirebaseFirestore.instance.collection('user/$uid/survey').get();
 
     List<dynamic> details = data.docs.toList();
-    print(details);
-    print(widget.uid);
     String temp = details[0].id;
 
     var result = await FirebaseFirestore.instance
@@ -220,6 +226,13 @@ class _InformationScreenState extends State<InformationScreen> {
         .doc(temp)
         .get();
     var gender = result.data();
-    return result.data();
+    return gender;
+  }
+
+  Future<dynamic> getbadgeScore(String uid) async {
+    var data = await FirebaseFirestore.instance.doc('user/$uid').get();
+
+    var score = data.data();
+    return score!['badgeScore'];
   }
 }

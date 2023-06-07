@@ -4,12 +4,14 @@ class LoginModel {
   final String userId;
   bool isSurvey;
   late List<String> list;
+  String badgeScore;
 
   LoginModel({
     this.id = '',
     this.userName = '',
     this.userId = '',
     this.isSurvey = false,
+    this.badgeScore = '',
   });
 
   factory LoginModel.fromMap(
@@ -19,6 +21,7 @@ class LoginModel {
       userName: map['userName'] ?? '',
       userId: map['userId'] ?? '',
       isSurvey: map['isSurvey'] ?? false,
+      badgeScore: map['badgeScore'] ?? '',
     );
   }
 
@@ -27,6 +30,7 @@ class LoginModel {
     data['userName'] = userName;
     data['userId'] = userId;
     data['isSurvey'] = isSurvey;
+    data['badgeScore'] = badgeScore;
     return data;
   }
 }
