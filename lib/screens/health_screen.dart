@@ -159,7 +159,7 @@ class _HealthAppState extends State<HealthApp> {
                               const Icon(
                                 Icons.timeline,
                                 size: 60,
-                                color: Color.fromARGB(255, 48, 158, 248),
+                                color: Colors.blue,
                               ),
                               const Text('거리'),
                               Text((dis).floor().toString()),
@@ -171,7 +171,7 @@ class _HealthAppState extends State<HealthApp> {
                               const Icon(
                                 Icons.local_fire_department,
                                 size: 60,
-                                color: Color.fromARGB(255, 236, 83, 18),
+                                color: Color.fromARGB(255, 236, 58, 18),
                               ),
                               const Text('칼로리'),
                               Text((cal).floor().toString()),
@@ -192,50 +192,66 @@ class _HealthAppState extends State<HealthApp> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () async {
-                            if (isStart) {
-                              alreadyStart(context);
-                            } else {
-                              isStart = true;
-                              await authorize();
-                              timer = Timer.periodic(const Duration(seconds: 1),
-                                  (timer) async {
-                                await fetchdata();
-                                setState(() {
-                                  min++;
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              if (isStart) {
+                                alreadyStart(context);
+                              } else {
+                                isStart = true;
+                                await authorize();
+                                timer = Timer.periodic(
+                                    const Duration(seconds: 1), (timer) async {
+                                  await fetchdata();
+                                  setState(() {
+                                    min++;
+                                  });
                                 });
-                              });
-                            }
-                          },
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.blue)),
-                          child: const Text("시작",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            isStart = false;
-                            pressedStop(context);
-                          },
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.blue)),
-                          child: const Text("종료",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                      ],
+                              }
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 10, 11, 70),
+                            )),
+                            child: const Text("시작",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'SCDream4',
+                                )),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              isStart = false;
+                              pressedStop(context);
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 10, 11, 70))),
+                            child: const Text("종료",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'SCDream4',
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
                           onPressed: () {
@@ -247,9 +263,12 @@ class _HealthAppState extends State<HealthApp> {
                           },
                           style: const ButtonStyle(
                               backgroundColor:
-                                  MaterialStatePropertyAll(Colors.blue)),
-                          child: const Text("등산기록 확인!",
-                              style: TextStyle(color: Colors.white)),
+                                  MaterialStatePropertyAll(Colors.blueGrey)),
+                          child: const Text("등산기록 확인",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'SCDream4',
+                                  fontSize: 16)),
                         ),
                       ],
                     )
@@ -275,28 +294,70 @@ class _HealthAppState extends State<HealthApp> {
           return AlertDialog(
             scrollable: true,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
+                borderRadius: BorderRadius.circular(10.0)),
             content: Column(
               children: [
-                const Text("오늘의 등산", textAlign: TextAlign.center),
-                Text("걸음 수 : $steps"),
-                Text("소모 칼로리 : ${cal.round()}"),
-                Text("이동거리 : $dis"),
-                Text("이동시간: $min"),
+                const Text(
+                  "오늘의 등산",
+                  style: TextStyle(fontFamily: 'SCDream4', fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "걸음 수 : $steps",
+                  style: const TextStyle(
+                    fontFamily: 'SCDream4',
+                  ),
+                ),
+                Text(
+                  "소모 칼로리 : ${cal.round()}",
+                  style: const TextStyle(
+                    fontFamily: 'SCDream4',
+                  ),
+                ),
+                Text(
+                  "이동거리 : $dis",
+                  style: const TextStyle(
+                    fontFamily: 'SCDream4',
+                  ),
+                ),
+                Text(
+                  "이동시간: $min",
+                  style: const TextStyle(
+                    fontFamily: 'SCDream4',
+                  ),
+                ),
               ],
             ),
             actions: [
-              FloatingActionButton(
+              ElevatedButton(
                   onPressed: () {
                     pressedSaveButton();
                     Navigator.of(context).pop();
                   },
-                  child: const Text("저장")),
-              FloatingActionButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                  ),
+                  child: const Text(
+                    "저장",
+                    style: TextStyle(
+                      fontFamily: 'SCDream4',
+                    ),
+                  )),
+              ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("닫기")),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text(
+                    "닫기",
+                    style: TextStyle(
+                      fontFamily: 'SCDream4',
+                    ),
+                  )),
             ],
           );
         });
@@ -314,7 +375,13 @@ class _HealthAppState extends State<HealthApp> {
                 borderRadius: BorderRadius.circular(15.0)),
             content: const Column(
               children: [
-                Text("이미 시작중입니다!", textAlign: TextAlign.center),
+                Text(
+                  "이미 시작중입니다!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'SCDream4',
+                  ),
+                )
               ],
             ),
             actions: [
@@ -327,7 +394,8 @@ class _HealthAppState extends State<HealthApp> {
                   ),
                   child: const Text(
                     '닫기',
-                    style: TextStyle(color: Colors.white),
+                    style:
+                        TextStyle(color: Colors.white, fontFamily: 'SCDream4'),
                   )),
             ],
           );

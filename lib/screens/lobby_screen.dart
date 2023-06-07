@@ -167,7 +167,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                 : recommendList[index];
 
                             return Container(
-                              height: 150,
+                              height: 120,
                               width: 520,
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -191,7 +191,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 20,
+                                      width: 30,
                                     ),
                                     Text(
                                       '\n산이름: ${recommendedMountain.mntnName}\n높이:${recommendedMountain.height}m\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',

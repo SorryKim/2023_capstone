@@ -172,6 +172,8 @@ class _WalkWidgetState extends State<WalkWidget> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 10, 68, 12),
+                          foregroundColor:
+                              const Color.fromARGB(255, 10, 68, 12),
                         ),
                         onPressed: () {
                           if (isStart) {
