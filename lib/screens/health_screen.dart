@@ -305,7 +305,7 @@ class _HealthAppState extends State<HealthApp> {
                   height: 10,
                 ),
                 Text(
-                  "걸음 수 : $steps",
+                  "걸음  수 : $steps",
                   style: const TextStyle(
                     fontFamily: 'SCDream4',
                   ),
