@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/login_model.dart';
+import 'package:project/screens/home_screen.dart';
+import 'package:project/screens/lobby_screen.dart';
 
 import '../screens/survey_screen.dart';
 
@@ -26,7 +28,11 @@ class SurveyCheck extends StatelessWidget {
           // 만약 이미 데이터베이스에 해당 유저가 존재하면 바로 넘김
           for (int i = 0; i < users.length; i++) {
             if (users[i].userId == user!.uid) {
-              return SurveyScreen(uid: users[i].id);
+              if (users[i].isSurvey) {
+                return HomeScreen(uid: users[i].id);
+              } else {
+                return SurveyScreen(uid: users[i].id);
+              }
             }
           }
 
