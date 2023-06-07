@@ -206,7 +206,7 @@ class _HealthAppState extends State<HealthApp> {
                               onPressed: () async {
                                 if (isStart) {
                                   isStart = false;
-                                  alreadyStart(context);
+                                  pressedStop(context);
                                 } else {
                                   isStart = true;
                                   await authorize();
