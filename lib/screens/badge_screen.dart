@@ -17,6 +17,7 @@ class BadgeScreen extends StatefulWidget {
 }
 
 class _BadgeScreenState extends State<BadgeScreen> {
+  List<Map<String, dynamic>> checkList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +36,15 @@ class _BadgeScreenState extends State<BadgeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: _onPressedSendButton,
+              onPressed: () async {
+                await checkPosition();
+                await FirebaseFirestore.instance
+                    .doc('user/${widget.uid}')
+                    .update({
+                  'badgeScore': '${badgeGage(checkList)} / ${checkList.length}'
+                });
+                setState(() {});
+              },
               style: TextButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 10, 11, 70),
               ),
@@ -50,7 +59,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
           future: checkMountainList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Map<String, dynamic>> checkList = snapshot.data!;
+              checkList = snapshot.data!;
               //print(checkList);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,10 +67,10 @@ class _BadgeScreenState extends State<BadgeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(10),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
                     child: LinearProgressIndicator(
-                      value: 0.7,
+                      value: badgeGage(checkList) / checkList.length,
                       color: Colors.redAccent, //<-- SEE HERE
                       backgroundColor: Colors.grey, //<-- SEE HERE
                     ),
@@ -129,6 +138,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
 
   void _onPressedSendButton() async {
     await checkPosition();
+
     setState(() {});
   }
 
@@ -182,15 +192,6 @@ class _BadgeScreenState extends State<BadgeScreen> {
     return (position.longitude * 100).toInt();
   }
 
-  // String swapImage(Function() getLat, Function() getLot) {
-  //   double myLat = getLat();
-  //   double myLot = getLot();
-
-  //   if (myLat == checkList.elementAt(index)['mntnName']) {
-  //     return "image/mountain_gray.png";
-  //   }
-  // }
-
   Future<void> checkPosition() async {
     int nowLat = await getLat();
     int nowLot = await getLot();
@@ -215,6 +216,16 @@ class _BadgeScreenState extends State<BadgeScreen> {
         });
       }
     }
+  }
+
+  int badgeGage(List<Map<String, dynamic>> checkList) {
+    int sum = 0;
+    for (var temp in checkList) {
+      if (temp['check']) {
+        sum++;
+      }
+    }
+    return sum;
   }
 
   // 현재 유저의 등산업적목록을 가져오는 메소드,
