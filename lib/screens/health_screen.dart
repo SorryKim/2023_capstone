@@ -162,7 +162,7 @@ class _HealthAppState extends State<HealthApp> {
                                 color: Colors.blue,
                               ),
                               const Text('거리'),
-                              Text((dis).floor().toString()),
+                              Text("${(dis).floor().toString()}km"),
                             ],
                           ),
                           const SizedBox(width: 50),
@@ -174,7 +174,7 @@ class _HealthAppState extends State<HealthApp> {
                                 color: Color.fromARGB(255, 236, 58, 18),
                               ),
                               const Text('칼로리'),
-                              Text((cal).floor().toString()),
+                              Text("${(cal).floor().toString()}cal"),
                             ],
                           ),
                           const SizedBox(width: 50),
@@ -199,50 +199,43 @@ class _HealthAppState extends State<HealthApp> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextButton(
-                            onPressed: () async {
-                              if (isStart) {
-                                alreadyStart(context);
-                              } else {
-                                isStart = true;
-                                await authorize();
-                                timer = Timer.periodic(
-                                    const Duration(seconds: 1), (timer) async {
-                                  await fetchdata();
-                                  setState(() {
-                                    min++;
+                          SizedBox(
+                            height: 50,
+                            width: 300,
+                            child: TextButton(
+                              onPressed: () async {
+                                if (isStart) {
+                                  isStart = false;
+                                  alreadyStart(context);
+                                } else {
+                                  isStart = true;
+                                  await authorize();
+                                  timer =
+                                      Timer.periodic(const Duration(seconds: 1),
+                                          (timer) async {
+                                    await fetchdata();
+                                    setState(() {
+                                      min++;
+                                    });
                                   });
-                                });
-                              }
-                            },
-                            style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                              Color.fromARGB(255, 10, 11, 70),
-                            )),
-                            child: const Text("시작",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'SCDream4',
-                                )),
+                                }
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                isStart
+                                    ? Colors.redAccent
+                                    : const Color.fromARGB(255, 10, 11, 70),
+                              )),
+                              child: Text(isStart ? "종료" : "시작",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'SCDream4',
+                                  )),
+                            ),
                           ),
                           const SizedBox(
                             width: 20,
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              isStart = false;
-                              pressedStop(context);
-                            },
-                            style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 10, 11, 70))),
-                            child: const Text("종료",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: 'SCDream4',
-                                )),
                           ),
                         ],
                       ),
@@ -253,22 +246,26 @@ class _HealthAppState extends State<HealthApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        HikingScreen(uid: widget.uid)));
-                          },
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.blueGrey)),
-                          child: const Text("등산기록 확인",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'SCDream4',
-                                  fontSize: 16)),
+                        SizedBox(
+                          height: 50,
+                          width: 300,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          HikingScreen(uid: widget.uid)));
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.blueGrey)),
+                            child: const Text("등산기록 확인",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'SCDream4',
+                                    fontSize: 16)),
+                          ),
                         ),
                       ],
                     )
