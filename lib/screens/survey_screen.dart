@@ -342,6 +342,7 @@ String mbtiSurvey(List<QuestionResult> questionresult) {
   if (questionresult[6].children.isEmpty) {
     return '';
   }
+
   // E or I
   if (questionresult[6].children[0].answers[0] ==
       "\"같이 등산가실분 구해요~!\" 커뮤니티에 글을 올려 함께 등산을 즐긴다.") {

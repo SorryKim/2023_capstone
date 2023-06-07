@@ -167,7 +167,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                 : recommendList[index];
 
                             return Container(
-                              height: 100,
+                              height: 120,
                               width: 520,
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -191,7 +191,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 20,
+                                      width: 30,
                                     ),
                                     Text(
                                       '\n산이름: ${recommendedMountain.mntnName}\n높이:${recommendedMountain.height}m\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
@@ -335,11 +335,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
     double maxTime = 0;
 
     minDis = int.parse(distance[0][0]);
-    if (distance.length > 1) maxDis = int.parse(distance[1][0]);
+    if (distance[1].isNotEmpty) maxDis = int.parse(distance[1][0]);
     minHeight = int.parse(height[0][0]);
-    if (height.length > 1) maxHeight = int.parse(height[1][0]);
+    if (height[1].isNotEmpty) maxHeight = int.parse(height[1][0]);
     minTime = double.parse(time[0][0]);
-    if (time.length > 1) maxTime = double.parse(time[1][0]);
+    if (time[1].isNotEmpty) maxTime = double.parse(time[1][0]);
 
     for (var temp in widget.mountains) {
       int nowDis = temp.distance;

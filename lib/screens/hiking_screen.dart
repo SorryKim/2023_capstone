@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:project/models/hiking_model.dart';
 
@@ -17,7 +18,23 @@ class _HikingScreenState extends State<HikingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('등산 기록!')),
+      appBar: AppBar(
+        title: const Text('등산 기록', style: TextStyle(fontFamily: 'SCDream4')),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        backgroundColor: Colors.grey,
+        elevation: 0.0,
+      ),
       body: StreamBuilder(
         stream: streamHiking(),
         builder: (context, snapshot) {
