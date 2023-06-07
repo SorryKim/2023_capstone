@@ -63,10 +63,36 @@ class _HikingScreenState extends State<HikingScreen> {
                             leading: Image.asset('images/dew.png'),
                             onTap: () {
                               AlertDialog dialog = AlertDialog(
-                                content: Text(
-                                  '기록날짜: ${DateFormat('yyyy년 MM월 dd일 HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(modelList[index].sendDate.microsecondsSinceEpoch))}\n걸음 수: ${modelList[index].steps}보\n이동 거리: ${modelList[index].distance}km\n소모 칼로리: ${modelList[index].calories.round()}cal',
-                                  style: const TextStyle(
-                                    fontSize: 10,
+                                content: SizedBox(
+                                  height: 140,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '기록 날짜: \n${DateFormat('yyyy/MM/dd \nHH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(modelList[index].sendDate.microsecondsSinceEpoch))}',
+                                        style: const TextStyle(
+                                          fontFamily: 'SCDream4',
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        '걸음 수: ${modelList[index].steps}보',
+                                        style: const TextStyle(
+                                          fontFamily: 'SCDream4',
+                                        ),
+                                      ),
+                                      Text(
+                                        '이동 거리: ${modelList[index].distance}km',
+                                        style: const TextStyle(
+                                          fontFamily: 'SCDream4',
+                                        ),
+                                      ),
+                                      Text(
+                                        '소모 칼로리: ${modelList[index].calories.round()}cal',
+                                        style: const TextStyle(
+                                          fontFamily: 'SCDream4',
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
