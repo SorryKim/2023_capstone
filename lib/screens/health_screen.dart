@@ -341,7 +341,15 @@ class _HealthAppState extends State<HealthApp> {
                   )),
               ElevatedButton(
                   onPressed: () {
+                    isStart = true;
                     Navigator.of(context).pop();
+                    timer = Timer.periodic(const Duration(seconds: 1),
+                        (timer) async {
+                      await fetchdata();
+                      setState(() {
+                        min++;
+                      });
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
