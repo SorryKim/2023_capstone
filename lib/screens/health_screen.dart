@@ -96,6 +96,14 @@ class _HealthAppState extends State<HealthApp> {
   }
 
   @override
+  void dispose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -201,7 +209,7 @@ class _HealthAppState extends State<HealthApp> {
                         children: [
                           SizedBox(
                             height: 50,
-                            width: 300,
+                            width: 200,
                             child: TextButton(
                               onPressed: () async {
                                 if (isStart) {
@@ -234,9 +242,6 @@ class _HealthAppState extends State<HealthApp> {
                                   )),
                             ),
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
                         ],
                       ),
                     ),
@@ -248,7 +253,7 @@ class _HealthAppState extends State<HealthApp> {
                       children: [
                         SizedBox(
                           height: 50,
-                          width: 300,
+                          width: 200,
                           child: TextButton(
                             onPressed: () {
                               Navigator.push(

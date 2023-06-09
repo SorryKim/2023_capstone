@@ -25,28 +25,31 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: signInWithGoogle(),
-      builder: (context, snapshot) {
-        // 연결 실패한 경우
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text('로그인 실패!'),
-          );
-        } else if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: FutureBuilder(
+        future: signInWithGoogle(),
+        builder: (context, snapshot) {
+          // 연결 실패한 경우
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('로그인 실패!'),
+            );
+          } else if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        // 연결 성공한 경우
-        if (snapshot.connectionState == ConnectionState.done) {
-          final user = FirebaseAuth.instance.currentUser;
-          return SurveyCheck(uid: user!.uid);
-        }
+          // 연결 성공한 경우
+          if (snapshot.connectionState == ConnectionState.done) {
+            final user = FirebaseAuth.instance.currentUser;
+            return SurveyCheck(uid: user!.uid);
+          }
 
-        return const Center(child: CircularProgressIndicator());
-      },
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 }
