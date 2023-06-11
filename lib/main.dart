@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         fontFamily: 'SCDream4',
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: Colors.red,
+        primaryColor: Colors.grey,
       ),
       home: const App(),
     );

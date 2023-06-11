@@ -82,7 +82,8 @@ class _SearchScreenState extends State<SearchScreen> {
               },
               child: const Text(
                 '검색',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                    color: Colors.black, fontFamily: 'SCDream4', fontSize: 17),
               ),
             ),
           ],
@@ -112,9 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Text(
               '검색 키워드를 입력해주세요',
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.black54,
-              ),
+                  fontSize: 20, color: Colors.black54, fontFamily: 'SCDream4'),
             ),
           ],
         ),
@@ -131,13 +130,22 @@ class _SearchScreenState extends State<SearchScreen> {
       return ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Image.asset("images/seolarksan.png"),
-            title: Text(searchResult[index].mntnName.toString()),
+            leading: Image.asset(
+              "images/seolarksan.png",
+              height: 100,
+              width: 100,
+            ),
+            title: Text(searchResult[index].mntnName.toString(),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("등산 난이도 : ${searchResult[index].difficulty}"),
-                Text(searchResult[index].info.toString()),
+                Text(searchResult[index].info.toString(),
+                    style: const TextStyle(fontSize: 16)),
+                Text("등산 난이도 : ${searchResult[index].difficulty}",
+                    style:
+                        const TextStyle(fontSize: 16, color: Colors.redAccent)),
               ],
             ),
           );

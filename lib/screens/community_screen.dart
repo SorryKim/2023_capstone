@@ -85,16 +85,20 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           const Divider(),
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(10),
                           child: ListTile(
-                            contentPadding: const EdgeInsets.all(8.0),
+                            contentPadding: const EdgeInsets.all(10),
                             title: Text(
                               messages[index].message,
-                              style: const TextStyle(fontSize: 16.5),
+                              style: const TextStyle(
+                                  fontSize: 17, fontFamily: 'SCDream4'),
                             ),
-                            subtitle: Text(messages[index].userName),
+                            subtitle: Text(
+                              messages[index].userName,
+                              style: const TextStyle(
+                                  fontSize: 16, fontFamily: 'SCDream4'),
+                            ),
                             dense: true,
-                            leading: Image.asset('images/dew.png'),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -159,6 +163,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -168,22 +175,28 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: const Color.fromARGB(255, 10, 11, 70),
                     ),
                     child: const Text(
                       '글 게시하기',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'SCDream4',
+                          fontSize: 17),
                     )),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.blueGrey,
                     ),
                     child: const Text(
                       '닫기',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'SCDream4',
+                          fontSize: 17),
                     )),
               ],
             ),

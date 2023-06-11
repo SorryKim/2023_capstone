@@ -192,14 +192,17 @@ class _LobbyScreenState extends State<LobbyScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Image.asset(
                                           "images/dew.png",
-                                          width: 130,
+                                          width: 120,
                                         ),
                                       ),
                                       const SizedBox(
-                                        width: 30,
+                                        width: 50,
                                       ),
                                       Text(
-                                        '\n산이름: ${recommendedMountain.mntnName}\n높이:${recommendedMountain.height}m\n거리: ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
+                                        '\n✔   ${recommendedMountain.mntnName}\n\n높이:  ${recommendedMountain.height}m\n거리:  ${recommendedMountain.distance}m\n난이도: ${recommendedMountain.difficulty}\n',
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'SCDream4'),
                                         textAlign: TextAlign.start,
                                       ),
                                     ],
@@ -248,9 +251,15 @@ class _LobbyScreenState extends State<LobbyScreen> {
                             borderColor: Colors.black26,
                             selectedBorderColor: Colors.black87,
                             children: const [
-                              Text('                상                '),
-                              Text('                중                '),
-                              Text('                하                '),
+                              Text('               상               ',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
+                              Text('               중               ',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
+                              Text('               하               ',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
                         ],
@@ -296,10 +305,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
               contentPadding: const EdgeInsets.all(8.0),
               title: Text(
                 result[index].mntnName,
-                style: const TextStyle(fontSize: 16.5),
+                style: const TextStyle(fontSize: 16, fontFamily: 'SCDream4'),
               ),
               subtitle: Text(
-                  "${result[index].timeTaken}시간 소요 / ${result[index].distance}m"),
+                  "${result[index].timeTaken}시간 소요 / ${result[index].distance}m",
+                  style: const TextStyle(fontFamily: 'SCDream4', fontSize: 15)),
               dense: true,
               leading: const Icon(
                 Icons.filter_frames,

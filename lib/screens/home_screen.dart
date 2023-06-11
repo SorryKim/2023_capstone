@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                   bottomNavigationBar: Container(
                     color: Colors.white,
                     child: Container(
-                      height: 70,
+                      height: 80,
                       padding: const EdgeInsets.only(bottom: 5, top: 3),
                       child: const TabBar(
                         indicatorSize: TabBarIndicatorSize.label,

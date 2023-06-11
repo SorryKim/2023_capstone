@@ -51,7 +51,7 @@ class _CommentScreenState extends State<CommentScreen> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.blueGrey,
           elevation: 0.0,
         ),
         body: StreamBuilder<List<CommentModel>>(
@@ -95,7 +95,10 @@ class _CommentScreenState extends State<CommentScreen> {
                               Column(
                                 children: [
                                   Text(
-                                      '${widget.writerName}\n${readTimestamp(widget.date)}'),
+                                      '${widget.writerName}\n${readTimestamp(widget.date)}',
+                                      style: const TextStyle(
+                                          fontFamily: 'SCDream4',
+                                          fontSize: 15)),
                                 ],
                               )
                             ],
@@ -111,7 +114,8 @@ class _CommentScreenState extends State<CommentScreen> {
                       width: double.infinity,
                       child: Text(
                         widget.description,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(
+                            fontSize: 20, fontFamily: 'SCDream4'),
                       ),
                     ),
                     Container(
@@ -162,9 +166,13 @@ class _CommentScreenState extends State<CommentScreen> {
                                 borderRadius: BorderRadius.circular(5),
                                 side: const BorderSide(
                                     color: Colors.black12, width: 1)),
-                            title: Text(comments[index].message),
+                            title: Text(
+                              comments[index].message,
+                              style: const TextStyle(fontFamily: 'SCDream4'),
+                            ),
                             subtitle: Text(
                               comments[index].userName,
+                              style: const TextStyle(fontFamily: 'SCDream4'),
                               textAlign: TextAlign.end,
                             ),
                           ),
@@ -256,7 +264,7 @@ class _CommentScreenState extends State<CommentScreen> {
     }
   }
 
-  // Timestamp를 이쁘게 출력하는 메소드
+  // Timestamp를 예쁘게 출력하는 메소드
   String readTimestamp(Timestamp timestamp) {
     var now = DateTime.now();
     var format = DateFormat('HH:mm a');
@@ -289,13 +297,13 @@ class _CommentScreenState extends State<CommentScreen> {
 
   Widget getInputWidget() {
     return Container(
-      height: 60,
+      height: 70,
       width: double.infinity,
       decoration: BoxDecoration(boxShadow: const [
         BoxShadow(color: Colors.black12, offset: Offset(0, -2), blurRadius: 3)
       ], color: Theme.of(context).bottomAppBarColor),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -309,7 +317,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 0, 132, 4),
+                      color: Color.fromARGB(255, 10, 11, 70),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -329,7 +337,7 @@ class _CommentScreenState extends State<CommentScreen> {
               onPressed: _onPressedSendButton, //전송버튼을 누를때 동작시킬 메소드
               constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               elevation: 2,
-              fillColor: const Color.fromARGB(255, 0, 132, 4),
+              fillColor: const Color.fromARGB(255, 10, 11, 70),
               shape: const CircleBorder(),
               child: const Padding(
                 padding: EdgeInsets.all(10),
@@ -350,11 +358,17 @@ class _CommentScreenState extends State<CommentScreen> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text(''),
-        content: const Text('내용을 입력해주세요!'),
+        content: const Text('내용을 입력해주세요',
+            style: TextStyle(fontFamily: 'SCDream4', fontSize: 17)),
         actions: [
           ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('닫기')),
+            onPressed: () => Navigator.of(context).pop(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 10, 11, 70),
+            ),
+            child: const Text('닫기',
+                style: TextStyle(fontFamily: 'SCDream4', fontSize: 14)),
+          ),
         ],
       ),
     );

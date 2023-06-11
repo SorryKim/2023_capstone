@@ -71,7 +71,7 @@ class _BadgeScreenState extends State<BadgeScreen> {
                     height: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(7),
                     child: LinearProgressIndicator(
                       value: badgeGage(checkList) / checkList.length,
                       color: Colors.redAccent, //<-- SEE HERE
@@ -96,22 +96,24 @@ class _BadgeScreenState extends State<BadgeScreen> {
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          child: Column(
-                            children: [
-                              checkList.elementAt(index)['check']
-                                  ? Image.asset("images/mountain.png")
-                                  : Image.asset("images/mountain_gray.png"),
-                              Container(
-                                height: 25,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  checkList.elementAt(index)['mntnName'],
-                                  style: const TextStyle(
-                                    fontSize: 17,
+                          child: Padding(
+                            padding: const EdgeInsets.all(11),
+                            child: Column(
+                              children: [
+                                checkList.elementAt(index)['check']
+                                    ? Image.asset("images/mountain.png")
+                                    : Image.asset("images/mountain_gray.png"),
+                                Container(
+                                  height: 25,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    checkList.elementAt(index)['mntnName'],
+                                    style: const TextStyle(
+                                        fontSize: 17, fontFamily: 'SCDream4'),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           onTap: () {
                             showDialog(
@@ -148,6 +150,9 @@ class _BadgeScreenState extends State<BadgeScreen> {
                                               style: const TextStyle(
                                                   fontSize: 14,
                                                   fontFamily: 'SCDream4'),
+                                            ),
+                                            const SizedBox(
+                                              height: 30,
                                             ),
                                             ElevatedButton(
                                                 onPressed: () {

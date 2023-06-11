@@ -156,7 +156,7 @@ class _HealthAppState extends State<HealthApp> {
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 40,
                     ),
                     Center(
                       child: Row(
@@ -169,8 +169,12 @@ class _HealthAppState extends State<HealthApp> {
                                 size: 60,
                                 color: Colors.blue,
                               ),
-                              const Text('거리'),
-                              Text("${(dis).floor().toString()}km"),
+                              const Text('거리',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
+                              Text("${(dis).floor().toString()}km",
+                                  style: const TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
                           const SizedBox(width: 50),
@@ -181,8 +185,12 @@ class _HealthAppState extends State<HealthApp> {
                                 size: 60,
                                 color: Color.fromARGB(255, 236, 58, 18),
                               ),
-                              const Text('칼로리'),
-                              Text("${(cal).floor().toString()}cal"),
+                              const Text('칼로리',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
+                              Text("${(cal).floor().toString()}cal",
+                                  style: const TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
                           const SizedBox(width: 50),
@@ -193,8 +201,12 @@ class _HealthAppState extends State<HealthApp> {
                                 size: 60,
                                 color: Color.fromARGB(255, 255, 208, 66),
                               ),
-                              const Text('시간'),
-                              Text(format((min).floor())),
+                              const Text('시간',
+                                  style: TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
+                              Text(format((min).floor()),
+                                  style: const TextStyle(
+                                      fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
                         ],
@@ -246,7 +258,7 @@ class _HealthAppState extends State<HealthApp> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
