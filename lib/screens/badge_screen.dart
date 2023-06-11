@@ -114,59 +114,60 @@ class _BadgeScreenState extends State<BadgeScreen> {
                             ],
                           ),
                           onTap: () {
-                            AlertDialog dialog = AlertDialog(
-                              content: Center(
-                                child: SizedBox(
-                                  height: 300,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '${checkList.elementAt(index)['mntnName']}',
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'SCDream4',
-                                            color: Colors.redAccent,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        '${checkList.elementAt(index)['info']}',
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'SCDream4'),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '${checkList.elementAt(index)['reason']}',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'SCDream4'),
-                                      ),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.grey,
-                                          ),
-                                          child: const Text(
-                                            "닫기",
-                                            style: TextStyle(
-                                              fontFamily: 'SCDream4',
-                                            ),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
                             showDialog(
                                 context: context,
-                                builder: (BuildContext context) => dialog);
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Center(
+                                      child: SizedBox(
+                                        height: 300,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '${checkList.elementAt(index)['mntnName']}',
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'SCDream4',
+                                                  color: Colors.redAccent,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              '${checkList.elementAt(index)['info']}',
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'SCDream4'),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              '${checkList.elementAt(index)['reason']}',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'SCDream4'),
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.grey,
+                                                ),
+                                                child: const Text(
+                                                  "닫기",
+                                                  style: TextStyle(
+                                                    fontFamily: 'SCDream4',
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
                           },
                         );
                       },

@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/login_model.dart';
 import 'package:project/screens/home_screen.dart';
-import 'package:project/screens/lobby_screen.dart';
 
 import '../screens/survey_screen.dart';
 

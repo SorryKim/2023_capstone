@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'MountainDew',
       builder: (context, child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 0.8),
           child: child!,
         );
       },
