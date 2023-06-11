@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/mountains_model.dart';
 
@@ -36,8 +37,20 @@ class _AddScreenState extends State<AddScreen> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: const Text('등산로 데이터 추가!'),
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              // Status bar color
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+            ),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              color: Colors.white,
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
+            backgroundColor: Colors.blueAccent,
+            elevation: 0.0,
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -45,92 +58,99 @@ class _AddScreenState extends State<AddScreen> {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const Text('mntnName  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller1),
-                    ],
+                  const SizedBox(
+                    height: 30,
                   ),
-                  Row(
-                    children: [
-                      const Text('difficulty  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller2),
-                    ],
+                  const Text('등산로 데이터 추가',
+                      style: TextStyle(fontFamily: 'SCDream4', fontSize: 20)),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller1,
+                      decoration: const InputDecoration(
+                          labelText: '산이름 :', hintText: 'mntnName'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('distance  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller3),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller2,
+                      decoration: const InputDecoration(
+                          labelText: '난이도 :', hintText: 'difficulty'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('height  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller4),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller3,
+                      decoration: const InputDecoration(
+                          labelText: '거리 :', hintText: 'distance'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('info  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller5),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller4,
+                      decoration: const InputDecoration(
+                          labelText: '높이 :', hintText: 'height'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('latitude  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller6),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller5,
+                      decoration: const InputDecoration(
+                          labelText: '설명 :', hintText: 'info'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('longitude  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller7),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller6,
+                      decoration: const InputDecoration(
+                          labelText: '위도 :', hintText: 'latitude'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('reason  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller8),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller7,
+                      decoration: const InputDecoration(
+                          labelText: '경도 :', hintText: 'longitude'),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      const Text('timeTaken  '),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      myInput(controller: controller9),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller8,
+                      decoration: const InputDecoration(
+                          labelText: '이유 :', hintText: 'reason'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: controller9,
+                      decoration: const InputDecoration(
+                          labelText: '시간 :', hintText: 'timeTaken'),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                      onPressed: sendButton, child: const Text('전송')),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ElevatedButton(
+                      onPressed: sendButton,
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.blueGrey),
+                      ),
+                      child: const Text('추가',
+                          style:
+                              TextStyle(fontSize: 20, fontFamily: 'SCDream4')),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -175,42 +195,5 @@ class _AddScreenState extends State<AddScreen> {
     } catch (ex) {
       log(ex.toString());
     }
-  }
-}
-
-class myInput extends StatelessWidget {
-  const myInput({
-    super.key,
-    required this.controller,
-  });
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250,
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelStyle: const TextStyle(fontSize: 15),
-          hintText: "등산로 이름",
-          fillColor: Colors.white,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.black,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.black26,
-              width: 1.0,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
