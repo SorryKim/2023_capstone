@@ -172,7 +172,7 @@ class _HealthAppState extends State<HealthApp> {
                               const Text('거리',
                                   style: TextStyle(
                                       fontFamily: 'SCDream4', fontSize: 16)),
-                              Text("${(dis).floor().toString()}km",
+                              Text("${(dis).floor().toString()}m",
                                   style: const TextStyle(
                                       fontFamily: 'SCDream4', fontSize: 16)),
                             ],
@@ -331,7 +331,7 @@ class _HealthAppState extends State<HealthApp> {
                   ),
                 ),
                 Text(
-                  "이동거리 : $dis",
+                  "이동거리 : ${dis.round()}",
                   style: const TextStyle(
                     fontFamily: 'SCDream4',
                   ),

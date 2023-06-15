@@ -14,11 +14,87 @@
       },
       "oauth_client": [
         {
+          "client_id": "688799594718-0immqrmc0la8rvmu0etol8npiiv089ah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "226ab9aaf910c236dd45c7cc5b31a3f09ab5f58d"
+          }
+        },
+        {
           "client_id": "688799594718-2rjt283ebts6nbjl1uivg7hl1l15ps3k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.project",
             "certificate_hash": "681d45326c8a20908a1bf815b22dc15daa6ded6c"
+          }
+        },
+        {
+          "client_id": "688799594718-4c25n7gghg008nu05japamo0qc2aqip5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "b4d2184c063e42720c12a80fa25f242564c97195"
+          }
+        },
+        {
+          "client_id": "688799594718-7go1vko56mv2b9mie9bqmcj8k5r9gbkm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "508e48428643f804881cee1193f20e291f126d20"
+          }
+        },
+        {
+          "client_id": "688799594718-ipe3pj6j4ng227oaoahca28fkc79nh1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "49756d3afcc1bf77658dcccd360349fd83e2a393"
+          }
+        },
+        {
+          "client_id": "688799594718-52nosi24rhvnrlokumkmnr5btv2ruk6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGdd-OhIn0KkRASO8w073PjwBd7NRUEHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688799594718-52nosi24rhvnrlokumkmnr5btv2ruk6o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "688799594718-07g7r6lv1k1c141b6f6iot2lj0eelnbs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688799594718:android:53a689cf347df05c34aa4f",
+        "android_client_info": {
+          "package_name": "com.skhu.MountainDew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688799594718-91i5r11rhl4qh7pm307l4idurm0ugii9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skhu.MountainDew",
+            "certificate_hash": "49756d3afcc1bf77658dcccd360349fd83e2a393"
           }
         },
         {

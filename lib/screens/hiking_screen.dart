@@ -81,7 +81,7 @@ class _HikingScreenState extends State<HikingScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '이동 거리: ${modelList[index].distance}km',
+                                        '이동 거리: ${modelList[index].distance.round()}m',
                                         style: const TextStyle(
                                           fontFamily: 'SCDream4',
                                         ),

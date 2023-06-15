@@ -20,6 +20,14 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
+// start of Gradle 서명 구성
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('app/key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+// end of Gradle 서명 구성
+
 
 apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
@@ -46,9 +54,18 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        release{
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.project"
+        applicationId "com.skhu.MountainDew"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 26
@@ -63,6 +80,11 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+
+            // start of 코드난독화 및 사이즈 축소
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // end of 코드난독화 및 사이즈 축소
         }
     }
 }
