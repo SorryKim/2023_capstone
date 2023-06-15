@@ -60,7 +60,7 @@ class _HikingScreenState extends State<HikingScreen> {
                             subtitle:
                                 Text(readTimestamp(modelList[index].sendDate)),
                             dense: true,
-                            leading: Image.asset('images/dew.png'),
+                            leading: Image.asset('images/foot.png'),
                             onTap: () {
                               AlertDialog dialog = AlertDialog(
                                 content: SizedBox(

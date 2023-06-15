@@ -164,10 +164,8 @@ class _HealthAppState extends State<HealthApp> {
                         children: [
                           Column(
                             children: [
-                              const Icon(
-                                Icons.timeline,
-                                size: 60,
-                                color: Colors.blue,
+                              const ImageIcon(
+                                AssetImage("images/distance.png"),
                               ),
                               const Text('거리',
                                   style: TextStyle(
@@ -180,10 +178,8 @@ class _HealthAppState extends State<HealthApp> {
                           const SizedBox(width: 50),
                           Column(
                             children: [
-                              const Icon(
-                                Icons.local_fire_department,
-                                size: 60,
-                                color: Color.fromARGB(255, 236, 58, 18),
+                              const ImageIcon(
+                                AssetImage("images/calory.png"),
                               ),
                               const Text('칼로리',
                                   style: TextStyle(
@@ -196,10 +192,8 @@ class _HealthAppState extends State<HealthApp> {
                           const SizedBox(width: 50),
                           Column(
                             children: [
-                              const Icon(
-                                Icons.timer,
-                                size: 60,
-                                color: Color.fromARGB(255, 255, 208, 66),
+                              const ImageIcon(
+                                AssetImage("images/timer.png"),
                               ),
                               const Text('시간',
                                   style: TextStyle(
