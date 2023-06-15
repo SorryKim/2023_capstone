@@ -206,6 +206,27 @@ class _CommunityScreenState extends State<CommunityScreen> {
     );
   }
 
+  Future<dynamic> _showdialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(''),
+        content: const Text('내용을 입력해주세요',
+            style: TextStyle(fontFamily: 'SCDream4', fontSize: 17)),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 10, 11, 70),
+            ),
+            child: const Text('닫기',
+                style: TextStyle(fontFamily: 'SCDream4', fontSize: 14)),
+          ),
+        ],
+      ),
+    );
+  }
+
   // DB에서 커뮤니티 정보를 받아오는 Stream
   Stream<List<CommunityModel>> streamCommunity() {
     try {
@@ -233,18 +254,22 @@ class _CommunityScreenState extends State<CommunityScreen> {
   // 파이어베이스에 데이터 전송
   void _onPressedSendButton() {
     try {
-      CommunityModel messageModel = CommunityModel(
-        sendDate: Timestamp.now(),
-        message: controller.text,
-        userName: user!.displayName!,
-        userId: user!.uid,
-      );
+      if (controller.text.replaceAll(' ', '') == '') {
+        _showdialog(context);
+      } else {
+        CommunityModel messageModel = CommunityModel(
+          sendDate: Timestamp.now(),
+          message: controller.text,
+          userName: user!.displayName!,
+          userId: user!.uid,
+        );
 
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      firestore
-          .collection('community/dkKeHkBBOTap6hZE9tG2/messages')
-          .add(messageModel.toMap());
-      controller.text = '';
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
+        firestore
+            .collection('community/dkKeHkBBOTap6hZE9tG2/messages')
+            .add(messageModel.toMap());
+        controller.text = '';
+      }
     } catch (ex) {
       log('error');
     }

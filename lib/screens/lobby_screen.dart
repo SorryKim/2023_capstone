@@ -251,13 +251,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
                             borderColor: Colors.black26,
                             selectedBorderColor: Colors.black87,
                             children: const [
-                              Text('               상               ',
+                              Text('            상            ',
                                   style: TextStyle(
                                       fontFamily: 'SCDream4', fontSize: 16)),
-                              Text('               중               ',
+                              Text('            중            ',
                                   style: TextStyle(
                                       fontFamily: 'SCDream4', fontSize: 16)),
-                              Text('               하               ',
+                              Text('            하            ',
                                   style: TextStyle(
                                       fontFamily: 'SCDream4', fontSize: 16)),
                             ],
