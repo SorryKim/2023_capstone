@@ -164,8 +164,10 @@ class _HealthAppState extends State<HealthApp> {
                         children: [
                           Column(
                             children: [
-                              const ImageIcon(
-                                AssetImage("images/distance.png"),
+                              Image.asset(
+                                "images/distance.png",
+                                width: 70,
+                                height: 70,
                               ),
                               const Text('거리',
                                   style: TextStyle(
@@ -175,11 +177,13 @@ class _HealthAppState extends State<HealthApp> {
                                       fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
-                          const SizedBox(width: 50),
+                          const SizedBox(width: 30),
                           Column(
                             children: [
-                              const ImageIcon(
-                                AssetImage("images/calory.png"),
+                              Image.asset(
+                                "images/calory.png",
+                                height: 70,
+                                width: 70,
                               ),
                               const Text('칼로리',
                                   style: TextStyle(
@@ -189,11 +193,13 @@ class _HealthAppState extends State<HealthApp> {
                                       fontFamily: 'SCDream4', fontSize: 16)),
                             ],
                           ),
-                          const SizedBox(width: 50),
+                          const SizedBox(width: 30),
                           Column(
                             children: [
-                              const ImageIcon(
-                                AssetImage("images/timer.png"),
+                              Image.asset(
+                                "images/timer.png",
+                                width: 70,
+                                height: 70,
                               ),
                               const Text('시간',
                                   style: TextStyle(
